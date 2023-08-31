@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.fudian.project.system.mapper.SysRoleMenuMapper">
+  <resultMap id="BaseResultMap" type="com.fudian.project.system.pojo.SysRoleMenu">
+    <!--@mbg.generated-->
+    <!--@Table sys_role_menu-->
+    <id column="role_id" jdbcType="VARCHAR" property="roleId" />
+    <id column="menu_id" jdbcType="VARCHAR" property="menuId" />
+  </resultMap>
+  <update id="updateBatch" parameterType="java.util.List">
+    <!--@mbg.generated-->
+    update sys_role_menu
+    <trim prefix="set" suffixOverrides="," />
+    where role_id in
+    <foreach close=")" collection="list" item="item" open="(" separator=", ">
+      #{item.roleId,jdbcType=VARCHAR}
+    </foreach>
+  </update>
+  <update id="updateBatchSelective" parameterType="java.util.List">
+    <!--@mbg.generated-->
+    update sys_role_menu
+    <trim prefix="set" suffixOverrides="," />
+    where role_id in
+    <foreach close=")" collection="list" item="item" open="(" separator=", ">
+      #{item.roleId,jdbcType=VARCHAR}
+    </foreach>
+  </update>
+  <insert id="batchInsert" parameterType="map">
+    <!--@mbg.generated-->
+    insert into sys_role_menu
+    (role_id, menu_id)
+    values
+    <foreach collection="list" item="item" separator=",">
+      (#{item.roleId,jdbcType=VARCHAR}, #{item.menuId,jdbcType=VARCHAR})
+    </foreach>
+  </insert>
+  <insert id="insertOrUpdate" parameterType="com.fudian.project.system.pojo.SysRoleMenu">
+    <!--@mbg.generated-->
+    insert into sys_role_menu
+    (role_id, menu_id)
+    values
+    (#{roleId,jdbcType=VARCHAR}, #{menuId,jdbcType=VARCHAR})
+    on duplicate key update
+    role_id = #{roleId,jdbcType=VARCHAR},
+    menu_id = #{menuId,jdbcType=VARCHAR}
+  </insert>
+  <insert id="insertOrUpdateSelective" parameterType="com.fudian.project.system.pojo.SysRoleMenu">
+    <!--@mbg.generated-->
+    insert into sys_role_menu
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="roleId != null">
+        role_id,
+      </if>
+      <if test="menuId != null">
+        menu_id,
+      </if>
+    </trim>
+    values
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="roleId != null">
+        #{roleId,jdbcType=VARCHAR},
+      </if>
+      <if test="menuId != null">
+        #{menuId,jdbcType=VARCHAR},
+      </if>
+    </trim>
+    on duplicate key update
+    <trim suffixOverrides=",">
+      <if test="roleId != null">
+        role_id = #{roleId,jdbcType=VARCHAR},
+      </if>
+      <if test="menuId != null">
+        menu_id = #{menuId,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+</mapper>

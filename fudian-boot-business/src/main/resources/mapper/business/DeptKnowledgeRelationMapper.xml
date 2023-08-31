@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.fudian.business.mapper.DeptKnowledgeRelationMapper">
+
+    <!---->
+    <select id="pageSelectDeptKnowledge" resultType="com.fudian.business.vo.QuestionSettingVo" parameterType="com.fudian.business.vo.QuestionSettingVo">
+        SELECT
+            c.classification_id classificationId,
+            c.classification_msg classificationName,
+            c.classification_nickname classificationNickname,
+            s1.full_name knowledgeNumField,
+            s2.full_name knowledgeOperation,
+            s3.full_name knowledgeType,
+            ifnull(dkr.is_random,0) isRandom,
+            dkr.id
+        FROM `knowledge_list_classification` c
+        left join `knowledge_list` k on c.knowledge_id = k.knowledge_id
+        left join `sys_dictionary` s1 on s1.dict_type = 'classfiy' and s1.dict_code=k.knowledge_num_field
+        left join `sys_dictionary` s2 on s2.dict_type = 'classfiy' and s2.dict_code = concat(k.knowledge_num_field,'-',k.knowledge_operation)
+        left join `sys_dictionary` s3 on s3.dict_type = 'classfiy' and s3.dict_code like concat(k.knowledge_num_field,'-',k.knowledge_operation,'-',k.knowledge_type)
+        left join (
+            select * from dept_knowledge_relation where class_id = #{questionSettingVo.classId}
+        ) dkr
+        on c.classification_id = dkr.classification_id
+        where c.is_subclass=0
+        <if test="questionSettingVo.isRandom != null and questionSettingVo.isRandom != ''">
+            and ifnull(dkr.is_random,0) = #{questionSettingVo.isRandom}
+        </if>
+        <if test="questionSettingVo.knowledgeNumField != null and questionSettingVo.knowledgeNumField != ''">
+            and k.knowledge_num_field = #{questionSettingVo.knowledgeNumField}
+        </if>
+        <if test="questionSettingVo.knowledgeOperation != null and questionSettingVo.knowledgeOperation != ''">
+            and k.knowledge_operation = #{questionSettingVo.knowledgeOperation}
+        </if>
+        <if test="questionSettingVo.knowledgeType != null and questionSettingVo.knowledgeType != ''">
+            and k.knowledge_type = #{questionSettingVo.knowledgeType}
+        </if>
+        <if test="questionSettingVo.classificationName != null and questionSettingVo.classificationName != ''">
+            and (
+            c.classification_msg like concat('%',#{questionSettingVo.classificationName},'%')
+            or c.classification_nickname like concat('%',#{questionSettingVo.classificationName},'%')
+            )
+        </if>
+        ORDER BY k.knowledge_num_field,k.knowledge_operation,k.knowledge_type,c.classification_msg
+    </select>
+    <!--判断当前年级是否随机生成习题 0 随机，1 统一-->
+    <select id="selectDeptSetTopicMode" resultType="integer" parameterType="string">
+        select ifnull(is_random,0)is_random
+        from dept_knowledge_relation
+        where class_id = #{classId}
+        and classification_id = #{classificationId}
+    </select>
+</mapper>

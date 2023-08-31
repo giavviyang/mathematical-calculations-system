@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <annotationProcessing>
+      <profile default="true" name="Default" enabled="true" />
+      <profile name="Maven default annotation processors profile" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <module name="fudian-boot-framework" />
+        <module name="fudian-boot-admin" />
+        <module name="fudian-boot-ams" />
+        <module name="fudian-boot-common" />
+        <module name="fudian-boot-system" />
+        <module name="fudian-boot-business" />
+        <module name="fudian-boot-log" />
+        <module name="fudian-boot-filestorage" />
+        <module name="fudian-boot-interface" />
+      </profile>
+    </annotationProcessing>
+  </component>
+  <component name="JavacSettings">
+    <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="fudian-boot-admin" options="-parameters" />
+      <module name="fudian-boot-ams" options="-parameters" />
+      <module name="fudian-boot-business" options="-parameters" />
+      <module name="fudian-boot-common" options="-parameters" />
+      <module name="fudian-boot-filestorage" options="-parameters" />
+      <module name="fudian-boot-framework" options="-parameters" />
+      <module name="fudian-boot-interface" options="-parameters" />
+      <module name="fudian-boot-log" options="-parameters" />
+      <module name="fudian-boot-system" options="-parameters" />
+    </option>
+  </component>
+</project>

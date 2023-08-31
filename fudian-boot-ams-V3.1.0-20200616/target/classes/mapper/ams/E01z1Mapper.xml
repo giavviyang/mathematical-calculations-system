@@ -1,0 +1,779 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.fudian.project.ams.mapper.E01z1Mapper">
+  <resultMap id="BaseResultMap" type="com.fudian.api.ams.pojo.E01z1">
+    <!--@mbg.generated-->
+    <!--@Table e01z1-->
+    <id column="id" jdbcType="VARCHAR" property="id" />
+    <result column="org_id" jdbcType="VARCHAR" property="orgId" />
+    <result column="a01_id" jdbcType="VARCHAR" property="a01Id" />
+    <result column="e01z101" jdbcType="VARCHAR" property="e01z101" />
+    <result column="e01z104" jdbcType="INTEGER" property="e01z104" />
+    <result column="e01z107" jdbcType="VARCHAR" property="e01z107" />
+    <result column="e01z111a" jdbcType="VARCHAR" property="e01z111a" />
+    <result column="e01z111b" jdbcType="VARCHAR" property="e01z111b" />
+    <result column="e01z114" jdbcType="INTEGER" property="e01z114" />
+    <result column="e01z117" jdbcType="VARCHAR" property="e01z117" />
+    <result column="e01z121" jdbcType="VARCHAR" property="e01z121" />
+    <result column="e01z124" jdbcType="INTEGER" property="e01z124" />
+    <result column="e01z127" jdbcType="VARCHAR" property="e01z127" />
+    <result column="e01z131" jdbcType="VARCHAR" property="e01z131" />
+    <result column="efile_flag" jdbcType="VARCHAR" property="efileFlag" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="update_by" jdbcType="VARCHAR" property="updateBy" />
+    <result column="e01z117_year" jdbcType="VARCHAR" property="e01z117Year" />
+    <result column="e01z117_month" jdbcType="VARCHAR" property="e01z117Month" />
+    <result column="e01z117_day" jdbcType="VARCHAR" property="e01z117Day" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    <!--@mbg.generated-->
+    id, org_id, a01_id, e01z101, e01z104, e01z107, e01z111a, e01z111b, e01z114, e01z117,
+    e01z121, e01z124, e01z127, e01z131, efile_flag, update_time, update_by, e01z117_year,
+    e01z117_month, e01z117_day
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <update id="updateBatch" parameterType="java.util.List">
+    <!--@mbg.generated-->
+    update e01z1
+    <trim prefix="set" suffixOverrides=",">
+      <trim prefix="org_id = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=VARCHAR} then #{item.orgId,jdbcType=VARCHAR}
+        </foreach>
+      </trim>
+      <trim prefix="a01_id = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=VARCHAR} then #{item.a01Id,jdbcType=VARCHAR}
+        </foreach>
+      </trim>
+      <trim prefix="e01z101 = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=VARCHAR} then #{item.e01z101,jdbcType=VARCHAR}
+        </foreach>
+      </trim>
+      <trim prefix="e01z104 = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=VARCHAR} then #{item.e01z104,jdbcType=INTEGER}
+        </foreach>
+      </trim>
+      <trim prefix="e01z107 = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=VARCHAR} then #{item.e01z107,jdbcType=VARCHAR}
+        </foreach>
+      </trim>
+      <trim prefix="e01z111a = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=VARCHAR} then #{item.e01z111a,jdbcType=VARCHAR}
+        </foreach>
+      </trim>
+      <trim prefix="e01z111b = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=VARCHAR} then #{item.e01z111b,jdbcType=VARCHAR}
+        </foreach>
+      </trim>
+      <trim prefix="e01z114 = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=VARCHAR} then #{item.e01z114,jdbcType=INTEGER}
+        </foreach>
+      </trim>
+      <trim prefix="e01z117 = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=VARCHAR} then #{item.e01z117,jdbcType=VARCHAR}
+        </foreach>
+      </trim>
+      <trim prefix="e01z121 = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=VARCHAR} then #{item.e01z121,jdbcType=VARCHAR}
+        </foreach>
+      </trim>
+      <trim prefix="e01z124 = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=VARCHAR} then #{item.e01z124,jdbcType=INTEGER}
+        </foreach>
+      </trim>
+      <trim prefix="e01z127 = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=VARCHAR} then #{item.e01z127,jdbcType=VARCHAR}
+        </foreach>
+      </trim>
+      <trim prefix="e01z131 = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=VARCHAR} then #{item.e01z131,jdbcType=VARCHAR}
+        </foreach>
+      </trim>
+      <trim prefix="efile_flag = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=VARCHAR} then #{item.efileFlag,jdbcType=VARCHAR}
+        </foreach>
+      </trim>
+      <trim prefix="update_time = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=VARCHAR} then #{item.updateTime,jdbcType=TIMESTAMP}
+        </foreach>
+      </trim>
+      <trim prefix="update_by = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=VARCHAR} then #{item.updateBy,jdbcType=VARCHAR}
+        </foreach>
+      </trim>
+      <trim prefix="e01z117_year = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=VARCHAR} then #{item.e01z117Year,jdbcType=VARCHAR}
+        </foreach>
+      </trim>
+      <trim prefix="e01z117_month = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=VARCHAR} then #{item.e01z117Month,jdbcType=VARCHAR}
+        </foreach>
+      </trim>
+      <trim prefix="e01z117_day = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=VARCHAR} then #{item.e01z117Day,jdbcType=VARCHAR}
+        </foreach>
+      </trim>
+    </trim>
+    where id in
+    <foreach close=")" collection="list" item="item" open="(" separator=", ">
+      #{item.id,jdbcType=VARCHAR}
+    </foreach>
+  </update>
+  <update id="updateBatchSelective" parameterType="java.util.List">
+    <!--@mbg.generated-->
+    update e01z1
+    <trim prefix="set" suffixOverrides=",">
+      <trim prefix="org_id = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          <if test="item.orgId != null">
+            when id = #{item.id,jdbcType=VARCHAR} then #{item.orgId,jdbcType=VARCHAR}
+          </if>
+        </foreach>
+      </trim>
+      <trim prefix="a01_id = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          <if test="item.a01Id != null">
+            when id = #{item.id,jdbcType=VARCHAR} then #{item.a01Id,jdbcType=VARCHAR}
+          </if>
+        </foreach>
+      </trim>
+      <trim prefix="e01z101 = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          <if test="item.e01z101 != null">
+            when id = #{item.id,jdbcType=VARCHAR} then #{item.e01z101,jdbcType=VARCHAR}
+          </if>
+        </foreach>
+      </trim>
+      <trim prefix="e01z104 = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          <if test="item.e01z104 != null">
+            when id = #{item.id,jdbcType=VARCHAR} then #{item.e01z104,jdbcType=INTEGER}
+          </if>
+        </foreach>
+      </trim>
+      <trim prefix="e01z107 = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          <if test="item.e01z107 != null">
+            when id = #{item.id,jdbcType=VARCHAR} then #{item.e01z107,jdbcType=VARCHAR}
+          </if>
+        </foreach>
+      </trim>
+      <trim prefix="e01z111a = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          <if test="item.e01z111a != null">
+            when id = #{item.id,jdbcType=VARCHAR} then #{item.e01z111a,jdbcType=VARCHAR}
+          </if>
+        </foreach>
+      </trim>
+      <trim prefix="e01z111b = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          <if test="item.e01z111b != null">
+            when id = #{item.id,jdbcType=VARCHAR} then #{item.e01z111b,jdbcType=VARCHAR}
+          </if>
+        </foreach>
+      </trim>
+      <trim prefix="e01z114 = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          <if test="item.e01z114 != null">
+            when id = #{item.id,jdbcType=VARCHAR} then #{item.e01z114,jdbcType=INTEGER}
+          </if>
+        </foreach>
+      </trim>
+      <trim prefix="e01z117 = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          <if test="item.e01z117 != null">
+            when id = #{item.id,jdbcType=VARCHAR} then #{item.e01z117,jdbcType=VARCHAR}
+          </if>
+        </foreach>
+      </trim>
+      <trim prefix="e01z121 = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          <if test="item.e01z121 != null">
+            when id = #{item.id,jdbcType=VARCHAR} then #{item.e01z121,jdbcType=VARCHAR}
+          </if>
+        </foreach>
+      </trim>
+      <trim prefix="e01z124 = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          <if test="item.e01z124 != null">
+            when id = #{item.id,jdbcType=VARCHAR} then #{item.e01z124,jdbcType=INTEGER}
+          </if>
+        </foreach>
+      </trim>
+      <trim prefix="e01z127 = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          <if test="item.e01z127 != null">
+            when id = #{item.id,jdbcType=VARCHAR} then #{item.e01z127,jdbcType=VARCHAR}
+          </if>
+        </foreach>
+      </trim>
+      <trim prefix="e01z131 = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          <if test="item.e01z131 != null">
+            when id = #{item.id,jdbcType=VARCHAR} then #{item.e01z131,jdbcType=VARCHAR}
+          </if>
+        </foreach>
+      </trim>
+      <trim prefix="efile_flag = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          <if test="item.efileFlag != null">
+            when id = #{item.id,jdbcType=VARCHAR} then #{item.efileFlag,jdbcType=VARCHAR}
+          </if>
+        </foreach>
+      </trim>
+      <trim prefix="update_time = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          <if test="item.updateTime != null">
+            when id = #{item.id,jdbcType=VARCHAR} then #{item.updateTime,jdbcType=TIMESTAMP}
+          </if>
+        </foreach>
+      </trim>
+      <trim prefix="update_by = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          <if test="item.updateBy != null">
+            when id = #{item.id,jdbcType=VARCHAR} then #{item.updateBy,jdbcType=VARCHAR}
+          </if>
+        </foreach>
+      </trim>
+      <trim prefix="e01z117_year = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          <if test="item.e01z117Year != null">
+            when id = #{item.id,jdbcType=VARCHAR} then #{item.e01z117Year,jdbcType=VARCHAR}
+          </if>
+        </foreach>
+      </trim>
+      <trim prefix="e01z117_month = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          <if test="item.e01z117Month != null">
+            when id = #{item.id,jdbcType=VARCHAR} then #{item.e01z117Month,jdbcType=VARCHAR}
+          </if>
+        </foreach>
+      </trim>
+      <trim prefix="e01z117_day = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          <if test="item.e01z117Day != null">
+            when id = #{item.id,jdbcType=VARCHAR} then #{item.e01z117Day,jdbcType=VARCHAR}
+          </if>
+        </foreach>
+      </trim>
+    </trim>
+    where id in
+    <foreach close=")" collection="list" item="item" open="(" separator=", ">
+      #{item.id,jdbcType=VARCHAR}
+    </foreach>
+  </update>
+  <insert id="batchInsert" parameterType="map">
+    <!--@mbg.generated-->
+    insert into e01z1
+    (id, org_id, a01_id, e01z101, e01z104, e01z107, e01z111a, e01z111b, e01z114, e01z117,
+    e01z121, e01z124, e01z127, e01z131, efile_flag, update_time, update_by, e01z117_year,
+    e01z117_month, e01z117_day)
+    values
+    <foreach collection="list" item="item" separator=",">
+      (#{item.id,jdbcType=VARCHAR}, #{item.orgId,jdbcType=VARCHAR}, #{item.a01Id,jdbcType=VARCHAR},
+      #{item.e01z101,jdbcType=VARCHAR}, #{item.e01z104,jdbcType=INTEGER}, #{item.e01z107,jdbcType=VARCHAR},
+      #{item.e01z111a,jdbcType=VARCHAR}, #{item.e01z111b,jdbcType=VARCHAR}, #{item.e01z114,jdbcType=INTEGER},
+      #{item.e01z117,jdbcType=VARCHAR}, #{item.e01z121,jdbcType=VARCHAR}, #{item.e01z124,jdbcType=INTEGER},
+      #{item.e01z127,jdbcType=VARCHAR}, #{item.e01z131,jdbcType=VARCHAR}, #{item.efileFlag,jdbcType=VARCHAR},
+      #{item.updateTime,jdbcType=TIMESTAMP}, #{item.updateBy,jdbcType=VARCHAR}, #{item.e01z117Year,jdbcType=VARCHAR},
+      #{item.e01z117Month,jdbcType=VARCHAR}, #{item.e01z117Day,jdbcType=VARCHAR})
+    </foreach>
+  </insert>
+  <insert id="insertOrUpdate" parameterType="com.fudian.api.ams.pojo.E01z1">
+    <!--@mbg.generated-->
+    insert into e01z1
+    (id, org_id, a01_id, e01z101, e01z104, e01z107, e01z111a, e01z111b, e01z114, e01z117,
+    e01z121, e01z124, e01z127, e01z131, efile_flag, update_time, update_by, e01z117_year,
+    e01z117_month, e01z117_day)
+    values
+    (#{id,jdbcType=VARCHAR}, #{orgId,jdbcType=VARCHAR}, #{a01Id,jdbcType=VARCHAR}, #{e01z101,jdbcType=VARCHAR},
+    #{e01z104,jdbcType=INTEGER}, #{e01z107,jdbcType=VARCHAR}, #{e01z111a,jdbcType=VARCHAR},
+    #{e01z111b,jdbcType=VARCHAR}, #{e01z114,jdbcType=INTEGER}, #{e01z117,jdbcType=VARCHAR},
+    #{e01z121,jdbcType=VARCHAR}, #{e01z124,jdbcType=INTEGER}, #{e01z127,jdbcType=VARCHAR},
+    #{e01z131,jdbcType=VARCHAR}, #{efileFlag,jdbcType=VARCHAR}, #{updateTime,jdbcType=TIMESTAMP},
+    #{updateBy,jdbcType=VARCHAR}, #{e01z117Year,jdbcType=VARCHAR}, #{e01z117Month,jdbcType=VARCHAR},
+    #{e01z117Day,jdbcType=VARCHAR})
+    on duplicate key update
+    id = #{id,jdbcType=VARCHAR},
+    org_id = #{orgId,jdbcType=VARCHAR},
+    a01_id = #{a01Id,jdbcType=VARCHAR},
+    e01z101 = #{e01z101,jdbcType=VARCHAR},
+    e01z104 = #{e01z104,jdbcType=INTEGER},
+    e01z107 = #{e01z107,jdbcType=VARCHAR},
+    e01z111a = #{e01z111a,jdbcType=VARCHAR},
+    e01z111b = #{e01z111b,jdbcType=VARCHAR},
+    e01z114 = #{e01z114,jdbcType=INTEGER},
+    e01z117 = #{e01z117,jdbcType=VARCHAR},
+    e01z121 = #{e01z121,jdbcType=VARCHAR},
+    e01z124 = #{e01z124,jdbcType=INTEGER},
+    e01z127 = #{e01z127,jdbcType=VARCHAR},
+    e01z131 = #{e01z131,jdbcType=VARCHAR},
+    efile_flag = #{efileFlag,jdbcType=VARCHAR},
+    update_time = #{updateTime,jdbcType=TIMESTAMP},
+    update_by = #{updateBy,jdbcType=VARCHAR},
+    e01z117_year = #{e01z117Year,jdbcType=VARCHAR},
+    e01z117_month = #{e01z117Month,jdbcType=VARCHAR},
+    e01z117_day = #{e01z117Day,jdbcType=VARCHAR}
+  </insert>
+  <insert id="insertOrUpdateSelective" parameterType="com.fudian.api.ams.pojo.E01z1">
+    <!--@mbg.generated-->
+    insert into e01z1
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="orgId != null">
+        org_id,
+      </if>
+      <if test="a01Id != null">
+        a01_id,
+      </if>
+      <if test="e01z101 != null">
+        e01z101,
+      </if>
+      <if test="e01z104 != null">
+        e01z104,
+      </if>
+      <if test="e01z107 != null">
+        e01z107,
+      </if>
+      <if test="e01z111a != null">
+        e01z111a,
+      </if>
+      <if test="e01z111b != null">
+        e01z111b,
+      </if>
+      <if test="e01z114 != null">
+        e01z114,
+      </if>
+      <if test="e01z117 != null">
+        e01z117,
+      </if>
+      <if test="e01z121 != null">
+        e01z121,
+      </if>
+      <if test="e01z124 != null">
+        e01z124,
+      </if>
+      <if test="e01z127 != null">
+        e01z127,
+      </if>
+      <if test="e01z131 != null">
+        e01z131,
+      </if>
+      <if test="efileFlag != null">
+        efile_flag,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+      <if test="updateBy != null">
+        update_by,
+      </if>
+      <if test="e01z117Year != null">
+        e01z117_year,
+      </if>
+      <if test="e01z117Month != null">
+        e01z117_month,
+      </if>
+      <if test="e01z117Day != null">
+        e01z117_day,
+      </if>
+    </trim>
+    values
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="orgId != null">
+        #{orgId,jdbcType=VARCHAR},
+      </if>
+      <if test="a01Id != null">
+        #{a01Id,jdbcType=VARCHAR},
+      </if>
+      <if test="e01z101 != null">
+        #{e01z101,jdbcType=VARCHAR},
+      </if>
+      <if test="e01z104 != null">
+        #{e01z104,jdbcType=INTEGER},
+      </if>
+      <if test="e01z107 != null">
+        #{e01z107,jdbcType=VARCHAR},
+      </if>
+      <if test="e01z111a != null">
+        #{e01z111a,jdbcType=VARCHAR},
+      </if>
+      <if test="e01z111b != null">
+        #{e01z111b,jdbcType=VARCHAR},
+      </if>
+      <if test="e01z114 != null">
+        #{e01z114,jdbcType=INTEGER},
+      </if>
+      <if test="e01z117 != null">
+        #{e01z117,jdbcType=VARCHAR},
+      </if>
+      <if test="e01z121 != null">
+        #{e01z121,jdbcType=VARCHAR},
+      </if>
+      <if test="e01z124 != null">
+        #{e01z124,jdbcType=INTEGER},
+      </if>
+      <if test="e01z127 != null">
+        #{e01z127,jdbcType=VARCHAR},
+      </if>
+      <if test="e01z131 != null">
+        #{e01z131,jdbcType=VARCHAR},
+      </if>
+      <if test="efileFlag != null">
+        #{efileFlag,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateBy != null">
+        #{updateBy,jdbcType=VARCHAR},
+      </if>
+      <if test="e01z117Year != null">
+        #{e01z117Year,jdbcType=VARCHAR},
+      </if>
+      <if test="e01z117Month != null">
+        #{e01z117Month,jdbcType=VARCHAR},
+      </if>
+      <if test="e01z117Day != null">
+        #{e01z117Day,jdbcType=VARCHAR},
+      </if>
+    </trim>
+    on duplicate key update
+    <trim suffixOverrides=",">
+      <if test="id != null">
+        id = #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="orgId != null">
+        org_id = #{orgId,jdbcType=VARCHAR},
+      </if>
+      <if test="a01Id != null">
+        a01_id = #{a01Id,jdbcType=VARCHAR},
+      </if>
+      <if test="e01z101 != null">
+        e01z101 = #{e01z101,jdbcType=VARCHAR},
+      </if>
+      <if test="e01z104 != null">
+        e01z104 = #{e01z104,jdbcType=INTEGER},
+      </if>
+      <if test="e01z107 != null">
+        e01z107 = #{e01z107,jdbcType=VARCHAR},
+      </if>
+      <if test="e01z111a != null">
+        e01z111a = #{e01z111a,jdbcType=VARCHAR},
+      </if>
+      <if test="e01z111b != null">
+        e01z111b = #{e01z111b,jdbcType=VARCHAR},
+      </if>
+      <if test="e01z114 != null">
+        e01z114 = #{e01z114,jdbcType=INTEGER},
+      </if>
+      <if test="e01z117 != null">
+        e01z117 = #{e01z117,jdbcType=VARCHAR},
+      </if>
+      <if test="e01z121 != null">
+        e01z121 = #{e01z121,jdbcType=VARCHAR},
+      </if>
+      <if test="e01z124 != null">
+        e01z124 = #{e01z124,jdbcType=INTEGER},
+      </if>
+      <if test="e01z127 != null">
+        e01z127 = #{e01z127,jdbcType=VARCHAR},
+      </if>
+      <if test="e01z131 != null">
+        e01z131 = #{e01z131,jdbcType=VARCHAR},
+      </if>
+      <if test="efileFlag != null">
+        efile_flag = #{efileFlag,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateBy != null">
+        update_by = #{updateBy,jdbcType=VARCHAR},
+      </if>
+      <if test="e01z117Year != null">
+        e01z117_year = #{e01z117Year,jdbcType=VARCHAR},
+      </if>
+      <if test="e01z117Month != null">
+        e01z117_month = #{e01z117Month,jdbcType=VARCHAR},
+      </if>
+      <if test="e01z117Day != null">
+        e01z117_day = #{e01z117Day,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+
+  <sql id="Base_a01_Column_List">
+    a.id, a.org_id, a.show_index, a.a0101, a.a0102, a.a0104, a.a0107, a.a0111a, a.a0111b, a.a0114a, a.a0114b,
+    a.a0115a, a.a0115b, a.a0117, a.a0127, a.a0128, a.a0131, a.a0134, a.a0137, a.a0141, a.a0144, a.a0151, a.a0154,
+    a.a0157a, a.a0157b, a.a0161, a.a0164, a.a0167, a.a0171, a.a0174, a.a0177, a.a0181a, a.a0181b, a.a0183,
+    a.a0184, a.a0187a, a.a0187b, a.a0191, a.flag, a.dept_id, a.duty, a.grade, a.`state`, a.education
+  </sql>
+
+  <select id="selectUserByE01ziIds" resultType="com.fudian.api.ams.pojo.A01">
+    select
+    <include refid="Base_a01_Column_List" />
+    from
+    (select * from e01z1 where e01z1.id in
+    <foreach close=")" collection="array" index="index" item="id" open="(" separator=",">
+      #{id}
+    </foreach>
+    ) e join a01 a on e.a01_id = a.id
+  </select>
+  <select id="queryE01z1ByIds" resultType="java.util.Map">
+    SELECT e01z1.`id`,e01z1.a01_id AS 'a01Id',a01.`a0101`,a01.`number`,a01.`a0107`,sys_dictionary.`full_name`,e01z1.e01z101,e01z1.`e01z111a`,e01z1.`e01z117`,e01z1.`e01z114`,e01z1.`e01z121`
+    FROM e01z1
+    INNER JOIN sys_dictionary ON e01z1.`e01z101` = sys_dictionary.`dict_code`
+    INNER JOIN a01  ON e01z1.`a01_id` = a01.`id`
+    WHERE  sys_dictionary.`dict_type` = 'ZB97B' AND sys_dictionary.`dict_code` != '-'
+    AND e01z1.`id`
+    <if test="array != null and array.length != 0">
+    IN
+    <foreach close=")" collection="array" index="index" item="id" open="(" separator=",">
+      #{id}
+    </foreach>
+    </if>
+    ORDER BY e01z1.`e01z101` ASC
+  </select>
+  <update id="updateSortByClassIfyAndOrderNum" parameterType="com.fudian.api.ams.pojo.E01z1">
+    update e01z1
+    set e01z104 = e01z104+1 where e01z1.a01_id=#{a01Id} and e01z1.e01z101=#{e01z101} and e01z1.e01z104 &gt;= #{e01z104}
+  </update>
+  <select id="findMaxNum" parameterType="com.fudian.api.ams.pojo.E01z1" resultType="String">
+
+    select max(e01z104) from e01z1 where e01z1.a01_id=#{a01Id} and e01z1.e01z101=#{e01z101}
+
+  </select>
+  <select id="selectE01z1ListByName" resultType="map">
+    SELECT
+    e.id as id,
+	e.deptName as deptName,
+	e.a0101 as a0101,
+	e.e01z101 as e01z101,
+	e.e01z104 as e01z104,
+	e.e01z107 as e01z107,
+	e.e01z111a as e01z111a,
+	e.e01z114 as e01z114,
+	e.e01z117 as e01z117,
+	e.e01z121 as e01z121,
+	e.e01z124 as e01z124,
+	e.e01z127 as e01z127,
+	e.updateTime as updateTime,
+    e.updateBy as updateBy
+FROM e01z1_recycle_back_view e
+<where>
+  <if test="e01z111a != null">
+    and e.e01z111a like #{e01z111a}
+  </if>
+  <if test="a0101 != null">
+    and e.a0101 like #{a0101} or e.a0102 like #{a0101}
+  </if>
+</where>
+    order by updateTime desc
+  </select>
+
+  <!--<update id="updateByExampleSelective" parameterType="map">-->
+  <!--  update e01z1-->
+  <!--  <set>-->
+  <!--    <if test="record.id != null">-->
+  <!--      id = #{record.id,jdbcType=VARCHAR},-->
+  <!--    </if>-->
+  <!--    <if test="record.orgId != null">-->
+  <!--      org_id = #{record.orgId,jdbcType=VARCHAR},-->
+  <!--    </if>-->
+  <!--    <if test="record.a01Id != null">-->
+  <!--      a01_id = #{record.a01Id,jdbcType=VARCHAR},-->
+  <!--    </if>-->
+  <!--    <if test="record.e01z101 != null">-->
+  <!--      e01z101 = #{record.e01z101,jdbcType=VARCHAR},-->
+  <!--    </if>-->
+  <!--    <if test="record.e01z104 != null">-->
+  <!--      e01z104 = #{record.e01z104,jdbcType=INTEGER},-->
+  <!--    </if>-->
+  <!--    <if test="record.e01z107 != null">-->
+  <!--      e01z107 = #{record.e01z107,jdbcType=VARCHAR},-->
+  <!--    </if>-->
+  <!--    <if test="record.e01z111a != null">-->
+  <!--      e01z111a = #{record.e01z111a,jdbcType=VARCHAR},-->
+  <!--    </if>-->
+  <!--    <if test="record.e01z111b != null">-->
+  <!--      e01z111b = #{record.e01z111b,jdbcType=VARCHAR},-->
+  <!--    </if>-->
+  <!--    <if test="record.e01z114 != null">-->
+  <!--      e01z114 = #{record.e01z114,jdbcType=INTEGER},-->
+  <!--    </if>-->
+  <!--    <if test="record.e01z117 != null">-->
+  <!--      e01z117 = #{record.e01z117,jdbcType=VARCHAR},-->
+  <!--    </if>-->
+  <!--    <if test="record.e01z121 != null">-->
+  <!--      e01z121 = #{record.e01z121,jdbcType=VARCHAR},-->
+  <!--    </if>-->
+  <!--    <if test="record.e01z124 != null">-->
+  <!--      e01z124 = #{record.e01z124,jdbcType=INTEGER},-->
+  <!--    </if>-->
+  <!--    <if test="record.e01z127 != null">-->
+  <!--      e01z127 = #{record.e01z127,jdbcType=VARCHAR},-->
+  <!--    </if>-->
+  <!--    <if test="record.e01z131 != null">-->
+  <!--      e01z131 = #{record.e01z131,jdbcType=VARCHAR},-->
+  <!--    </if>-->
+  <!--    <if test="record.efileFlag != null">-->
+  <!--      efile_flag = #{record.efileFlag,jdbcType=VARCHAR},-->
+  <!--    </if>-->
+  <!--    <if test="record.updateTime != null">-->
+  <!--      update_time = #{record.updateTime,jdbcType=TIMESTAMP},-->
+  <!--    </if>-->
+  <!--    <if test="record.updateBy != null">-->
+  <!--      update_by = #{record.updateBy,jdbcType=VARCHAR},-->
+  <!--    </if>-->
+  <!--    <if test="record.e01z117Year != null">-->
+  <!--      e01z117_year = #{record.e01z117Year,jdbcType=VARCHAR},-->
+  <!--    </if>-->
+  <!--    <if test="record.e01z117Month != null">-->
+  <!--      e01z117_month = #{record.e01z117Month,jdbcType=VARCHAR},-->
+  <!--    </if>-->
+  <!--    <if test="record.e01z117Day != null">-->
+  <!--      e01z117_day = #{record.e01z117Day,jdbcType=VARCHAR},-->
+  <!--    </if>-->
+  <!--  </set>-->
+  <!--  <if test="_parameter != null">-->
+  <!--    <include refid="Update_By_Example_Where_Clause" />-->
+  <!--  </if>-->
+  <!--</update>-->
+  <update id="updateByExampleSelective" parameterType="map">
+    update e01z1
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=VARCHAR},
+      </if>
+      <if test="record.orgId != null">
+        org_id = #{record.orgId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.a01Id != null">
+        a01_id = #{record.a01Id,jdbcType=VARCHAR},
+      </if>
+      <if test="record.e01z101 != null">
+        e01z101 = #{record.e01z101,jdbcType=VARCHAR},
+      </if>
+      <if test="record.e01z104 != null">
+        e01z104 = #{record.e01z104,jdbcType=INTEGER},
+      </if>
+      <if test="record.e01z107 != null">
+        e01z107 = #{record.e01z107,jdbcType=VARCHAR},
+      </if>
+      <if test="record.e01z111a != null">
+        e01z111a = #{record.e01z111a,jdbcType=VARCHAR},
+      </if>
+      <if test="record.e01z111b != null">
+        e01z111b = #{record.e01z111b,jdbcType=VARCHAR},
+      </if>
+      <if test="record.e01z114 != null">
+        e01z114 = #{record.e01z114,jdbcType=INTEGER},
+      </if>
+      <if test="record.e01z117 != null">
+        e01z117 = #{record.e01z117,jdbcType=VARCHAR},
+      </if>
+      <if test="record.e01z121 != null">
+        e01z121 = #{record.e01z121,jdbcType=VARCHAR},
+      </if>
+      <if test="record.e01z124 != null">
+        e01z124 = #{record.e01z124,jdbcType=INTEGER},
+      </if>
+      <if test="record.e01z127 != null">
+        e01z127 = #{record.e01z127,jdbcType=VARCHAR},
+      </if>
+      <if test="record.e01z131 != null">
+        e01z131 = #{record.e01z131,jdbcType=VARCHAR},
+      </if>
+      <if test="record.efileFlag != null">
+        efile_flag = #{record.efileFlag,jdbcType=VARCHAR},
+      </if>
+      <if test="record.updateTime != null">
+        update_time = #{record.updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.updateBy != null">
+        update_by = #{record.updateBy,jdbcType=VARCHAR},
+      </if>
+      <if test="record.e01z117Year != null">
+        e01z117_year = #{record.e01z117Year,jdbcType=VARCHAR},
+      </if>
+      <if test="record.e01z117Month != null">
+        e01z117_month = #{record.e01z117Month,jdbcType=VARCHAR},
+      </if>
+      <if test="record.e01z117Day != null">
+        e01z117_day = #{record.e01z117Day,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+
+
+  <!-- 查询数字化的材料 -->
+  <select id="selectListByFileCount" resultType="com.fudian.api.ams.pojo.E01z1">
+    select id, org_id, a01_id, e01z101, e01z104, e01z107, e01z111a, e01z111b, e01z114, e01z117,
+    e01z121, e01z124, e01z127, e01z131, efile_flag, update_time, update_by, e01z117_year,
+    e01z117_month, e01z117_day, b.page_num page_num from ((select * from `e01z1` e where e.a01_id = #{a01Id}) a LEFT JOIN (select f.binding_id,count(1)  page_num from `sys_file` f where f.binding_id in (select e.id from `e01z1` e where e.a01_id = #{a01Id})
+    GROUP BY  f.binding_id) b on b.binding_id = a.id)
+    <where>
+      <if test='status != null and status == "1"'>
+        and e01z114 = page_num
+      </if>
+      <if test='status != null and status == "0"'>
+        and e01z114 != ifnull(page_num,0)
+      </if>
+    </where>
+  </select>
+</mapper>

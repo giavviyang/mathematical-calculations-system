@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.fudian.project.ams.mapper.E01z9RelaLedgerMapper">
+  <resultMap id="BaseResultMap" type="com.fudian.project.ams.pojo.E01z9RelaLedger">
+    <!--@mbg.generated-->
+    <!--@Table e01z9_rela_ledger-->
+    <id column="id" jdbcType="VARCHAR" property="id" />
+    <result column="a0101" jdbcType="VARCHAR" property="a0101" />
+    <result column="a01_id" jdbcType="VARCHAR" property="a01Id" />
+    <result column="dept_id" jdbcType="VARCHAR" property="deptId" />
+    <result column="dept_name" jdbcType="VARCHAR" property="deptName" />
+    <result column="duty" jdbcType="VARCHAR" property="duty" />
+    <result column="politcy" jdbcType="VARCHAR" property="politcy" />
+    <result column="e01z801" jdbcType="VARCHAR" property="e01z801" />
+    <result column="e01z804" jdbcType="TIMESTAMP" property="e01z804" />
+    <result column="e01z805" jdbcType="TIMESTAMP" property="e01z805" />
+    <result column="e01z806" jdbcType="TIMESTAMP" property="e01z806" />
+    <result column="e01z9_id" jdbcType="VARCHAR" property="e01z9Id" />
+    <result column="e01z811" jdbcType="VARCHAR" property="e01z811" />
+    <result column="e01z814" jdbcType="VARCHAR" property="e01z814" />
+    <result column="e01z817" jdbcType="VARCHAR" property="e01z817" />
+    <result column="e01z821" jdbcType="VARCHAR" property="e01z821" />
+    <result column="pri_type" jdbcType="VARCHAR" property="priType" />
+    <result column="e01z1_id" jdbcType="VARCHAR" property="e01z1Id" />
+    <result column="materials" jdbcType="INTEGER" property="materials" />
+    <result column="total_pages" jdbcType="INTEGER" property="totalPages" />
+    <result column="e01z111a" jdbcType="VARCHAR" property="e01z111a" />
+    <result column="flag" jdbcType="VARCHAR" property="flag" />
+    <result column="e01z831" jdbcType="VARCHAR" property="e01z831" />
+    <result column="feedback" jdbcType="VARCHAR" property="feedback" />
+    <result column="modified" jdbcType="VARCHAR" property="modified" />
+    <result column="is_break" jdbcType="VARCHAR" property="isBreak" />
+    <result column="broken" jdbcType="VARCHAR" property="broken" />
+    <result column="is_lose" jdbcType="VARCHAR" property="isLose" />
+    <result column="instructions" jdbcType="VARCHAR" property="instructions" />
+    <result column="remind" jdbcType="VARCHAR" property="remind" />
+    <result column="e01z934" jdbcType="VARCHAR" property="e01z934" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    <!--@mbg.generated-->
+    id, a0101, a01_id, dept_id, dept_name, duty, politcy, e01z801, e01z804, e01z805,
+    e01z806, e01z9_id, e01z811, e01z814, e01z817, e01z821, pri_type, e01z1_id, materials,
+    total_pages, e01z111a, flag, e01z831, feedback, modified, is_break, broken, is_lose,
+    instructions, remind, e01z934
+  </sql>
+
+  <sql id="ViewDetails">
+    <!-- 根据海关修改查看详情sql-->
+    e01z9_rela_ledger.id,a01.a0101,sys_dept.dept_name,e01z9_ledger.creaters_time,DATE_FORMAT(e01z9_ledger.end_time, '%Y-%m-%d') AS 'end_time',DATE_FORMAT(e01z9_ledger.start_time, '%Y-%m-%d') AS 'start_time'
+  </sql>
+
+  <resultMap id="ViewDetailsResultMap" type="java.util.Map">
+    <!--海关查看详情-->
+    <id column="id" jdbcType="VARCHAR" property="id" />
+    <result column="a0101" jdbcType="VARCHAR" property="a0101" />
+    <result column="dept_name" jdbcType="VARCHAR" property="deptName" />
+    <result column="creaters_time" jdbcType="VARCHAR" property="creatersTime" />
+    <result column="end_time" jdbcType="VARCHAR" property="endTime" />
+    <result column="start_time" jdbcType="VARCHAR" property="startTime" />
+  </resultMap>
+
+  <select id="selectViewDetails"  resultMap="ViewDetailsResultMap">
+    select
+    <include refid="ViewDetails" />
+    from e01z9_rela_ledger  left join a01
+    on a01.id=e01z9_rela_ledger.a01_id
+    left join sys_dept
+    on sys_dept.id=a01.dept_id
+    left join e01z9_ledger
+    on e01z9_ledger.id=e01z9_rela_ledger.e01z9_id
+    <where>
+      <if test="e01z9Id!=null and e01z9Id!=&quot;&quot;">
+        e01z9_rela_ledger.e01z9_id = #{e01z9Id}
+      </if>
+    </where>
+  </select>
+  <select id="queryBillsByMap" resultType="java.util.Map">
+    select
+    rl.id,
+    a01.a0101,
+    sys_dept.dept_name as deptName,
+    rl.a01_id as a01Id,
+    rl.e01z9_id as e01z9Id,
+    zc.id,
+    zc.org_id as orgId,
+    zc.user_id as userId,
+    zc.user_name as userName,
+    zc.duty,
+    zc.politcy,
+    zc.e01z824a,
+    zc.e01z824b,
+    zc.e01z831,
+    zc.target,
+    zc.approv_time as approvTime,
+    zc.start_time as startTime,
+    zc.end_time as endTime,
+    zc.print_contents as printContents,
+    zc.application_reasons as applicationReasons,
+    zc.user_card as userCard,
+    zc.status,
+    zc.user_phone as userPhone,
+    zc.flag,
+    zc.e01z817,
+    zc.e01z801,
+    zc.creaters_time as creatersTime,
+    zc.user_number as userNumber,
+    zc.apply_number as applyNumber,
+    zc.apply_status as applyStatus,
+    zc.archive_status as archiveStatus
+    from e01z9_rela_ledger as rl
+    left join e01z9_ledger as zc
+    on rl.e01z9_id = zc.id
+    left join a01
+    on a01.id = rl.a01_id
+    left join sys_dept
+    on a01.dept_id = sys_dept.id
+    <where>
+      <if test="personName!=null">
+        (zc.user_name LIKE CONCAT("%",#{personName}, "%"))
+      </if>
+      <if test="beginTime!=null">
+        and zc.creaters_time &gt;= #{beginTime}
+      </if>
+      <if test="endTime!=null">
+        and zc.creaters_time &lt;= #{endTime}
+      </if>
+      <if test="creaters!=null">
+        and zc.creaters_time LIKE CONCAT("%",#{creaters}, "%")
+      </if>
+    </where>
+    ORDER BY zc.creaters_time desc
+  </select>
+</mapper>

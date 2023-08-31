@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="Encoding">
+    <file url="file://$PROJECT_DIR$/fudian-boot-admin/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/fudian-boot-ams-V3.1.0-20200616/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/fudian-boot-business/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/fudian-boot-common/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/fudian-boot-filestorage/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/fudian-boot-framework/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/fudian-boot-interface/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/fudian-boot-log/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/fudian-boot-system/src/main/java" charset="UTF-8" />
+  </component>
+</project>

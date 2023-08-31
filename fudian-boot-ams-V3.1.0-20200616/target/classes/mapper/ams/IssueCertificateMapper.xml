@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.fudian.project.ams.mapper.IssueCertificateMapper">
+  <resultMap id="BaseResultMap" type="com.fudian.project.ams.pojo.IssueCertificate">
+    <!--@mbg.generated-->
+    <!--@Table issue_certificate-->
+    <id column="id" jdbcType="VARCHAR" property="id" />
+    <result column="a01_id" jdbcType="VARCHAR" property="a01Id" />
+    <result column="a0101" jdbcType="VARCHAR" property="a0101" />
+    <result column="dept_id" jdbcType="VARCHAR" property="deptId" />
+    <result column="dept_name" jdbcType="VARCHAR" property="deptName" />
+    <result column="a0104" jdbcType="VARCHAR" property="a0104" />
+    <result column="state" jdbcType="VARCHAR" property="state" />
+    <result column="a0184" jdbcType="VARCHAR" property="a0184" />
+    <result column="a0134" jdbcType="TIMESTAMP" property="a0134" />
+    <result column="father" jdbcType="VARCHAR" property="father" />
+    <result column="mother" jdbcType="VARCHAR" property="mother" />
+    <result column="spouse" jdbcType="VARCHAR" property="spouse" />
+    <result column="daughter" jdbcType="VARCHAR" property="daughter" />
+    <result column="prove_date" jdbcType="TIMESTAMP" property="proveDate" />
+    <result column="prove_type" jdbcType="VARCHAR" property="proveType" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    <!--@mbg.generated-->
+    id, a01_id, a0101, dept_id, dept_name, a0104, `state`, a0184, a0134, father, mother, 
+    spouse, daughter, prove_date, prove_type
+  </sql>
+  <update id="updateByPrimaryKeySelective" parameterType="com.fudian.project.ams.pojo.IssueCertificate">
+    <!--@mbg.generated-->
+    update issue_certificate
+    <set>
+      <if test="a01Id != null">
+        a01_id = #{a01Id,jdbcType=VARCHAR},
+      </if>
+      <if test="a0101 != null">
+        a0101 = #{a0101,jdbcType=VARCHAR},
+      </if>
+      <if test="deptId != null">
+        dept_id = #{deptId,jdbcType=VARCHAR},
+      </if>
+      <if test="deptName != null">
+        dept_name = #{deptName,jdbcType=VARCHAR},
+      </if>
+      <if test="a0104 != null">
+        a0104 = #{a0104,jdbcType=VARCHAR},
+      </if>
+      <if test="state != null">
+        `state` = #{state,jdbcType=VARCHAR},
+      </if>
+      <if test="a0184 != null">
+        a0184 = #{a0184,jdbcType=VARCHAR},
+      </if>
+      <if test="a0134 != null">
+        a0134 = #{a0134,jdbcType=TIMESTAMP},
+      </if>
+      <if test="father != null">
+        father = #{father,jdbcType=VARCHAR},
+      </if>
+      <if test="mother != null">
+        mother = #{mother,jdbcType=VARCHAR},
+      </if>
+      <if test="spouse != null">
+        spouse = #{spouse,jdbcType=VARCHAR},
+      </if>
+      <if test="daughter != null">
+        daughter = #{daughter,jdbcType=VARCHAR},
+      </if>
+      <if test="proveDate != null">
+        prove_date = #{proveDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="proveType != null">
+        prove_type = #{proveType,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.fudian.project.ams.pojo.IssueCertificate">
+    <!--@mbg.generated-->
+    update issue_certificate
+    set a01_id = #{a01Id,jdbcType=VARCHAR},
+      a0101 = #{a0101,jdbcType=VARCHAR},
+      dept_id = #{deptId,jdbcType=VARCHAR},
+      dept_name = #{deptName,jdbcType=VARCHAR},
+      a0104 = #{a0104,jdbcType=VARCHAR},
+      `state` = #{state,jdbcType=VARCHAR},
+      a0184 = #{a0184,jdbcType=VARCHAR},
+      a0134 = #{a0134,jdbcType=TIMESTAMP},
+      father = #{father,jdbcType=VARCHAR},
+      mother = #{mother,jdbcType=VARCHAR},
+      spouse = #{spouse,jdbcType=VARCHAR},
+      daughter = #{daughter,jdbcType=VARCHAR},
+      prove_date = #{proveDate,jdbcType=TIMESTAMP},
+      prove_type = #{proveType,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateBatch" parameterType="java.util.List">
+    <!--@mbg.generated-->
+    update issue_certificate
+    <trim prefix="set" suffixOverrides=",">
+      <trim prefix="a01_id = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=VARCHAR} then #{item.a01Id,jdbcType=VARCHAR}
+        </foreach>
+      </trim>
+      <trim prefix="a0101 = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=VARCHAR} then #{item.a0101,jdbcType=VARCHAR}
+        </foreach>
+      </trim>
+      <trim prefix="dept_id = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=VARCHAR} then #{item.deptId,jdbcType=VARCHAR}
+        </foreach>
+      </trim>
+      <trim prefix="dept_name = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=VARCHAR} then #{item.deptName,jdbcType=VARCHAR}
+        </foreach>
+      </trim>
+      <trim prefix="a0104 = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=VARCHAR} then #{item.a0104,jdbcType=VARCHAR}
+        </foreach>
+      </trim>
+      <trim prefix="`state` = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=VARCHAR} then #{item.state,jdbcType=VARCHAR}
+        </foreach>
+      </trim>
+      <trim prefix="a0184 = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=VARCHAR} then #{item.a0184,jdbcType=VARCHAR}
+        </foreach>
+      </trim>
+      <trim prefix="a0134 = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=VARCHAR} then #{item.a0134,jdbcType=TIMESTAMP}
+        </foreach>
+      </trim>
+      <trim prefix="father = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=VARCHAR} then #{item.father,jdbcType=VARCHAR}
+        </foreach>
+      </trim>
+      <trim prefix="mother = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=VARCHAR} then #{item.mother,jdbcType=VARCHAR}
+        </foreach>
+      </trim>
+      <trim prefix="spouse = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=VARCHAR} then #{item.spouse,jdbcType=VARCHAR}
+        </foreach>
+      </trim>
+      <trim prefix="daughter = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=VARCHAR} then #{item.daughter,jdbcType=VARCHAR}
+        </foreach>
+      </trim>
+      <trim prefix="prove_date = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=VARCHAR} then #{item.proveDate,jdbcType=TIMESTAMP}
+        </foreach>
+      </trim>
+      <trim prefix="prove_type = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=VARCHAR} then #{item.proveType,jdbcType=VARCHAR}
+        </foreach>
+      </trim>
+    </trim>
+    where id in
+    <foreach close=")" collection="list" item="item" open="(" separator=", ">
+      #{item.id,jdbcType=VARCHAR}
+    </foreach>
+  </update>
+  <insert id="batchInsert" parameterType="map">
+    <!--@mbg.generated-->
+    insert into issue_certificate
+    (id, a01_id, a0101, dept_id, dept_name, a0104, `state`, a0184, a0134, father, mother, 
+      spouse, daughter, prove_date, prove_type)
+    values
+    <foreach collection="list" item="item" separator=",">
+      (#{item.id,jdbcType=VARCHAR}, #{item.a01Id,jdbcType=VARCHAR}, #{item.a0101,jdbcType=VARCHAR}, 
+        #{item.deptId,jdbcType=VARCHAR}, #{item.deptName,jdbcType=VARCHAR}, #{item.a0104,jdbcType=VARCHAR}, 
+        #{item.state,jdbcType=VARCHAR}, #{item.a0184,jdbcType=VARCHAR}, #{item.a0134,jdbcType=TIMESTAMP}, 
+        #{item.father,jdbcType=VARCHAR}, #{item.mother,jdbcType=VARCHAR}, #{item.spouse,jdbcType=VARCHAR}, 
+        #{item.daughter,jdbcType=VARCHAR}, #{item.proveDate,jdbcType=TIMESTAMP}, #{item.proveType,jdbcType=VARCHAR}
+        )
+    </foreach>
+  </insert>
+</mapper>

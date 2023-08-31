@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.fudian.business.mapper.NewsNoticeMapper">
+
+    <select id="pagingQueryNewsNotice" resultType="com.fudian.business.pojo.NewsNotice" parameterType="com.fudian.business.pojo.NewsNotice">
+        SELECT nn.*
+        FROM `news_notice` nn
+        inner join students s
+        on s.student_id = nn.sender_id
+        inner join sys_dept sd
+        on s.class_room_id = sd.id
+        where nn.news_type = #{newsNotice.newsType}
+        <if test="newsNotice.addresseeId != null and newsNotice.addresseeId != '' and newsNotice.addresseeId != 'admin'">
+            and nn.addressee_id = #{newsNotice.addresseeId}
+        </if>
+         <if test="newsNotice.deptId != null and newsNotice.deptId != ''">
+            and sd.id = #{newsNotice.deptId}
+        </if>
+        order by nn.create_time desc
+    </select>
+
+
+</mapper>

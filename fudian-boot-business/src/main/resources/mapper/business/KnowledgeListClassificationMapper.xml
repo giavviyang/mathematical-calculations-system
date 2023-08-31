@@ -1,0 +1,212 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.fudian.business.mapper.KnowledgeListClassificationMapper">
+
+    <resultMap type="com.fudian.business.pojo.KnowledgeListClassification" id="KnowledgeListClassificationResult">
+        <result property="classificationId"    column="classification_id"    />
+        <result property="pid"    column="pid"    />
+        <result property="knowledgeId"    column="knowledge_id"    />
+        <result property="classificationCode"    column="classification_code"    />
+        <result property="classificationDatarange"    column="classification_datarange"    />
+        <result property="questionsNumber"    column="questions_number"    />
+        <result property="classificationRule"    column="classification_rule"    />
+        <result property="classificationCarryRule"    column="classification_carry_rule"    />
+        <result property="classificationTime"    column="classification_time"    />
+        <result property="classificationMsg"    column="classification_msg"    />
+        <result property="exampleTitle"    column="example_title"    />
+        <result property="isSubclass"    column="is_subclass"    />
+    </resultMap>
+
+    <sql id="selectKnowledgeListClassificationVo">
+        select classification_id, pid, knowledge_id,classification_code,classification_datarange,questions_number,classification_rule,classification_carry_rule,classification_time,classification_msg,example_title,is_subclass from knowledge_list_classification
+    </sql>
+
+    <select id="selectKnowledgeListClassification" parameterType="string" resultType="com.fudian.business.vo.KnowledgeVo">
+        select
+            klc.classification_id classificationId,
+            klc.pid,
+            klc.knowledge_id knowledgeId,
+            klc.classification_msg classificationMsg,
+            klc.is_subclass isSubclass,
+            kl.knowledge_num_field knowledgeNumField,
+            kl.knowledge_operation knowledgeOperation,
+            kl.knowledge_type knowledgeType,
+            kl.classification_msg icon,
+            if(kl.knowledge_num_field=2,1,0) dialog,
+            is_lock lockType,
+            highest_score grade
+        from knowledge_list_classification klc
+        inner join knowledge_list kl
+        on klc.knowledge_id = kl.knowledge_id
+        left join (
+            select is_lock ,highest_score,relation_id  from student_knowledge_relation where student_id = #{studentId} and relation_type = 0
+        ) skr
+        on klc.classification_id = skr.relation_id
+        where pid = '000'
+        ORDER BY knowledgeNumField,knowledgeOperation,knowledgeType,klc.order_num
+    </select>
+    <select id="selectKnowledgeListClassificationTow" parameterType="string" resultType="com.fudian.business.vo.KnowledgeVo">
+        select
+            klc.classification_id classificationId,
+            klc.pid,
+            klc.knowledge_id knowledgeId,
+            klc.classification_msg classificationMsg,
+            klc.is_subclass isSubclass,
+            kl.knowledge_num_field knowledgeNumField,
+            kl.knowledge_operation knowledgeOperation,
+            kl.knowledge_type knowledgeType,
+            kl.classification_msg icon,
+            if(kl.knowledge_num_field=2,1,0) dialog,
+            is_lock lockType,
+            highest_score grade
+        from knowledge_list_classification klc
+        inner join knowledge_list kl
+        on klc.knowledge_id = kl.knowledge_id
+        left join (
+            select is_lock ,highest_score,relation_id  from student_knowledge_relation where student_id = #{studentId} and relation_type = 0
+        ) skr
+        on klc.classification_id = skr.relation_id
+        where pid != '000'
+        ORDER BY knowledgeNumField,knowledgeOperation,knowledgeType,klc.order_num
+    </select>
+
+
+    <select id="queryListByLevelId" parameterType="java.lang.String" resultType="java.util.Map">
+        select
+        klc.classification_id as classificationId,
+        klc.classification_msg as classificationMsg,
+        lk.percentage as percentage
+        from level_knowledge lk
+        inner join level_table lt
+        on lk.level_id = lt.level_id
+        inner join knowledge_list_classification klc
+        on klc.classification_id = lk.classification_id
+        <where>
+            <if test="levelId!=null and levelId!=''">
+                and lk.level_id = #{levelId}
+            </if>
+        </where>
+    </select>
+
+    <select id="getNoKnowledgeOfPractice" resultType="java.util.Map">
+        SELECT distinct classification_msg,classification_id FROM `knowledge_list_classification`
+        where classification_id not in
+              (SELECT relation_id FROM `student_knowledge_relation`
+               where student_id=#{studentId} and relation_type=0)
+    </select>
+
+    <select id="getUnknownKnowledgeByClassId" resultType="string">
+        SELECT
+            CONCAT(GROUP_CONCAT(distinct sd.full_name order by  sd.dict_code SEPARATOR '-' ),'-',ifnull(cc.classification_msg,''),'-',c.classification_msg)  classificationMsg
+        FROM `knowledge_list_classification` c
+        left join knowledge_list_classification cc
+        on c.pid = cc.classification_id and cc.is_subclass = 1
+        inner join knowledge_list k
+        on c.knowledge_id = k.knowledge_id
+        left join (
+            SELECT * FROM `sys_dictionary`
+            where dict_type = 'classfiy'
+            ORDER BY dict_code
+        ) sd
+        on sd.dict_type = 'classfiy'
+        and sd.dict_code = k.knowledge_num_field
+        or sd.dict_code = CONCAT(k.knowledge_num_field,'-',k.knowledge_operation)
+        or sd.dict_code = CONCAT(k.knowledge_num_field,'-',k.knowledge_operation,'-',k.knowledge_type)
+        left join (
+            SELECT distinct sk.relation_id
+            FROM `student_knowledge_relation` sk
+            left join `students` s
+            on s.student_id = sk.student_id
+            left join `sys_dept` sd
+            on sd.id = s.class_room_id
+            where sd.id=#{classId}
+            and sk.relation_type=0
+        ) skr
+        on c.classification_id = skr.relation_id
+        <if test="shuyu!=null and shuyu!=''">
+            and k.knowledge_num_field = #{shuyu}
+        </if>
+        <if test="faze!=null and faze!=''">
+            and k.knowledge_operation = #{faze}
+        </if>
+        where  c.is_subclass = 0
+        and isnull(skr.relation_id)
+        GROUP BY c.classification_id
+        order by k.knowledge_num_field,k.knowledge_operation,k.knowledge_type,c.classification_msg
+    </select>
+
+    <!-- 获取所有知识点 -->
+    <select id="getAllKnowledgePoints" resultType="java.util.Map">
+        SELECT c.classification_id as classificationId,
+               (case ifnull(c.classification_nickname,1)
+                when 1
+                then concat(s1.full_name,s2.full_name,s3.full_name,c.classification_msg)
+                else concat(s1.full_name,s2.full_name,c.classification_nickname)
+                end) as classificationMsg
+        FROM `knowledge_list_classification` c
+                 left join `knowledge_list` k on c.knowledge_id = k.knowledge_id
+                 left join `sys_dictionary` s1 on s1.dict_type = 'classfiy' and s1.dict_code=k.knowledge_num_field
+                 left join `sys_dictionary` s2 on s2.dict_type = 'classfiy' and s2.dict_code = concat(k.knowledge_num_field,'-',k.knowledge_operation)
+                 left join `sys_dictionary` s3 on s3.dict_type = 'classfiy' and s3.dict_code like concat(k.knowledge_num_field,'-',k.knowledge_operation,'-',k.knowledge_type)
+        where is_subclass=0
+        ORDER BY k.knowledge_num_field,k.knowledge_operation,k.knowledge_type,c.classification_msg
+    </select>
+    <!-- 知识点出题设置分页查询功能 -->
+    <select id="pageingSelectQuestionSetting" resultType="com.fudian.business.vo.QuestionSettingVo" parameterType="com.fudian.business.vo.QuestionSettingVo">
+        SELECT
+            c.classification_id classificationId,
+            c.classification_msg classificationName,
+            c.classification_nickname classificationNickname,
+            s1.full_name knowledgeNumField,
+            s2.full_name knowledgeOperation,
+            s3.full_name knowledgeType,
+            c.is_random isRandom
+        FROM `knowledge_list_classification` c
+        left join `knowledge_list` k on c.knowledge_id = k.knowledge_id
+        left join `sys_dictionary` s1 on s1.dict_type = 'classfiy' and s1.dict_code=k.knowledge_num_field
+        left join `sys_dictionary` s2 on s2.dict_type = 'classfiy' and s2.dict_code = concat(k.knowledge_num_field,'-',k.knowledge_operation)
+        left join `sys_dictionary` s3 on s3.dict_type = 'classfiy' and s3.dict_code like concat(k.knowledge_num_field,'-',k.knowledge_operation,'-',k.knowledge_type)
+        where c.is_subclass=0
+        <if test="questionSettingVo.isRandom != null and questionSettingVo.isRandom != ''">
+            and c.is_random = #{questionSettingVo.isRandom}
+        </if>
+        <if test="questionSettingVo.knowledgeNumField != null and questionSettingVo.knowledgeNumField != ''">
+            and k.knowledge_num_field = #{questionSettingVo.knowledgeNumField}
+        </if>
+        <if test="questionSettingVo.knowledgeOperation != null and questionSettingVo.knowledgeOperation != ''">
+            and k.knowledge_operation = #{questionSettingVo.knowledgeOperation}
+        </if>
+        <if test="questionSettingVo.knowledgeType != null and questionSettingVo.knowledgeType != ''">
+            and k.knowledge_type = #{questionSettingVo.knowledgeType}
+        </if>
+        <if test="questionSettingVo.classificationName != null and questionSettingVo.classificationName != ''">
+            and (
+            c.classification_msg like concat('%',#{questionSettingVo.classificationName},'%')
+            or c.classification_nickname like concat('%',#{questionSettingVo.classificationName},'%')
+            )
+        </if>
+        ORDER BY k.knowledge_num_field,k.knowledge_operation,k.knowledge_type,c.classification_msg
+    </select>
+
+    <select id="getKnowledgeAndSchedule" resultType="com.alibaba.fastjson.JSONObject" parameterType="string">
+        select
+            kl.knowledge_num_field knowledgeNumField,
+            kl.knowledge_operation knowledgeOperation,
+            kl.knowledge_type knowledgeType,
+            klc.classification_id classificationId,
+            klc.classification_msg classificationMsg,
+            klc.classification_nickname classificationNickname,
+            kls.diagnosis_msg diagnosisMsg
+        from knowledge_list_classification klc
+        inner join knowledge_list kl
+        on klc.knowledge_id = kl.knowledge_id
+        inner join knowledge_list_schedule kls
+        on klc.classification_id = kls.classification_id
+        where klc.classification_id in
+        <foreach collection="classificationIds" item="item" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </select>
+</mapper>

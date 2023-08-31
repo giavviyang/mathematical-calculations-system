@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.fudian.project.system.mapper.WatermarkConfigMapper">
+  <resultMap id="BaseResultMap" type="com.fudian.api.system.pojo.WatermarkConfig">
+    <!--@mbg.generated-->
+    <result column="id" jdbcType="VARCHAR" property="id" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="text" jdbcType="VARCHAR" property="text" />
+    <result column="image" jdbcType="BLOB" property="image" />
+    <result column="type" jdbcType="VARCHAR" property="type" />
+    <result column="active" jdbcType="VARCHAR" property="active" />
+    <result column="color" jdbcType="VARCHAR" property="color" />
+    <result column="diaphaneity" jdbcType="FLOAT" property="diaphaneity" />
+    <result column="rotate" jdbcType="FLOAT" property="rotate" />
+    <result column="font_size" jdbcType="INTEGER" property="fontSize" />
+    <result column="img_size" jdbcType="VARCHAR" property="imgSize" />
+    <result column="row_length" jdbcType="INTEGER" property="rowLength" />
+    <result column="col_length" jdbcType="INTEGER" property="colLength" />
+    <result column="create_time" jdbcType="VARCHAR" property="createTime" />
+    <result column="create_name" jdbcType="VARCHAR" property="createName" />
+    <result column="update_time" jdbcType="VARCHAR" property="updateTime" />
+    <result column="update_name" jdbcType="VARCHAR" property="updateName" />
+  </resultMap>
+</mapper>

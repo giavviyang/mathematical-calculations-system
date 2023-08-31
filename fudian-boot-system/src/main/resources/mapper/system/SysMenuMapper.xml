@@ -1,0 +1,462 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.fudian.project.system.mapper.SysMenuMapper">
+  <resultMap id="BaseResultMap" type="com.fudian.project.system.pojo.SysMenu">
+    <!--@mbg.generated-->
+    <!--@Table sys_menu-->
+    <id column="menu_id" jdbcType="VARCHAR" property="menuId" />
+    <result column="menu_name" jdbcType="VARCHAR" property="menuName" />
+    <result column="parent_id" jdbcType="VARCHAR" property="parentId" />
+    <result column="order_num" jdbcType="INTEGER" property="orderNum" />
+    <result column="path" jdbcType="VARCHAR" property="path" />
+    <result column="component" jdbcType="VARCHAR" property="component" />
+    <result column="is_frame" jdbcType="INTEGER" property="isFrame" />
+    <result column="menu_type" jdbcType="CHAR" property="menuType" />
+    <result column="visible" jdbcType="CHAR" property="visible" />
+    <result column="perms" jdbcType="VARCHAR" property="perms" />
+    <result column="icon" jdbcType="VARCHAR" property="icon" />
+    <result column="create_by" jdbcType="VARCHAR" property="createBy" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="update_by" jdbcType="VARCHAR" property="updateBy" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+    <result column="status" jdbcType="VARCHAR" property="status" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    <!--@mbg.generated-->
+    menu_id, menu_name, parent_id, order_num, `path`, component, is_frame, menu_type,
+    visible, perms, icon, create_by, create_time, update_by, update_time, remark, `status`
+  </sql>
+  <update id="updateBatch" parameterType="java.util.List">
+    <!--@mbg.generated-->
+    update sys_menu
+    <trim prefix="set" suffixOverrides=",">
+      <trim prefix="menu_name = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when menu_id = #{item.menuId,jdbcType=VARCHAR} then #{item.menuName,jdbcType=VARCHAR}
+        </foreach>
+      </trim>
+      <trim prefix="parent_id = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when menu_id = #{item.menuId,jdbcType=VARCHAR} then #{item.parentId,jdbcType=VARCHAR}
+        </foreach>
+      </trim>
+      <trim prefix="order_num = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when menu_id = #{item.menuId,jdbcType=VARCHAR} then #{item.orderNum,jdbcType=INTEGER}
+        </foreach>
+      </trim>
+      <trim prefix="`path` = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when menu_id = #{item.menuId,jdbcType=VARCHAR} then #{item.path,jdbcType=VARCHAR}
+        </foreach>
+      </trim>
+      <trim prefix="component = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when menu_id = #{item.menuId,jdbcType=VARCHAR} then #{item.component,jdbcType=VARCHAR}
+        </foreach>
+      </trim>
+      <trim prefix="is_frame = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when menu_id = #{item.menuId,jdbcType=VARCHAR} then #{item.isFrame,jdbcType=INTEGER}
+        </foreach>
+      </trim>
+      <trim prefix="menu_type = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when menu_id = #{item.menuId,jdbcType=VARCHAR} then #{item.menuType,jdbcType=CHAR}
+        </foreach>
+      </trim>
+      <trim prefix="visible = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when menu_id = #{item.menuId,jdbcType=VARCHAR} then #{item.visible,jdbcType=CHAR}
+        </foreach>
+      </trim>
+      <trim prefix="perms = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when menu_id = #{item.menuId,jdbcType=VARCHAR} then #{item.perms,jdbcType=VARCHAR}
+        </foreach>
+      </trim>
+      <trim prefix="icon = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when menu_id = #{item.menuId,jdbcType=VARCHAR} then #{item.icon,jdbcType=VARCHAR}
+        </foreach>
+      </trim>
+      <trim prefix="create_by = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when menu_id = #{item.menuId,jdbcType=VARCHAR} then #{item.createBy,jdbcType=VARCHAR}
+        </foreach>
+      </trim>
+      <trim prefix="create_time = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when menu_id = #{item.menuId,jdbcType=VARCHAR} then #{item.createTime,jdbcType=TIMESTAMP}
+        </foreach>
+      </trim>
+      <trim prefix="update_by = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when menu_id = #{item.menuId,jdbcType=VARCHAR} then #{item.updateBy,jdbcType=VARCHAR}
+        </foreach>
+      </trim>
+      <trim prefix="update_time = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when menu_id = #{item.menuId,jdbcType=VARCHAR} then #{item.updateTime,jdbcType=TIMESTAMP}
+        </foreach>
+      </trim>
+      <trim prefix="remark = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when menu_id = #{item.menuId,jdbcType=VARCHAR} then #{item.remark,jdbcType=VARCHAR}
+        </foreach>
+      </trim>
+      <trim prefix="`status` = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when menu_id = #{item.menuId,jdbcType=VARCHAR} then #{item.status,jdbcType=VARCHAR}
+        </foreach>
+      </trim>
+    </trim>
+    where menu_id in
+    <foreach close=")" collection="list" item="item" open="(" separator=", ">
+      #{item.menuId,jdbcType=VARCHAR}
+    </foreach>
+  </update>
+  <update id="updateBatchSelective" parameterType="java.util.List">
+    <!--@mbg.generated-->
+    update sys_menu
+    <trim prefix="set" suffixOverrides=",">
+      <trim prefix="menu_name = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          <if test="item.menuName != null">
+            when menu_id = #{item.menuId,jdbcType=VARCHAR} then #{item.menuName,jdbcType=VARCHAR}
+          </if>
+        </foreach>
+      </trim>
+      <trim prefix="parent_id = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          <if test="item.parentId != null">
+            when menu_id = #{item.menuId,jdbcType=VARCHAR} then #{item.parentId,jdbcType=VARCHAR}
+          </if>
+        </foreach>
+      </trim>
+      <trim prefix="order_num = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          <if test="item.orderNum != null">
+            when menu_id = #{item.menuId,jdbcType=VARCHAR} then #{item.orderNum,jdbcType=INTEGER}
+          </if>
+        </foreach>
+      </trim>
+      <trim prefix="`path` = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          <if test="item.path != null">
+            when menu_id = #{item.menuId,jdbcType=VARCHAR} then #{item.path,jdbcType=VARCHAR}
+          </if>
+        </foreach>
+      </trim>
+      <trim prefix="component = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          <if test="item.component != null">
+            when menu_id = #{item.menuId,jdbcType=VARCHAR} then #{item.component,jdbcType=VARCHAR}
+          </if>
+        </foreach>
+      </trim>
+      <trim prefix="is_frame = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          <if test="item.isFrame != null">
+            when menu_id = #{item.menuId,jdbcType=VARCHAR} then #{item.isFrame,jdbcType=INTEGER}
+          </if>
+        </foreach>
+      </trim>
+      <trim prefix="menu_type = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          <if test="item.menuType != null">
+            when menu_id = #{item.menuId,jdbcType=VARCHAR} then #{item.menuType,jdbcType=CHAR}
+          </if>
+        </foreach>
+      </trim>
+      <trim prefix="visible = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          <if test="item.visible != null">
+            when menu_id = #{item.menuId,jdbcType=VARCHAR} then #{item.visible,jdbcType=CHAR}
+          </if>
+        </foreach>
+      </trim>
+      <trim prefix="perms = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          <if test="item.perms != null">
+            when menu_id = #{item.menuId,jdbcType=VARCHAR} then #{item.perms,jdbcType=VARCHAR}
+          </if>
+        </foreach>
+      </trim>
+      <trim prefix="icon = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          <if test="item.icon != null">
+            when menu_id = #{item.menuId,jdbcType=VARCHAR} then #{item.icon,jdbcType=VARCHAR}
+          </if>
+        </foreach>
+      </trim>
+      <trim prefix="create_by = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          <if test="item.createBy != null">
+            when menu_id = #{item.menuId,jdbcType=VARCHAR} then #{item.createBy,jdbcType=VARCHAR}
+          </if>
+        </foreach>
+      </trim>
+      <trim prefix="create_time = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          <if test="item.createTime != null">
+            when menu_id = #{item.menuId,jdbcType=VARCHAR} then #{item.createTime,jdbcType=TIMESTAMP}
+          </if>
+        </foreach>
+      </trim>
+      <trim prefix="update_by = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          <if test="item.updateBy != null">
+            when menu_id = #{item.menuId,jdbcType=VARCHAR} then #{item.updateBy,jdbcType=VARCHAR}
+          </if>
+        </foreach>
+      </trim>
+      <trim prefix="update_time = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          <if test="item.updateTime != null">
+            when menu_id = #{item.menuId,jdbcType=VARCHAR} then #{item.updateTime,jdbcType=TIMESTAMP}
+          </if>
+        </foreach>
+      </trim>
+      <trim prefix="remark = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          <if test="item.remark != null">
+            when menu_id = #{item.menuId,jdbcType=VARCHAR} then #{item.remark,jdbcType=VARCHAR}
+          </if>
+        </foreach>
+      </trim>
+      <trim prefix="`status` = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          <if test="item.status != null">
+            when menu_id = #{item.menuId,jdbcType=VARCHAR} then #{item.status,jdbcType=VARCHAR}
+          </if>
+        </foreach>
+      </trim>
+    </trim>
+    where menu_id in
+    <foreach close=")" collection="list" item="item" open="(" separator=", ">
+      #{item.menuId,jdbcType=VARCHAR}
+    </foreach>
+  </update>
+  <insert id="batchInsert" parameterType="map">
+    <!--@mbg.generated-->
+    insert into sys_menu
+    (menu_id, menu_name, parent_id, order_num, `path`, component, is_frame, menu_type,
+    visible, perms, icon, create_by, create_time, update_by, update_time, remark, `status`
+    )
+    values
+    <foreach collection="list" item="item" separator=",">
+      (#{item.menuId,jdbcType=VARCHAR}, #{item.menuName,jdbcType=VARCHAR}, #{item.parentId,jdbcType=VARCHAR},
+      #{item.orderNum,jdbcType=INTEGER}, #{item.path,jdbcType=VARCHAR}, #{item.component,jdbcType=VARCHAR},
+      #{item.isFrame,jdbcType=INTEGER}, #{item.menuType,jdbcType=CHAR}, #{item.visible,jdbcType=CHAR},
+      #{item.perms,jdbcType=VARCHAR}, #{item.icon,jdbcType=VARCHAR}, #{item.createBy,jdbcType=VARCHAR},
+      #{item.createTime,jdbcType=TIMESTAMP}, #{item.updateBy,jdbcType=VARCHAR}, #{item.updateTime,jdbcType=TIMESTAMP},
+      #{item.remark,jdbcType=VARCHAR}, #{item.status,jdbcType=VARCHAR})
+    </foreach>
+  </insert>
+  <insert id="insertOrUpdate" parameterType="com.fudian.project.system.pojo.SysMenu">
+    <!--@mbg.generated-->
+    insert into sys_menu
+    (menu_id, menu_name, parent_id, order_num, `path`, component, is_frame, menu_type,
+    visible, perms, icon, create_by, create_time, update_by, update_time, remark, `status`
+    )
+    values
+    (#{menuId,jdbcType=VARCHAR}, #{menuName,jdbcType=VARCHAR}, #{parentId,jdbcType=VARCHAR},
+    #{orderNum,jdbcType=INTEGER}, #{path,jdbcType=VARCHAR}, #{component,jdbcType=VARCHAR},
+    #{isFrame,jdbcType=INTEGER}, #{menuType,jdbcType=CHAR}, #{visible,jdbcType=CHAR},
+    #{perms,jdbcType=VARCHAR}, #{icon,jdbcType=VARCHAR}, #{createBy,jdbcType=VARCHAR},
+    #{createTime,jdbcType=TIMESTAMP}, #{updateBy,jdbcType=VARCHAR}, #{updateTime,jdbcType=TIMESTAMP},
+    #{remark,jdbcType=VARCHAR}, #{status,jdbcType=VARCHAR})
+    on duplicate key update
+    menu_id = #{menuId,jdbcType=VARCHAR},
+    menu_name = #{menuName,jdbcType=VARCHAR},
+    parent_id = #{parentId,jdbcType=VARCHAR},
+    order_num = #{orderNum,jdbcType=INTEGER},
+    `path` = #{path,jdbcType=VARCHAR},
+    component = #{component,jdbcType=VARCHAR},
+    is_frame = #{isFrame,jdbcType=INTEGER},
+    menu_type = #{menuType,jdbcType=CHAR},
+    visible = #{visible,jdbcType=CHAR},
+    perms = #{perms,jdbcType=VARCHAR},
+    icon = #{icon,jdbcType=VARCHAR},
+    create_by = #{createBy,jdbcType=VARCHAR},
+    create_time = #{createTime,jdbcType=TIMESTAMP},
+    update_by = #{updateBy,jdbcType=VARCHAR},
+    update_time = #{updateTime,jdbcType=TIMESTAMP},
+    remark = #{remark,jdbcType=VARCHAR},
+    `status` = #{status,jdbcType=VARCHAR}
+  </insert>
+  <insert id="insertOrUpdateSelective" parameterType="com.fudian.project.system.pojo.SysMenu">
+    <!--@mbg.generated-->
+    insert into sys_menu
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="menuId != null">
+        menu_id,
+      </if>
+      <if test="menuName != null">
+        menu_name,
+      </if>
+      <if test="parentId != null">
+        parent_id,
+      </if>
+      <if test="orderNum != null">
+        order_num,
+      </if>
+      <if test="path != null">
+        `path`,
+      </if>
+      <if test="component != null">
+        component,
+      </if>
+      <if test="isFrame != null">
+        is_frame,
+      </if>
+      <if test="menuType != null">
+        menu_type,
+      </if>
+      <if test="visible != null">
+        visible,
+      </if>
+      <if test="perms != null">
+        perms,
+      </if>
+      <if test="icon != null">
+        icon,
+      </if>
+      <if test="createBy != null">
+        create_by,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="updateBy != null">
+        update_by,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+      <if test="remark != null">
+        remark,
+      </if>
+      <if test="status != null">
+        `status`,
+      </if>
+    </trim>
+    values
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="menuId != null">
+        #{menuId,jdbcType=VARCHAR},
+      </if>
+      <if test="menuName != null">
+        #{menuName,jdbcType=VARCHAR},
+      </if>
+      <if test="parentId != null">
+        #{parentId,jdbcType=VARCHAR},
+      </if>
+      <if test="orderNum != null">
+        #{orderNum,jdbcType=INTEGER},
+      </if>
+      <if test="path != null">
+        #{path,jdbcType=VARCHAR},
+      </if>
+      <if test="component != null">
+        #{component,jdbcType=VARCHAR},
+      </if>
+      <if test="isFrame != null">
+        #{isFrame,jdbcType=INTEGER},
+      </if>
+      <if test="menuType != null">
+        #{menuType,jdbcType=CHAR},
+      </if>
+      <if test="visible != null">
+        #{visible,jdbcType=CHAR},
+      </if>
+      <if test="perms != null">
+        #{perms,jdbcType=VARCHAR},
+      </if>
+      <if test="icon != null">
+        #{icon,jdbcType=VARCHAR},
+      </if>
+      <if test="createBy != null">
+        #{createBy,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateBy != null">
+        #{updateBy,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=VARCHAR},
+      </if>
+    </trim>
+    on duplicate key update
+    <trim suffixOverrides=",">
+      <if test="menuId != null">
+        menu_id = #{menuId,jdbcType=VARCHAR},
+      </if>
+      <if test="menuName != null">
+        menu_name = #{menuName,jdbcType=VARCHAR},
+      </if>
+      <if test="parentId != null">
+        parent_id = #{parentId,jdbcType=VARCHAR},
+      </if>
+      <if test="orderNum != null">
+        order_num = #{orderNum,jdbcType=INTEGER},
+      </if>
+      <if test="path != null">
+        `path` = #{path,jdbcType=VARCHAR},
+      </if>
+      <if test="component != null">
+        component = #{component,jdbcType=VARCHAR},
+      </if>
+      <if test="isFrame != null">
+        is_frame = #{isFrame,jdbcType=INTEGER},
+      </if>
+      <if test="menuType != null">
+        menu_type = #{menuType,jdbcType=CHAR},
+      </if>
+      <if test="visible != null">
+        visible = #{visible,jdbcType=CHAR},
+      </if>
+      <if test="perms != null">
+        perms = #{perms,jdbcType=VARCHAR},
+      </if>
+      <if test="icon != null">
+        icon = #{icon,jdbcType=VARCHAR},
+      </if>
+      <if test="createBy != null">
+        create_by = #{createBy,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateBy != null">
+        update_by = #{updateBy,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="remark != null">
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        `status` = #{status,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+
+
+  <select id="selectMenuTreeAll" resultMap="BaseResultMap">
+		select distinct m.menu_id, m.parent_id, m.menu_name, m.path, m.component, m.visible, ifnull(m.perms,'') as perms, m.is_frame, m.menu_type, m.icon, m.order_num, m.create_time
+		from sys_menu m where m.menu_type in ('M', 'C') and m.status='0'
+		order by m.parent_id, m.order_num
+	</select>
+</mapper>

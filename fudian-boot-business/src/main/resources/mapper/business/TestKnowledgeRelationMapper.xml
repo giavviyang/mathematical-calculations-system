@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.fudian.business.mapper.TestKnowledgeRelationMapper">
+
+    <!--批量添加-->
+    <insert id="batchAdd" parameterType="java.lang.Integer">
+        insert into test_knowledge_relation(test_id,classification_id,percentage) values
+        <foreach item="knowledge" collection="knowledges"  separator="," >
+            (#{testId},#{knowledge.classificationId},#{knowledge.percentage})
+        </foreach>
+    </insert>
+    <!--批量删除根据testId-->
+    <delete id="deleteByTestIds" parameterType="java.lang.String">
+        delete from test_knowledge_relation where test_id in
+        <foreach collection="testIds" item="testId" open="(" close=")" separator=",">
+            #{testId}
+        </foreach>
+    </delete>
+    <!--删除根据testId-->
+    <delete id="deleteByTestId" parameterType="java.lang.String">
+        delete from test_knowledge_relation where test_id = #{testId}
+    </delete>
+</mapper>

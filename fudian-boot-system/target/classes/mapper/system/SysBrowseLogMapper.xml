@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.fudian.project.system.mapper.SysBrowseLogMapper">
+  <resultMap id="BaseResultMap" type="com.fudian.api.system.pojo.SysBrowseLog">
+    <!--@mbg.generated-->
+    <!--@Table sys_browse_log-->
+    <id column="id" jdbcType="VARCHAR" property="id" />
+    <result column="user_id" jdbcType="VARCHAR" property="userId" />
+    <result column="user_name" jdbcType="VARCHAR" property="userName" />
+    <result column="a01_id" jdbcType="VARCHAR" property="a01Id" />
+    <result column="a0101" jdbcType="VARCHAR" property="a0101" />
+    <result column="dept_id" jdbcType="VARCHAR" property="deptId" />
+    <result column="dept_name" jdbcType="VARCHAR" property="deptName" />
+    <result column="e01z1_id" jdbcType="VARCHAR" property="e01z1Id" />
+    <result column="e01z111a" jdbcType="VARCHAR" property="e01z111a" />
+    <result column="operator_type" jdbcType="INTEGER" property="operatorType" />
+    <result column="oper_ip" jdbcType="VARCHAR" property="operIp" />
+    <result column="oper_location" jdbcType="VARCHAR" property="operLocation" />
+    <result column="oper_time" jdbcType="TIMESTAMP" property="operTime" />
+    <result column="detail" jdbcType="VARCHAR" property="detail" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    <!--@mbg.generated-->
+    id, user_id, user_name, a01_id, a0101, dept_id, dept_name, e01z1_id, e01z111a, operator_type,
+    oper_ip, oper_location, oper_time, detail
+  </sql>
+  <update id="updateByPrimaryKeySelective" parameterType="com.fudian.api.system.pojo.SysBrowseLog">
+    <!--@mbg.generated-->
+    update sys_browse_log
+    <set>
+      <if test="userId != null">
+        user_id = #{userId,jdbcType=VARCHAR},
+      </if>
+      <if test="userName != null">
+        user_name = #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="a01Id != null">
+        a01_id = #{a01Id,jdbcType=VARCHAR},
+      </if>
+      <if test="a0101 != null">
+        a0101 = #{a0101,jdbcType=VARCHAR},
+      </if>
+      <if test="deptId != null">
+        dept_id = #{deptId,jdbcType=VARCHAR},
+      </if>
+      <if test="deptName != null">
+        dept_name = #{deptName,jdbcType=VARCHAR},
+      </if>
+      <if test="e01z1Id != null">
+        e01z1_id = #{e01z1Id,jdbcType=VARCHAR},
+      </if>
+      <if test="e01z111a != null">
+        e01z111a = #{e01z111a,jdbcType=VARCHAR},
+      </if>
+      <if test="operatorType != null">
+        operator_type = #{operatorType,jdbcType=INTEGER},
+      </if>
+      <if test="operIp != null">
+        oper_ip = #{operIp,jdbcType=VARCHAR},
+      </if>
+      <if test="operLocation != null">
+        oper_location = #{operLocation,jdbcType=VARCHAR},
+      </if>
+      <if test="operTime != null">
+        oper_time = #{operTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="detail != null">
+        detail = #{detail,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.fudian.api.system.pojo.SysBrowseLog">
+    <!--@mbg.generated-->
+    update sys_browse_log
+    set user_id = #{userId,jdbcType=VARCHAR},
+      user_name = #{userName,jdbcType=VARCHAR},
+      a01_id = #{a01Id,jdbcType=VARCHAR},
+      a0101 = #{a0101,jdbcType=VARCHAR},
+      dept_id = #{deptId,jdbcType=VARCHAR},
+      dept_name = #{deptName,jdbcType=VARCHAR},
+      e01z1_id = #{e01z1Id,jdbcType=VARCHAR},
+      e01z111a = #{e01z111a,jdbcType=VARCHAR},
+      operator_type = #{operatorType,jdbcType=INTEGER},
+      oper_ip = #{operIp,jdbcType=VARCHAR},
+      oper_location = #{operLocation,jdbcType=VARCHAR},
+      oper_time = #{operTime,jdbcType=TIMESTAMP},
+      detail = #{detail,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateBatch" parameterType="java.util.List">
+    <!--@mbg.generated-->
+    update sys_browse_log
+    <trim prefix="set" suffixOverrides=",">
+      <trim prefix="user_id = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=VARCHAR} then #{item.userId,jdbcType=VARCHAR}
+        </foreach>
+      </trim>
+      <trim prefix="user_name = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=VARCHAR} then #{item.userName,jdbcType=VARCHAR}
+        </foreach>
+      </trim>
+      <trim prefix="a01_id = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=VARCHAR} then #{item.a01Id,jdbcType=VARCHAR}
+        </foreach>
+      </trim>
+      <trim prefix="a0101 = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=VARCHAR} then #{item.a0101,jdbcType=VARCHAR}
+        </foreach>
+      </trim>
+      <trim prefix="dept_id = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=VARCHAR} then #{item.deptId,jdbcType=VARCHAR}
+        </foreach>
+      </trim>
+      <trim prefix="dept_name = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=VARCHAR} then #{item.deptName,jdbcType=VARCHAR}
+        </foreach>
+      </trim>
+      <trim prefix="e01z1_id = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=VARCHAR} then #{item.e01z1Id,jdbcType=VARCHAR}
+        </foreach>
+      </trim>
+      <trim prefix="e01z111a = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=VARCHAR} then #{item.e01z111a,jdbcType=VARCHAR}
+        </foreach>
+      </trim>
+      <trim prefix="operator_type = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=VARCHAR} then #{item.operatorType,jdbcType=INTEGER}
+        </foreach>
+      </trim>
+      <trim prefix="oper_ip = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=VARCHAR} then #{item.operIp,jdbcType=VARCHAR}
+        </foreach>
+      </trim>
+      <trim prefix="oper_location = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=VARCHAR} then #{item.operLocation,jdbcType=VARCHAR}
+        </foreach>
+      </trim>
+      <trim prefix="oper_time = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=VARCHAR} then #{item.operTime,jdbcType=TIMESTAMP}
+        </foreach>
+      </trim>
+      <trim prefix="detail = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=VARCHAR} then #{item.detail,jdbcType=VARCHAR}
+        </foreach>
+      </trim>
+    </trim>
+    where id in
+    <foreach close=")" collection="list" item="item" open="(" separator=", ">
+      #{item.id,jdbcType=VARCHAR}
+    </foreach>
+  </update>
+  <insert id="batchInsert" parameterType="map">
+    <!--@mbg.generated-->
+    insert into sys_browse_log
+    (id, user_id, user_name, a01_id, a0101, dept_id, dept_name, e01z1_id, e01z111a, operator_type,
+      oper_ip, oper_location, oper_time, detail)
+    values
+    <foreach collection="list" item="item" separator=",">
+      (#{item.id,jdbcType=VARCHAR}, #{item.userId,jdbcType=VARCHAR}, #{item.userName,jdbcType=VARCHAR},
+        #{item.a01Id,jdbcType=VARCHAR}, #{item.a0101,jdbcType=VARCHAR}, #{item.deptId,jdbcType=VARCHAR},
+        #{item.deptName,jdbcType=VARCHAR}, #{item.e01z1Id,jdbcType=VARCHAR}, #{item.e01z111a,jdbcType=VARCHAR},
+        #{item.operatorType,jdbcType=INTEGER}, #{item.operIp,jdbcType=VARCHAR}, #{item.operLocation,jdbcType=VARCHAR},
+        #{item.operTime,jdbcType=TIMESTAMP}, #{item.detail,jdbcType=VARCHAR})
+    </foreach>
+  </insert>
+</mapper>

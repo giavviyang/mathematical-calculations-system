@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.fudian.project.ams.mapper.E01zcMapper">
+  <resultMap id="BaseResultMap" type="com.fudian.project.ams.pojo.E01zc">
+    <!--@mbg.generated-->
+    <!--@Table e01zc-->
+    <id column="id" jdbcType="VARCHAR" property="id" />
+    <result column="org_id" jdbcType="VARCHAR" property="orgId" />
+    <result column="user_id" jdbcType="VARCHAR" property="userId" />
+    <result column="user_name" jdbcType="VARCHAR" property="userName" />
+    <result column="duty" jdbcType="VARCHAR" property="duty" />
+    <result column="politcy" jdbcType="VARCHAR" property="politcy" />
+    <result column="e01z824a" jdbcType="VARCHAR" property="e01z824a" />
+    <result column="e01z824b" jdbcType="VARCHAR" property="e01z824b" />
+    <result column="e01z831" jdbcType="VARCHAR" property="e01z831" />
+    <result column="target" jdbcType="VARCHAR" property="target" />
+    <result column="approv_time" jdbcType="TIMESTAMP" property="approvTime" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+    <result column="user_card" jdbcType="VARCHAR" property="userCard" />
+    <result column="user_phone" jdbcType="VARCHAR" property="userPhone" />
+    <result column="application_reasons" jdbcType="VARCHAR" property="applicationReasons" />
+    <result column="rela_num" jdbcType="INTEGER" property="relaNum" />
+    <result column="approver" jdbcType="VARCHAR" property="approver" />
+    <result column="person_charge" jdbcType="VARCHAR" property="personCharge" />
+    <result column="approver_date" jdbcType="TIMESTAMP" property="approverDate" />
+    <result column="approver_opinion" jdbcType="VARCHAR" property="approverOpinion" />
+    <result column="user_code" jdbcType="VARCHAR" property="userCode" />
+    <result column="print_remark" jdbcType="VARCHAR" property="printRemark" />
+    <result column="end_date" jdbcType="TIMESTAMP" property="endDate" />
+    <result column="type" jdbcType="VARCHAR" property="type" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    <!--@mbg.generated-->
+    id, org_id, user_id, user_name, duty, politcy, e01z824a, e01z824b, e01z831, target, 
+    approv_time, `status`, user_card, user_phone, application_reasons, rela_num, approver, 
+    person_charge, approver_date, approver_opinion, user_code, print_remark, end_date, 
+    `type`
+  </sql>
+  <select id="summaryE01zc" resultType="java.util.Map">
+    SELECT
+      COUNT(e01zc.`id`) AS 'batchNum',
+      LEFT(DATE_FORMAT(e01zc.`approv_time`,'%Y-%m-%d %H:%i:%s'),4) AS 'year',
+      SUM(e01zc.`rela_num`) AS 'num'
+    FROM e01zc GROUP BY LEFT(DATE_FORMAT(e01zc.`approv_time`,'%Y-%m-%d %H:%i:%s'),4)
+  </select>
+</mapper>

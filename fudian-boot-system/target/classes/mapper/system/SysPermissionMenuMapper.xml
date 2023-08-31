@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.fudian.project.system.mapper.SysPermissionMenuMapper">
+  <resultMap id="BaseResultMap" type="com.fudian.project.system.pojo.SysPermissionMenu">
+    <!--@mbg.generated-->
+    <!--@Table sys_permission_menu-->
+    <id column="permission_id" property="permissionId" />
+    <id column="menu_id" property="menuId" />
+  </resultMap>
+  <update id="updateBatch" parameterType="java.util.List">
+    <!--@mbg.generated-->
+    update sys_permission_menu
+    <trim prefix="set" suffixOverrides="," />
+    where permission_id in
+    <foreach close=")" collection="list" item="item" open="(" separator=", ">
+      #{item.permissionId}
+    </foreach>
+  </update>
+  <insert id="batchInsert" parameterType="map">
+    <!--@mbg.generated-->
+    insert into sys_permission_menu
+    (permission_id, menu_id)
+    values
+    <foreach collection="list" item="item" separator=",">
+      (#{item.permissionId}, #{item.menuId})
+    </foreach>
+  </insert>
+  <insert id="insertOrUpdate" parameterType="com.fudian.project.system.pojo.SysPermissionMenu">
+    <!--@mbg.generated-->
+    insert into sys_permission_menu
+    (permission_id, menu_id)
+    values
+    (#{permissionId}, #{menuId})
+    on duplicate key update 
+    permission_id = #{permissionId}, 
+    menu_id = #{menuId}
+  </insert>
+  <insert id="insertOrUpdateSelective" parameterType="com.fudian.project.system.pojo.SysPermissionMenu">
+    <!--@mbg.generated-->
+    insert into sys_permission_menu
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="permissionId != null">
+        permission_id,
+      </if>
+      <if test="menuId != null">
+        menu_id,
+      </if>
+    </trim>
+    values
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="permissionId != null">
+        #{permissionId},
+      </if>
+      <if test="menuId != null">
+        #{menuId},
+      </if>
+    </trim>
+    on duplicate key update 
+    <trim suffixOverrides=",">
+      <if test="permissionId != null">
+        permission_id = #{permissionId},
+      </if>
+      <if test="menuId != null">
+        menu_id = #{menuId},
+      </if>
+    </trim>
+  </insert>
+  
+  <select id="selectSysPermissionMenuByPermissionId" parameterType="String" resultType="String">
+    select menu_id from sys_permission_menu where permission_id = #{permissionId}
+  </select>
+</mapper>

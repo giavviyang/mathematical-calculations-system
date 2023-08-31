@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.fudian.business.mapper.GoodsListMapper">
+    <select id="getGoodsList" parameterType="com.fudian.business.pojo.GoodsList" resultType="java.util.Map">
+        select
+        goods_list.goods_id as goodsId,
+        goods_list.goods_name as goodsName,
+        goods_list.goods_imge as goodsImge,
+        goods_list.goods_coins as goodsCoins,
+        goods_list.goods_num as goodsNum,
+        goods_list.goods_type as goodsType,
+        goods_list.goods_describe as goodsDescribe,
+        applet_file.file_data as fileData,
+        applet_file.file_format as fileFormat,
+        applet_file.id as fileId
+         from goods_list
+        left join applet_file
+        on goods_list.goods_imge = applet_file.id
+        <where>
+            <if test="goodsName != null and goodsName!=''">
+                and goods_list.goods_name  LIKE CONCAT("%",#{goodsName}, "%")
+            </if>
+        </where>
+    </select>
+</mapper>

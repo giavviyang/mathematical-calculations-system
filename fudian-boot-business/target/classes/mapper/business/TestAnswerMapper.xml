@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.fudian.business.mapper.TestAnswerMapper">
+    <!--批量删除根据testId-->
+    <delete id="deleteByTestIds" parameterType="java.lang.String">
+        delete from test_answer where test_id in
+        <foreach collection="testIds" item="testId" open="(" close=")" separator=",">
+            #{testId}
+        </foreach>
+    </delete>
+    <!--删除根据testId-->
+    <delete id="deleteByTestId" parameterType="java.lang.String">
+        delete from test_answer where test_id = #{testId}
+    </delete>
+    <!--删除学生没有答题的题-->
+    <delete id="removeAbandonExercises" parameterType="java.lang.String">
+        delete from test_answer
+        where batch_id in (
+            select a.id from (
+                select batch_id id from test_answer
+                where student_id = #{studentId}
+                and (student_answers = '' or ISNULL(student_answers))
+			) a
+        )
+
+    </delete>
+</mapper>

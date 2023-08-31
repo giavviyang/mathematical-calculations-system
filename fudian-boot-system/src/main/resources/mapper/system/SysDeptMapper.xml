@@ -1,0 +1,512 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.fudian.project.system.mapper.SysDeptMapper">
+  <resultMap id="BaseResultMap" type="com.fudian.api.system.pojo.SysDept">
+    <!--@mbg.generated-->
+    <!--@Table sys_dept-->
+    <id column="id" jdbcType="VARCHAR" property="id" />
+    <result column="parent_id" jdbcType="VARCHAR" property="parentId" />
+    <result column="ancestors" jdbcType="VARCHAR" property="ancestors" />
+    <result column="dept_name" jdbcType="VARCHAR" property="deptName" />
+    <result column="order_num" jdbcType="INTEGER" property="orderNum" />
+    <result column="leader" jdbcType="VARCHAR" property="leader" />
+    <result column="phone" jdbcType="VARCHAR" property="phone" />
+    <result column="email" jdbcType="VARCHAR" property="email" />
+    <result column="status" jdbcType="CHAR" property="status" />
+    <result column="del_flag" jdbcType="CHAR" property="delFlag" />
+    <result column="create_by" jdbcType="VARCHAR" property="createBy" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="update_by" jdbcType="VARCHAR" property="updateBy" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="dept_pym" jdbcType="VARCHAR" property="deptPym" />
+    <result column="dept_type" jdbcType="INTEGER" property="deptType" />
+    <result column="dept_number" jdbcType="VARCHAR" property="deptNumber" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    <!--@mbg.generated-->
+    id, parent_id, ancestors, dept_name, order_num, leader, phone, email, `status`, del_flag,
+    create_by, create_time, update_by, update_time, dept_pym, dept_type, dept_number,
+    remark
+  </sql>
+  <update id="updateBatch" parameterType="java.util.List">
+    <!--@mbg.generated-->
+    update sys_dept
+    <trim prefix="set" suffixOverrides=",">
+      <trim prefix="parent_id = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=VARCHAR} then #{item.parentId,jdbcType=VARCHAR}
+        </foreach>
+      </trim>
+      <trim prefix="ancestors = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=VARCHAR} then #{item.ancestors,jdbcType=VARCHAR}
+        </foreach>
+      </trim>
+      <trim prefix="dept_name = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=VARCHAR} then #{item.deptName,jdbcType=VARCHAR}
+        </foreach>
+      </trim>
+      <trim prefix="order_num = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=VARCHAR} then #{item.orderNum,jdbcType=INTEGER}
+        </foreach>
+      </trim>
+      <trim prefix="leader = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=VARCHAR} then #{item.leader,jdbcType=VARCHAR}
+        </foreach>
+      </trim>
+      <trim prefix="phone = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=VARCHAR} then #{item.phone,jdbcType=VARCHAR}
+        </foreach>
+      </trim>
+      <trim prefix="email = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=VARCHAR} then #{item.email,jdbcType=VARCHAR}
+        </foreach>
+      </trim>
+      <trim prefix="`status` = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=VARCHAR} then #{item.status,jdbcType=CHAR}
+        </foreach>
+      </trim>
+      <trim prefix="del_flag = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=VARCHAR} then #{item.delFlag,jdbcType=CHAR}
+        </foreach>
+      </trim>
+      <trim prefix="create_by = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=VARCHAR} then #{item.createBy,jdbcType=VARCHAR}
+        </foreach>
+      </trim>
+      <trim prefix="create_time = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=VARCHAR} then #{item.createTime,jdbcType=TIMESTAMP}
+        </foreach>
+      </trim>
+      <trim prefix="update_by = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=VARCHAR} then #{item.updateBy,jdbcType=VARCHAR}
+        </foreach>
+      </trim>
+      <trim prefix="update_time = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=VARCHAR} then #{item.updateTime,jdbcType=TIMESTAMP}
+        </foreach>
+      </trim>
+      <trim prefix="dept_pym = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=VARCHAR} then #{item.deptPym,jdbcType=VARCHAR}
+        </foreach>
+      </trim>
+      <trim prefix="dept_type = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=VARCHAR} then #{item.deptType,jdbcType=INTEGER}
+        </foreach>
+      </trim>
+      <trim prefix="dept_number = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=VARCHAR} then #{item.deptNumber,jdbcType=VARCHAR}
+        </foreach>
+      </trim>
+      <trim prefix="remark = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=VARCHAR} then #{item.remark,jdbcType=VARCHAR}
+        </foreach>
+      </trim>
+    </trim>
+    where id in
+    <foreach close=")" collection="list" item="item" open="(" separator=", ">
+      #{item.id,jdbcType=VARCHAR}
+    </foreach>
+  </update>
+  <update id="updateBatchSelective" parameterType="java.util.List">
+    <!--@mbg.generated-->
+    update sys_dept
+    <trim prefix="set" suffixOverrides=",">
+      <trim prefix="parent_id = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          <if test="item.parentId != null">
+            when id = #{item.id,jdbcType=VARCHAR} then #{item.parentId,jdbcType=VARCHAR}
+          </if>
+        </foreach>
+      </trim>
+      <trim prefix="ancestors = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          <if test="item.ancestors != null">
+            when id = #{item.id,jdbcType=VARCHAR} then #{item.ancestors,jdbcType=VARCHAR}
+          </if>
+        </foreach>
+      </trim>
+      <trim prefix="dept_name = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          <if test="item.deptName != null">
+            when id = #{item.id,jdbcType=VARCHAR} then #{item.deptName,jdbcType=VARCHAR}
+          </if>
+        </foreach>
+      </trim>
+      <trim prefix="order_num = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          <if test="item.orderNum != null">
+            when id = #{item.id,jdbcType=VARCHAR} then #{item.orderNum,jdbcType=INTEGER}
+          </if>
+        </foreach>
+      </trim>
+      <trim prefix="leader = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          <if test="item.leader != null">
+            when id = #{item.id,jdbcType=VARCHAR} then #{item.leader,jdbcType=VARCHAR}
+          </if>
+        </foreach>
+      </trim>
+      <trim prefix="phone = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          <if test="item.phone != null">
+            when id = #{item.id,jdbcType=VARCHAR} then #{item.phone,jdbcType=VARCHAR}
+          </if>
+        </foreach>
+      </trim>
+      <trim prefix="email = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          <if test="item.email != null">
+            when id = #{item.id,jdbcType=VARCHAR} then #{item.email,jdbcType=VARCHAR}
+          </if>
+        </foreach>
+      </trim>
+      <trim prefix="`status` = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          <if test="item.status != null">
+            when id = #{item.id,jdbcType=VARCHAR} then #{item.status,jdbcType=CHAR}
+          </if>
+        </foreach>
+      </trim>
+      <trim prefix="del_flag = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          <if test="item.delFlag != null">
+            when id = #{item.id,jdbcType=VARCHAR} then #{item.delFlag,jdbcType=CHAR}
+          </if>
+        </foreach>
+      </trim>
+      <trim prefix="create_by = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          <if test="item.createBy != null">
+            when id = #{item.id,jdbcType=VARCHAR} then #{item.createBy,jdbcType=VARCHAR}
+          </if>
+        </foreach>
+      </trim>
+      <trim prefix="create_time = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          <if test="item.createTime != null">
+            when id = #{item.id,jdbcType=VARCHAR} then #{item.createTime,jdbcType=TIMESTAMP}
+          </if>
+        </foreach>
+      </trim>
+      <trim prefix="update_by = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          <if test="item.updateBy != null">
+            when id = #{item.id,jdbcType=VARCHAR} then #{item.updateBy,jdbcType=VARCHAR}
+          </if>
+        </foreach>
+      </trim>
+      <trim prefix="update_time = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          <if test="item.updateTime != null">
+            when id = #{item.id,jdbcType=VARCHAR} then #{item.updateTime,jdbcType=TIMESTAMP}
+          </if>
+        </foreach>
+      </trim>
+      <trim prefix="dept_pym = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          <if test="item.deptPym != null">
+            when id = #{item.id,jdbcType=VARCHAR} then #{item.deptPym,jdbcType=VARCHAR}
+          </if>
+        </foreach>
+      </trim>
+      <trim prefix="dept_type = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          <if test="item.deptType != null">
+            when id = #{item.id,jdbcType=VARCHAR} then #{item.deptType,jdbcType=INTEGER}
+          </if>
+        </foreach>
+      </trim>
+      <trim prefix="dept_number = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          <if test="item.deptNumber != null">
+            when id = #{item.id,jdbcType=VARCHAR} then #{item.deptNumber,jdbcType=VARCHAR}
+          </if>
+        </foreach>
+      </trim>
+      <trim prefix="remark = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          <if test="item.remark != null">
+            when id = #{item.id,jdbcType=VARCHAR} then #{item.remark,jdbcType=VARCHAR}
+          </if>
+        </foreach>
+      </trim>
+    </trim>
+    where id in
+    <foreach close=")" collection="list" item="item" open="(" separator=", ">
+      #{item.id,jdbcType=VARCHAR}
+    </foreach>
+  </update>
+  <insert id="batchInsert" parameterType="map">
+    <!--@mbg.generated-->
+    insert into sys_dept
+    (id, parent_id, ancestors, dept_name, order_num, leader, phone, email, `status`,
+    del_flag, create_by, create_time, update_by, update_time, dept_pym, dept_type,
+    dept_number, remark)
+    values
+    <foreach collection="list" item="item" separator=",">
+      (#{item.id,jdbcType=VARCHAR}, #{item.parentId,jdbcType=VARCHAR}, #{item.ancestors,jdbcType=VARCHAR},
+      #{item.deptName,jdbcType=VARCHAR}, #{item.orderNum,jdbcType=INTEGER}, #{item.leader,jdbcType=VARCHAR},
+      #{item.phone,jdbcType=VARCHAR}, #{item.email,jdbcType=VARCHAR}, #{item.status,jdbcType=CHAR},
+      #{item.delFlag,jdbcType=CHAR}, #{item.createBy,jdbcType=VARCHAR}, #{item.createTime,jdbcType=TIMESTAMP},
+      #{item.updateBy,jdbcType=VARCHAR}, #{item.updateTime,jdbcType=TIMESTAMP}, #{item.deptPym,jdbcType=VARCHAR},
+      #{item.deptType,jdbcType=INTEGER}, #{item.deptNumber,jdbcType=VARCHAR}, #{item.remark,jdbcType=VARCHAR}
+      )
+    </foreach>
+  </insert>
+  <insert id="insertOrUpdate" parameterType="com.fudian.api.system.pojo.SysDept">
+    <!--@mbg.generated-->
+    insert into sys_dept
+    (id, parent_id, ancestors, dept_name, order_num, leader, phone, email, `status`,
+    del_flag, create_by, create_time, update_by, update_time, dept_pym, dept_type,
+    dept_number, remark)
+    values
+    (#{id,jdbcType=VARCHAR}, #{parentId,jdbcType=VARCHAR}, #{ancestors,jdbcType=VARCHAR},
+    #{deptName,jdbcType=VARCHAR}, #{orderNum,jdbcType=INTEGER}, #{leader,jdbcType=VARCHAR},
+    #{phone,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, #{status,jdbcType=CHAR},
+    #{delFlag,jdbcType=CHAR}, #{createBy,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP},
+    #{updateBy,jdbcType=VARCHAR}, #{updateTime,jdbcType=TIMESTAMP}, #{deptPym,jdbcType=VARCHAR},
+    #{deptType,jdbcType=INTEGER}, #{deptNumber,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}
+    )
+    on duplicate key update
+    id = #{id,jdbcType=VARCHAR},
+    parent_id = #{parentId,jdbcType=VARCHAR},
+    ancestors = #{ancestors,jdbcType=VARCHAR},
+    dept_name = #{deptName,jdbcType=VARCHAR},
+    order_num = #{orderNum,jdbcType=INTEGER},
+    leader = #{leader,jdbcType=VARCHAR},
+    phone = #{phone,jdbcType=VARCHAR},
+    email = #{email,jdbcType=VARCHAR},
+    `status` = #{status,jdbcType=CHAR},
+    del_flag = #{delFlag,jdbcType=CHAR},
+    create_by = #{createBy,jdbcType=VARCHAR},
+    create_time = #{createTime,jdbcType=TIMESTAMP},
+    update_by = #{updateBy,jdbcType=VARCHAR},
+    update_time = #{updateTime,jdbcType=TIMESTAMP},
+    dept_pym = #{deptPym,jdbcType=VARCHAR},
+    dept_type = #{deptType,jdbcType=INTEGER},
+    dept_number = #{deptNumber,jdbcType=VARCHAR},
+    remark = #{remark,jdbcType=VARCHAR}
+  </insert>
+  <insert id="insertOrUpdateSelective" parameterType="com.fudian.api.system.pojo.SysDept">
+    <!--@mbg.generated-->
+    insert into sys_dept
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="parentId != null">
+        parent_id,
+      </if>
+      <if test="ancestors != null">
+        ancestors,
+      </if>
+      <if test="deptName != null">
+        dept_name,
+      </if>
+      <if test="orderNum != null">
+        order_num,
+      </if>
+      <if test="leader != null">
+        leader,
+      </if>
+      <if test="phone != null">
+        phone,
+      </if>
+      <if test="email != null">
+        email,
+      </if>
+      <if test="status != null">
+        `status`,
+      </if>
+      <if test="delFlag != null">
+        del_flag,
+      </if>
+      <if test="createBy != null">
+        create_by,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="updateBy != null">
+        update_by,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+      <if test="deptPym != null">
+        dept_pym,
+      </if>
+      <if test="deptType != null">
+        dept_type,
+      </if>
+      <if test="deptNumber != null">
+        dept_number,
+      </if>
+      <if test="remark != null">
+        remark,
+      </if>
+    </trim>
+    values
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="parentId != null">
+        #{parentId,jdbcType=VARCHAR},
+      </if>
+      <if test="ancestors != null">
+        #{ancestors,jdbcType=VARCHAR},
+      </if>
+      <if test="deptName != null">
+        #{deptName,jdbcType=VARCHAR},
+      </if>
+      <if test="orderNum != null">
+        #{orderNum,jdbcType=INTEGER},
+      </if>
+      <if test="leader != null">
+        #{leader,jdbcType=VARCHAR},
+      </if>
+      <if test="phone != null">
+        #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null">
+        #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=CHAR},
+      </if>
+      <if test="delFlag != null">
+        #{delFlag,jdbcType=CHAR},
+      </if>
+      <if test="createBy != null">
+        #{createBy,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateBy != null">
+        #{updateBy,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="deptPym != null">
+        #{deptPym,jdbcType=VARCHAR},
+      </if>
+      <if test="deptType != null">
+        #{deptType,jdbcType=INTEGER},
+      </if>
+      <if test="deptNumber != null">
+        #{deptNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=VARCHAR},
+      </if>
+    </trim>
+    on duplicate key update
+    <trim suffixOverrides=",">
+      <if test="id != null">
+        id = #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="parentId != null">
+        parent_id = #{parentId,jdbcType=VARCHAR},
+      </if>
+      <if test="ancestors != null">
+        ancestors = #{ancestors,jdbcType=VARCHAR},
+      </if>
+      <if test="deptName != null">
+        dept_name = #{deptName,jdbcType=VARCHAR},
+      </if>
+      <if test="orderNum != null">
+        order_num = #{orderNum,jdbcType=INTEGER},
+      </if>
+      <if test="leader != null">
+        leader = #{leader,jdbcType=VARCHAR},
+      </if>
+      <if test="phone != null">
+        phone = #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null">
+        email = #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        `status` = #{status,jdbcType=CHAR},
+      </if>
+      <if test="delFlag != null">
+        del_flag = #{delFlag,jdbcType=CHAR},
+      </if>
+      <if test="createBy != null">
+        create_by = #{createBy,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateBy != null">
+        update_by = #{updateBy,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="deptPym != null">
+        dept_pym = #{deptPym,jdbcType=VARCHAR},
+      </if>
+      <if test="deptType != null">
+        dept_type = #{deptType,jdbcType=INTEGER},
+      </if>
+      <if test="deptNumber != null">
+        dept_number = #{deptNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null">
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="getIdByDeptName" parameterType="java.util.Map" resultType="com.fudian.api.system.pojo.SysDept">
+        select * from
+        sys_dept
+		left join (
+            select id,dept_name,parent_id from sys_dept
+        )d2
+        on sys_dept.parent_id = d2.id
+		left join (
+            select id,dept_name,parent_id from sys_dept where parent_id='000'
+        )d3
+        on d2.parent_id = d3.id
+        <where>
+            <if test="map.className!=null and map.className!=''">
+              and sys_dept.dept_name = #{map.className}
+            </if>
+          <if test="map.gradeName!=null and map.gradeName!=''">
+            and d2.dept_name= #{map.gradeName}
+          </if>
+          <if test="map.schoolName!=null and map.schoolName!=''">
+            and d3.dept_name = #{map.schoolName}
+          </if>
+        </where>
+  </select>
+
+  <select id="selectSchoolId" parameterType="string" resultType="string">
+        SELECT substring_index(substring_index( ancestors, ',', 2 ),',',-1)
+        FROM sys_dept
+        where id = #{classId}
+  </select>
+
+
+</mapper>

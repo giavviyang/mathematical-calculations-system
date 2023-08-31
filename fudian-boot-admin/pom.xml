@@ -1,0 +1,201 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>fudian-boot-parent</artifactId>
+        <groupId>com.fudian</groupId>
+        <version>1.0-SNAPSHOT</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+    <packaging>war</packaging>
+    <!-- <packaging>war</packaging> -->
+    <artifactId>fudian-boot-admin</artifactId>
+    <description>项目容器,负责集成各个模块</description>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter</artifactId>
+<!--            <exclusions>-->
+<!--                <exclusion>-->
+<!--                    <artifactId>spring-boot-starter-tomcat</artifactId>-->
+<!--                    <groupId>org.springframework.boot</groupId>-->
+<!--                </exclusion>-->
+<!--            </exclusions>-->
+        </dependency>
+        <dependency>
+            <groupId>com.fudian</groupId>
+            <artifactId>fudian-boot-framework</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>com.fudian</groupId>
+            <artifactId>fudian-boot-system</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>com.fudian</groupId>
+            <artifactId>fudian-boot-ams</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+
+        <!--打war包时使用-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-tomcat</artifactId>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.springframework.boot</groupId>
+                    <artifactId>spring-boot-starter-tomcat</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+
+
+
+    </dependencies>
+    <!--一体式打包-->
+    <!--<build>
+        <finalName>standard-v3.1.1</finalName>
+        <plugins>
+            &lt;!&ndash; 指定启动类，将依赖打成外部jar包 &ndash;&gt;
+            <plugin>
+                &lt;!&ndash;主要使用的是maven提供的assembly插件完成&ndash;&gt;
+                <artifactId>maven-assembly-plugin</artifactId>
+                <configuration>
+                    <descriptors>
+                        &lt;!&ndash;具体的配置文件&ndash;&gt;
+                        <descriptor>src/main/assembly/assembly.xml</descriptor>
+                    </descriptors>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>make-assembly</id>
+                        &lt;!&ndash;绑定到maven操作类型上&ndash;&gt;
+                        <phase>package</phase>
+                        &lt;!&ndash;运行一次&ndash;&gt;
+                        <goals>
+                            <goal>single</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
+            &lt;!&ndash;             分离lib &ndash;&gt;
+            <plugin>
+                &lt;!&ndash;这个插件就是把依赖的jar包复制出来放到编译后的target/lib目录，并且在打包时候排除内部依赖&ndash;&gt;
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-dependency-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>copy-dependencies</id>
+                        <phase>prepare-package</phase>
+                        <goals>
+                            <goal>copy-dependencies</goal>
+                        </goals>
+                        <configuration>
+                            <outputDirectory>${project.build.directory}/lib</outputDirectory>
+                            <overWriteReleases>false</overWriteReleases>
+                            <overWriteSnapshots>false</overWriteSnapshots>
+                            <overWriteIfNewer>true</overWriteIfNewer>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            &lt;!&ndash; 分离资源文件 &ndash;&gt;
+            <plugin>
+                <artifactId>maven-resources-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>copy-resources</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>copy-resources</goal>
+                        </goals>
+                        <configuration>
+                            <resources>
+                                <resource>
+                                    <directory>src/main/resources</directory>
+                                </resource>
+                            </resources>
+                            <outputDirectory>${project.build.directory}/resources</outputDirectory>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            &lt;!&ndash;打包jar&ndash;&gt;
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <configuration>
+                    <archive>
+                        &lt;!&ndash; 指定资源文件目录，与打包的jar文件同级目录 &ndash;&gt;
+                        <manifestEntries>
+                            <Class-Path>../resources/</Class-Path>
+                        </manifestEntries>
+                        <manifest>
+                            <addClasspath>true</addClasspath>
+                            &lt;!&ndash;                            <classpathPrefix>lib/</classpathPrefix>&ndash;&gt;
+                            <classpathPrefix>./</classpathPrefix>
+                            <mainClass>com.fudian.MainApplication</mainClass>
+                        </manifest>
+                    </archive>
+                    &lt;!&ndash; 打包时忽略的文件（也就是不打进jar包里的文件），本例将resources下的.yml、.xml、.db文件全部排除 &ndash;&gt;
+                    <excludes>
+                        <exclude>**/*.yml</exclude>
+                        <exclude>**/*.xml</exclude>
+                        <exclude>**/*.db</exclude>
+                        <exclude>mapper/**/*.xml</exclude>
+                        <exclude>static/**</exclude>
+                        <exclude>templates/**</exclude>
+                    </excludes>
+                </configuration>
+            </plugin>
+            &lt;!&ndash; spring boot repackage &ndash;&gt;
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <configuration>
+                    <layout>ZIP</layout>
+                    <includes>
+                        <include>
+                            <groupId>non-exists</groupId>
+                            <artifactId>non-exists</artifactId>
+                        </include>
+                    </includes>
+                </configuration>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>repackage</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>-->
+
+    <!--打war-->
+    <build>
+        <finalName>daxt</finalName>
+        <plugins>
+            <!--打war-->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-war-plugin</artifactId>
+                <version>3.1.0</version>
+                <configuration>
+                    <failOnMissingWebXml>false</failOnMissingWebXml>
+                    <warName>${project.build.finalName}</warName>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+
+</project>

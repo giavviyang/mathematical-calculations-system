@@ -1,0 +1,215 @@
+fudian:
+  data:
+    store:
+      name: session
+      #可选项：session redis 配置成session之后手动设置的超时时间将失效
+#      name: redis
+
+#http:
+#  port: 8081
+server:
+  port: 8081
+  ssl:
+    key-store: classpath:7258588_www.fudian.co.pfx
+    enabled: true
+    key-store-type: PKCS12
+    key-alias: alias
+    key-store-password: KCkiB181
+#    key-store: classpath:6870577_shuxuejisuan-api.sinmore.vip.pfx
+#    enabled: true
+#    key-store-type: PKCS12
+#    key-alias: alias
+#    key-store-password: mr1F56Jq
+#    key-alias: tomcathttps
+#    key-store-password: fudian_8507
+
+
+  tomcat:
+    # tomcat的URI编码
+    uri-encoding: UTF-8
+    # tomcat最大线程数，默认为200
+    max-threads: 800
+    # Tomcat启动初始化的线程数，默认值25
+    min-spare-threads: 30
+    max-http-post-size: 0
+  servlet:
+    session:
+      timeout: PT120M
+# Spring配置
+spring:
+  # 资源信息
+  messages:
+    # 国际化资源文件路径
+    basename: i18n/messages
+  profiles:
+    active: dev
+  # 文件上传
+  servlet:
+    multipart:
+      # 单个文件大小
+      max-file-size:  50MB
+      # 设置总上传的文件大小
+      max-request-size:  100MB
+  # 服务模块
+  devtools:
+    restart:
+      # 热部署开关
+      enabled: true
+  # redis 配置
+  redis:
+    # 地址
+#    host: 182.92.223.133
+#    host: 192.168.0.103
+    host: 127.0.0.1
+#    host: 127.0.0.1
+    # 端口，默认为6379
+    port: 6379
+    # 连接超时时间
+    timeout: 60s
+    lettuce:
+      pool:
+        # 连接池中的最小空闲连接
+        min-idle: 0
+        # 连接池中的最大空闲连接
+        max-idle: 8
+        # 连接池的最大数据库连接数
+        max-active: 8
+        # #连接池最大阻塞等待时间（使用负值表示没有限制）
+        max-wait: -1ms
+#    password: root
+#    requirePass: root
+# 时区配置
+  jackson:
+    time-zone: GMT+8
+
+# 日志配置
+
+
+
+#mybatis plus 设置
+mybatis-plus:
+  # 搜索指定包别名
+  #  typeAliasesPackage: org.hou
+  # 配置mapper的扫描，找到所有的mapper.xml映射文件
+  mapperLocations: classpath*:mapper/**/*Mapper.xml
+  global-config:
+    # 关闭MP3.0自带的banner
+    banner: false
+    #字段策略 0:"忽略判断",1:"非 NULL 判断"),2:"非空判断"
+    field-strategy: 2
+    #驼峰下划线转换
+    db-column-underline: true
+    #刷新mapper 调试神器
+    refresh-mapper: true
+    db-config:
+      #主键类型  0:"数据库ID自增",1:"该类型为未设置主键类型", 2:"用户输入ID",3:"全局唯一ID (数字类型唯一ID)", 4:"全局唯一ID UUID",5:"字符串全局唯一ID (idWorker 的字符串表示)";
+      id-type: 4
+      # 默认数据库表下划线命名
+      table-underline: true
+#      db-type: oracle
+#      schema: DAXT
+
+#  configuration:
+    # 这个配置会将执行的sql打印出来，在开发或测试的时候可以用
+#    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+    # 返回类型为Map,显示null对应的字段
+#    call-setters-on-nulls: true
+    # 数据库类型
+#    database-id: ${mybatis-plus.global-config.db-config.db-type}
+#    jdbc-type-for-null: varchar
+
+# PageHelper分页插件
+pagehelper:
+  helperDialect: mysql
+  reasonable: true
+  supportMethodsArguments: true
+  params: count=countSql
+
+
+# token配置
+token:
+  # 令牌自定义标识
+  header: Authorization
+  # 令牌秘钥
+  secret: abcdefghijklmnopqrstuvwxyz
+  # 令牌有效期（默认30分钟）
+  expireTime: 120
+
+license:
+  #公钥位置
+#  pubKeyPath: /Users/mr.hou/home/fudian/rsa.pub
+#  pubKeyPath: /static/publicKey/rsa.pub
+  pubKeyPath: /Users/lutao/JetBrainsProjects/IdeaProjects/key/rsa.pub
+fileStorage:
+  type: FTP   # FastDFS MongoDB  LOCAL  FTP SGCC_NJ
+  localPath: /user/fileStorage  #本地上传位置   type为Local的时候配置
+
+
+# 防止XSS攻击
+xss:
+  # 过滤开关
+  enabled: true
+  # 排除链接（多个用逗号分隔）
+  excludes: /system/notice/*
+  # 匹配链接
+  urlPatterns: /system/*,/monitor/*,/tool/*
+
+secure:
+  ignored:
+    urls: #安全路径白名单
+      - /swagger-ui.html
+      - /swagger-resources/**
+      - /swagger/**
+      - /**/v2/api-docs
+      - /**/*.js
+      - /**/*.css
+      - /**/*.png
+      - /**/*.ico
+      - /webjars/springfox-swagger-ui/**
+      - /actuator/**
+      - /druid/**
+      - /user/**
+      - /globalOrg/**
+      - /system/**
+      - /test/**
+      - /person/**
+      - /digitzation/**
+      - /store/**
+      - /login/**
+      - /logout
+      - /dept/**
+      - /a01/**
+      - /transfer/**
+      - /role/**
+      - /permission/**
+      - /userPermission/**
+      - /userRole/**
+      - /rolePermission/**
+      - /menu/**
+      - /e01z1/**
+      - /sysDictionary/**
+      - /fileStorage/**
+      - /license/**
+      - /static/**
+      - /regular/**
+      - /template/**
+      - /FlexPaperViewer.swf
+      - /issue/**
+      - /wfRule/**
+      - /wfTemplate/**
+      - /img/**
+      - /common/**
+      - /watermark/insert
+      - /watermark/updateById
+      - /ams/message/**
+      - /sso/home/**
+      - /home/**
+      - /pluginApi/**
+      - /logout/**
+      - /test2/**
+      - /applet/login
+      - /applet/restablecerContrasena
+      - /applet/queryUserAgreement
+      - /applet/logout
+      - /applet/file/**
+      - /music/**

@@ -1,0 +1,219 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.fudian.project.system.mapper.SysLogininfoMapper">
+  <resultMap id="BaseResultMap" type="com.fudian.api.system.pojo.SysLogininfo">
+    <!--@mbg.generated-->
+    <!--@Table sys_logininfo-->
+    <id column="info_id" property="infoId" />
+    <result column="user_name" property="userName" />
+    <result column="ipaddr" property="ipaddr" />
+    <result column="login_location" property="loginLocation" />
+    <result column="browser" property="browser" />
+    <result column="os" property="os" />
+    <result column="status" property="status" />
+    <result column="msg" property="msg" />
+    <result column="login_time" property="loginTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    <!--@mbg.generated-->
+    info_id, user_name, ipaddr, login_location, browser, os, `status`, msg, login_time
+  </sql>
+  <update id="updateBatch" parameterType="java.util.List">
+    <!--@mbg.generated-->
+    update sys_logininfo
+    <trim prefix="set" suffixOverrides=",">
+      <trim prefix="user_name = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when info_id = #{item.infoId} then #{item.userName}
+        </foreach>
+      </trim>
+      <trim prefix="ipaddr = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when info_id = #{item.infoId} then #{item.ipaddr}
+        </foreach>
+      </trim>
+      <trim prefix="login_location = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when info_id = #{item.infoId} then #{item.loginLocation}
+        </foreach>
+      </trim>
+      <trim prefix="browser = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when info_id = #{item.infoId} then #{item.browser}
+        </foreach>
+      </trim>
+      <trim prefix="os = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when info_id = #{item.infoId} then #{item.os}
+        </foreach>
+      </trim>
+      <trim prefix="`status` = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when info_id = #{item.infoId} then #{item.status}
+        </foreach>
+      </trim>
+      <trim prefix="msg = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when info_id = #{item.infoId} then #{item.msg}
+        </foreach>
+      </trim>
+      <trim prefix="login_time = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when info_id = #{item.infoId} then #{item.loginTime}
+        </foreach>
+      </trim>
+    </trim>
+    where info_id in
+    <foreach close=")" collection="list" item="item" open="(" separator=", ">
+      #{item.infoId}
+    </foreach>
+  </update>
+  <insert id="batchInsert" keyColumn="info_id" keyProperty="infoId" parameterType="map" useGeneratedKeys="true">
+    <!--@mbg.generated-->
+    insert into sys_logininfo
+    (user_name, ipaddr, login_location, browser, os, `status`, msg, login_time)
+    values
+    <foreach collection="list" item="item" separator=",">
+      (#{item.userName}, #{item.ipaddr}, #{item.loginLocation}, #{item.browser}, #{item.os},
+        #{item.status}, #{item.msg}, #{item.loginTime})
+    </foreach>
+  </insert>
+  <insert id="insertOrUpdate" keyColumn="info_id" keyProperty="infoId" parameterType="com.fudian.api.system.pojo.SysLogininfo" useGeneratedKeys="true">
+    <!--@mbg.generated-->
+    insert into sys_logininfo
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="infoId != null">
+        info_id,
+      </if>
+      user_name,
+      ipaddr,
+      login_location,
+      browser,
+      os,
+      `status`,
+      msg,
+      login_time,
+    </trim>
+    values
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="infoId != null">
+        #{infoId},
+      </if>
+      #{userName},
+      #{ipaddr},
+      #{loginLocation},
+      #{browser},
+      #{os},
+      #{status},
+      #{msg},
+      #{loginTime},
+    </trim>
+    on duplicate key update
+    <trim suffixOverrides=",">
+      <if test="infoId != null">
+        info_id = #{infoId},
+      </if>
+      user_name = #{userName},
+      ipaddr = #{ipaddr},
+      login_location = #{loginLocation},
+      browser = #{browser},
+      os = #{os},
+      `status` = #{status},
+      msg = #{msg},
+      login_time = #{loginTime},
+    </trim>
+  </insert>
+  <insert id="insertOrUpdateSelective" keyColumn="info_id" keyProperty="infoId" parameterType="com.fudian.api.system.pojo.SysLogininfo" useGeneratedKeys="true">
+    <!--@mbg.generated-->
+    insert into sys_logininfo
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="infoId != null">
+        info_id,
+      </if>
+      <if test="userName != null">
+        user_name,
+      </if>
+      <if test="ipaddr != null">
+        ipaddr,
+      </if>
+      <if test="loginLocation != null">
+        login_location,
+      </if>
+      <if test="browser != null">
+        browser,
+      </if>
+      <if test="os != null">
+        os,
+      </if>
+      <if test="status != null">
+        `status`,
+      </if>
+      <if test="msg != null">
+        msg,
+      </if>
+      <if test="loginTime != null">
+        login_time,
+      </if>
+    </trim>
+    values
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="infoId != null">
+        #{infoId},
+      </if>
+      <if test="userName != null">
+        #{userName},
+      </if>
+      <if test="ipaddr != null">
+        #{ipaddr},
+      </if>
+      <if test="loginLocation != null">
+        #{loginLocation},
+      </if>
+      <if test="browser != null">
+        #{browser},
+      </if>
+      <if test="os != null">
+        #{os},
+      </if>
+      <if test="status != null">
+        #{status},
+      </if>
+      <if test="msg != null">
+        #{msg},
+      </if>
+      <if test="loginTime != null">
+        #{loginTime},
+      </if>
+    </trim>
+    on duplicate key update
+    <trim suffixOverrides=",">
+      <if test="infoId != null">
+        info_id = #{infoId},
+      </if>
+      <if test="userName != null">
+        user_name = #{userName},
+      </if>
+      <if test="ipaddr != null">
+        ipaddr = #{ipaddr},
+      </if>
+      <if test="loginLocation != null">
+        login_location = #{loginLocation},
+      </if>
+      <if test="browser != null">
+        browser = #{browser},
+      </if>
+      <if test="os != null">
+        os = #{os},
+      </if>
+      <if test="status != null">
+        `status` = #{status},
+      </if>
+      <if test="msg != null">
+        msg = #{msg},
+      </if>
+      <if test="loginTime != null">
+        login_time = #{loginTime},
+      </if>
+    </trim>
+  </insert>
+</mapper>

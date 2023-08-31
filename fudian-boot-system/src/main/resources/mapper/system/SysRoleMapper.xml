@@ -1,0 +1,212 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.fudian.project.system.mapper.SysRoleMapper">
+  <resultMap id="BaseResultMap" type="com.fudian.project.system.pojo.SysRole">
+    <!--@mbg.generated-->
+    <!--@Table sys_role-->
+    <id column="role_id" property="roleId" />
+    <result column="role_name" property="roleName" />
+    <result column="org_id" property="orgId" />
+    <result column="role_status" property="roleStatus" />
+    <result column="create_by" property="createBy" />
+    <result column="create_time" property="createTime" />
+    <result column="role_num" property="roleNum" />
+    <result column="is_system" property="isSystem" />
+    <result column="role_summary" property="roleSummary" />
+    <result column="remark" property="remark" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    <!--@mbg.generated-->
+    role_id, role_name, org_id, role_status, create_by, create_time, role_num, is_system, 
+    role_summary, remark
+  </sql>
+  <update id="updateBatch" parameterType="java.util.List">
+    <!--@mbg.generated-->
+    update sys_role
+    <trim prefix="set" suffixOverrides=",">
+      <trim prefix="role_name = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when role_id = #{item.roleId} then #{item.roleName}
+        </foreach>
+      </trim>
+      <trim prefix="org_id = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when role_id = #{item.roleId} then #{item.orgId}
+        </foreach>
+      </trim>
+      <trim prefix="role_status = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when role_id = #{item.roleId} then #{item.roleStatus}
+        </foreach>
+      </trim>
+      <trim prefix="create_by = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when role_id = #{item.roleId} then #{item.createBy}
+        </foreach>
+      </trim>
+      <trim prefix="create_time = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when role_id = #{item.roleId} then #{item.createTime}
+        </foreach>
+      </trim>
+      <trim prefix="role_num = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when role_id = #{item.roleId} then #{item.roleNum}
+        </foreach>
+      </trim>
+      <trim prefix="is_system = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when role_id = #{item.roleId} then #{item.isSystem}
+        </foreach>
+      </trim>
+      <trim prefix="role_summary = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when role_id = #{item.roleId} then #{item.roleSummary}
+        </foreach>
+      </trim>
+      <trim prefix="remark = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when role_id = #{item.roleId} then #{item.remark}
+        </foreach>
+      </trim>
+    </trim>
+    where role_id in
+    <foreach close=")" collection="list" item="item" open="(" separator=", ">
+      #{item.roleId}
+    </foreach>
+  </update>
+  <insert id="batchInsert" parameterType="map">
+    <!--@mbg.generated-->
+    insert into sys_role
+    (role_id, role_name, org_id, role_status, create_by, create_time, role_num, is_system, 
+      role_summary, remark)
+    values
+    <foreach collection="list" item="item" separator=",">
+      (#{item.roleId}, #{item.roleName}, #{item.orgId}, #{item.roleStatus}, #{item.createBy}, 
+        #{item.createTime}, #{item.roleNum}, #{item.isSystem}, #{item.roleSummary}, #{item.remark}
+        )
+    </foreach>
+  </insert>
+  <insert id="insertOrUpdate" parameterType="com.fudian.project.system.pojo.SysRole">
+    <!--@mbg.generated-->
+    insert into sys_role
+    (role_id, role_name, org_id, role_status, create_by, create_time, role_num, is_system, 
+      role_summary, remark)
+    values
+    (#{roleId}, #{roleName}, #{orgId}, #{roleStatus}, #{createBy}, #{createTime}, #{roleNum}, 
+      #{isSystem}, #{roleSummary}, #{remark})
+    on duplicate key update 
+    role_id = #{roleId}, 
+    role_name = #{roleName}, 
+    org_id = #{orgId}, 
+    role_status = #{roleStatus}, 
+    create_by = #{createBy}, 
+    create_time = #{createTime}, 
+    role_num = #{roleNum}, 
+    is_system = #{isSystem}, 
+    role_summary = #{roleSummary}, 
+    remark = #{remark}
+  </insert>
+  <insert id="insertOrUpdateSelective" parameterType="com.fudian.project.system.pojo.SysRole">
+    <!--@mbg.generated-->
+    insert into sys_role
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="roleId != null">
+        role_id,
+      </if>
+      <if test="roleName != null">
+        role_name,
+      </if>
+      <if test="orgId != null">
+        org_id,
+      </if>
+      <if test="roleStatus != null">
+        role_status,
+      </if>
+      <if test="createBy != null">
+        create_by,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="roleNum != null">
+        role_num,
+      </if>
+      <if test="isSystem != null">
+        is_system,
+      </if>
+      <if test="roleSummary != null">
+        role_summary,
+      </if>
+      <if test="remark != null">
+        remark,
+      </if>
+    </trim>
+    values
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="roleId != null">
+        #{roleId},
+      </if>
+      <if test="roleName != null">
+        #{roleName},
+      </if>
+      <if test="orgId != null">
+        #{orgId},
+      </if>
+      <if test="roleStatus != null">
+        #{roleStatus},
+      </if>
+      <if test="createBy != null">
+        #{createBy},
+      </if>
+      <if test="createTime != null">
+        #{createTime},
+      </if>
+      <if test="roleNum != null">
+        #{roleNum},
+      </if>
+      <if test="isSystem != null">
+        #{isSystem},
+      </if>
+      <if test="roleSummary != null">
+        #{roleSummary},
+      </if>
+      <if test="remark != null">
+        #{remark},
+      </if>
+    </trim>
+    on duplicate key update 
+    <trim suffixOverrides=",">
+      <if test="roleId != null">
+        role_id = #{roleId},
+      </if>
+      <if test="roleName != null">
+        role_name = #{roleName},
+      </if>
+      <if test="orgId != null">
+        org_id = #{orgId},
+      </if>
+      <if test="roleStatus != null">
+        role_status = #{roleStatus},
+      </if>
+      <if test="createBy != null">
+        create_by = #{createBy},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime},
+      </if>
+      <if test="roleNum != null">
+        role_num = #{roleNum},
+      </if>
+      <if test="isSystem != null">
+        is_system = #{isSystem},
+      </if>
+      <if test="roleSummary != null">
+        role_summary = #{roleSummary},
+      </if>
+      <if test="remark != null">
+        remark = #{remark},
+      </if>
+    </trim>
+  </insert>
+</mapper>

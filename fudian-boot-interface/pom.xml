@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>fudian-boot-parent</artifactId>
+        <groupId>com.fudian</groupId>
+        <version>1.0-SNAPSHOT</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+    <packaging>jar</packaging>
+    <artifactId>fudian-boot-interface</artifactId>
+    <description>公共接口包</description>
+    <version>1.0-SNAPSHOT</version>
+
+    <dependencies>
+        <!-- SpringBoot集成mybatis-plus框架 -->
+        <dependency>
+            <groupId>com.baomidou</groupId>
+            <artifactId>mybatis-plus-boot-starter</artifactId>
+        </dependency>
+        <!-- pagehelper 分页插件 -->
+        <dependency>
+            <groupId>com.github.pagehelper</groupId>
+            <artifactId>pagehelper-spring-boot-starter</artifactId>
+            <version>${pagehelper.spring.boot.starter.version}</version>
+            <exclusions>
+                <exclusion>
+                    <artifactId>mybatis-spring</artifactId>
+                    <groupId>org.mybatis</groupId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>com.fudian</groupId>
+            <artifactId>fudian-boot-common</artifactId>
+        </dependency>
+
+
+    </dependencies>
+    <distributionManagement>
+        <repository>
+            <!--id的名字可以任意取，但是在setting文件中的属性<server>的ID与这里一致-->
+            <id>releases</id>
+            <!--指向仓库类型为host(宿主仓库）的储存类型为Release的仓库-->
+            <url>http://192.168.0.102:8081/nexus/content/repositories/releases/</url>
+        </repository>
+        <snapshotRepository>
+            <id>snapshots</id>
+            <!--指向仓库类型为host(宿主仓库）的储存类型为Snapshot的仓库-->
+            <url>http://192.168.0.102:8081/nexus/content/repositories/snapshots/</url>
+        </snapshotRepository>
+    </distributionManagement>
+
+
+</project>

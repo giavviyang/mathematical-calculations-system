@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.fudian.business.mapper.WrongQuestionListMapper">
+
+    <select id="queryListByDict" resultType="com.fudian.api.system.pojo.WrongQuestionListDTO">
+        SELECT w.id as id,w.student_id as studentId,st.student_name as studentName,w.classification_id as classificationId,
+               w.error_content as errorContent,w.create_time as createTime,w.numfield_id as numfieldId,
+               w.algorithm_id as algorithmId,s.full_name as fullName,k.classification_msg as classificationMsg,
+               sk.is_lock as isLock,k.classification_nickname as classificationNickname,
+               kl.classification_msg as algorithmMsg
+        FROM (SELECT  *
+              from wrong_question_list
+              GROUP BY student_id,SUBSTRING_INDEX(error_content, '|',1)
+             ) w
+                 left join `knowledge_list_classification` k on k.classification_id = w.classification_id
+                 left join `knowledge_list` kl on kl.knowledge_id = k.knowledge_id
+                 left join `sys_dictionary` s on concat(s.dict_type,s.dict_code) = w.algorithm_id
+                 left join `students` st on st.student_id = w.student_id
+                 left join `student_knowledge_relation` sk
+                        on sk.student_id = w.student_id
+                            and sk.relation_id = w.classification_id
+                            and sk.relation_type=2
+        where w.student_id = #{studentId} and w.numfield_id = #{dictId} and w.deleted = 0
+        order by s.dict_code,k.order_num,w.create_time desc
+    </select>
+
+    <select id="isError" resultType="int">
+        SELECT count(*) FROM `wrong_question_list`
+        where student_id = #{studentId} and numfield_id = #{dictId}
+    </select>
+
+    <select id="getErrorContent" parameterType="java.util.Map" resultType="com.fudian.api.system.pojo.WrongQuestionListDTO">
+        SELECT distinct classification_id,error_content
+        FROM `wrong_question_list`
+        where student_id = #{studentId}
+    </select>
+
+    <select id="getErrorContentByClassId" parameterType="java.util.Map" resultType="com.fudian.api.system.pojo.WrongQuestionListDTO">
+        SELECT w.classification_id,w.error_content
+        FROM `wrong_question_list` w
+             left join `students` s on s.student_id = w.student_id
+             left join `sys_dept` sd on sd.id = s.class_room_id
+             inner join knowledge_list_classification klc
+             on w.classification_id = klc.classification_id
+             inner join knowledge_list kl
+             on klc.knowledge_id = kl.knowledge_id
+            <if test="shuyu!=null and shuyu!=''">
+                and kl.knowledge_num_field = #{shuyu}
+            </if>
+            <if test="faze!=null and faze!=''">
+                and kl.knowledge_operation = #{faze}
+            </if>
+        where w.type = 0 and s.class_room_id = #{classId}
+
+    </select>
+
+    <select id="getWrongQuestionByBatchId" resultType="com.fudian.business.pojo.WrongQuestionList">
+        SELECT  w.*
+        FROM `wrong_question_list` w
+        where w.batch_id in
+        <foreach item='item' index='index' collection='ids' open='(' separator=',' close=')'>
+            #{item}
+        </foreach>
+
+    </select>
+
+    <!-- 获取知识点错题 -->
+    <select id="wrongQuestionsInAcquiringKnowledgePoints" resultType="com.fudian.business.dto.MasterSituationStatisticsDTO">
+        <!-- classificationId：知识点ID、error：错题、reason：错误原因 -->
+        SELECT
+            classification_id AS classificationId,
+            GROUP_CONCAT( substring_index( substring_index( error_content, '|', 2 ), '|',- 1 ) ) AS error,
+            substring_index( error_content, '|',- 1 ) AS reason
+        FROM
+            `wrong_question_list`
+        WHERE
+            batch_id IN
+            <foreach item='item' index='index' collection='list' open='(' separator=',' close=')'>
+                #{item}
+            </foreach>
+        GROUP BY
+            reason,classificationId
+    </select>
+
+</mapper>

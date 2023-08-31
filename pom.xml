@@ -1,0 +1,525 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <modules>
+        <module>fudian-boot-admin</module>
+        <module>fudian-boot-interface</module>
+        <module>fudian-boot-common</module>
+        <module>fudian-boot-filestorage</module>
+        <module>fudian-boot-framework</module>
+        <module>fudian-boot-system</module>
+        <module>fudian-boot-log</module>
+        <module>fudian-boot-ams-V3.1.0-20200616</module>
+        <module>fudian-boot-business</module>
+    </modules>
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>2.0.1.RELEASE</version>
+        <relativePath/> <!-- lookup parent from repository -->
+    </parent>
+    <groupId>com.fudian</groupId>
+    <artifactId>fudian-boot-parent</artifactId>
+    <packaging>pom</packaging>
+
+
+    <version>1.0-SNAPSHOT</version>
+
+    <properties>
+        <java.version>1.8</java.version>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+        <!--打包跳过测试-->
+        <skipTests>true</skipTests>
+        <mybatisPlus.spring.boot.starter.version>3.1.0</mybatisPlus.spring.boot.starter.version>
+        <pagehelper.spring.boot.starter.version>1.2.10</pagehelper.spring.boot.starter.version>
+        <fastjson.version>1.2.47</fastjson.version>
+        <druid.version>1.1.22</druid.version>
+        <mysql.version>8.0.15</mysql.version>
+        <oracle.version>12.0.0.2</oracle.version>
+        <sqlserver.version>4.0</sqlserver.version>
+        <dmjdbc.version>1.7</dmjdbc.version>
+        <lombok.version>1.18.8</lombok.version>
+        <swagger.version>2.9.2</swagger.version>
+        <commons.io.version>2.5</commons.io.version>
+        <bitwalker.version>1.19</bitwalker.version>
+        <commons.fileupload.version>1.3.3</commons.fileupload.version>
+        <jwt.version>0.9.0</jwt.version>
+        <hutool.version>5.4.4</hutool.version>
+        <pinyin4j.version>2.5.0</pinyin4j.version>
+        <oshi.version>3.9.1</oshi.version>
+        <easypoi.version>4.0.0</easypoi.version>
+        <mogodb.version>3.8.2</mogodb.version>
+        <ftp.version>3.3</ftp.version>
+        <oracle.version>12.0.0.2</oracle.version>
+        <itextpdf.version>5.5.13</itextpdf.version>
+        <itextpdf.asian.version>5.2.0</itextpdf.asian.version>
+        <itextpdf.asian.xmlworker.version>5.5.13</itextpdf.asian.xmlworker.version>
+        <fudian.boot.system.version>1.0-SNAPSHOT</fudian.boot.system.version>
+        <fudian.boot.business.version>1.0-SNAPSHOT</fudian.boot.business.version>
+        <fudian.boot.interface.version>1.0-SNAPSHOT</fudian.boot.interface.version>
+        <fudian.boot.common.version>1.0-SNAPSHOT</fudian.boot.common.version>
+        <fudian.boot.framework.version>1.0-SNAPSHOT</fudian.boot.framework.version>
+        <fudian.boot.dataway.version>0.0.2-SNAPSHOT</fudian.boot.dataway.version>
+        <zip.version>1.6.5</zip.version>
+        <easyexcel.version>1.1.2-beta5</easyexcel.version>
+        <net.sf.jmim.version>0.1.4</net.sf.jmim.version>
+        <coobird.version>0.4.8</coobird.version>
+        <dom4j.version>1.6.1</dom4j.version>
+        <dm.version>1.8</dm.version>
+    </properties>
+    <dependencies>
+        <!-- SpringBoot Web容器 -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+        <!-- SpringBoot 拦截器 -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-aop</artifactId>
+        </dependency>
+        <!-- spring-boot-devtools -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-devtools</artifactId>
+            <optional>true</optional> <!-- 表示依赖不会传递 -->
+        </dependency>
+        <!-- spring security 安全认证 -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-security</artifactId>
+        </dependency>
+
+        <!-- easyexcel依赖包 -->
+        <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>easyexcel</artifactId>
+            <version>${easyexcel.version}</version>
+        </dependency>
+
+        <!-- 导入zip解压包 -->
+        <dependency>
+            <groupId>ant</groupId>
+            <artifactId>ant</artifactId>
+            <version>${zip.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>net.coobird</groupId>
+            <artifactId>thumbnailator</artifactId>
+            <version>${coobird.version}</version>
+        </dependency>
+
+        <!-- 解析制作xml文件 -->
+        <dependency>
+            <groupId>dom4j</groupId>
+            <artifactId>dom4j</artifactId>
+            <version>${dom4j.version}</version>
+        </dependency>
+
+        <!-- ftp依赖 -->
+        <dependency>
+            <groupId>commons-net</groupId>
+            <artifactId>commons-net</artifactId>
+            <version>${ftp.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>net.sf.jmimemagic</groupId>
+            <artifactId>jmimemagic</artifactId>
+            <version>${net.sf.jmim.version}</version>
+        </dependency>
+
+        <!-- mongodb -->
+        <dependency>
+            <groupId>org.mongodb</groupId>
+            <artifactId>mongodb-driver</artifactId>
+            <version>${mogodb.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.mongodb</groupId>
+            <artifactId>mongodb-driver-core</artifactId>
+            <version>${mogodb.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.mongodb</groupId>
+            <artifactId>bson</artifactId>
+            <version>${mogodb.version}</version>
+        </dependency>
+
+        <!-- Mysql驱动包 -->
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+            <version>${mysql.version}</version>
+            <scope>runtime</scope>
+        </dependency>
+
+        <!-- swagger2-->
+        <dependency>
+            <groupId>io.springfox</groupId>
+            <artifactId>springfox-swagger2</artifactId>
+            <version>${swagger.version}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>io.swagger</groupId>
+                    <artifactId>swagger-annotations</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>io.swagger</groupId>
+                    <artifactId>swagger-models</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+
+        <!--防止进入swagger页面报类型转换错误，排除2.9.2中的引用，手动增加1.5.21版本-->
+        <dependency>
+            <groupId>io.swagger</groupId>
+            <artifactId>swagger-annotations</artifactId>
+            <version>1.5.21</version>
+        </dependency>
+
+        <dependency>
+            <groupId>io.swagger</groupId>
+            <artifactId>swagger-models</artifactId>
+            <version>1.5.21</version>
+        </dependency>
+
+        <!-- swagger2-UI-->
+        <dependency>
+            <groupId>io.springfox</groupId>
+            <artifactId>springfox-swagger-ui</artifactId>
+            <version>${swagger.version}</version>
+        </dependency>
+
+
+        <!--	pdf生成包	-->
+        <dependency>
+            <groupId>com.itextpdf</groupId>
+            <artifactId>itextpdf</artifactId>
+            <version>${itextpdf.version}</version>
+        </dependency>
+        <!-- https://mvnrepository.com/artifact/com.itextpdf/itext-asian -->
+        <dependency>
+            <groupId>com.itextpdf</groupId>
+            <artifactId>itext-asian</artifactId>
+            <version>${itextpdf.asian.version}</version>
+        </dependency>
+        <!-- https://mvnrepository.com/artifact/com.itextpdf.tool/xmlworker -->
+        <dependency>
+            <groupId>com.itextpdf.tool</groupId>
+            <artifactId>xmlworker</artifactId>
+            <version>${itextpdf.asian.xmlworker.version}</version>
+        </dependency>
+
+        <!-- lombok -->
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>${lombok.version}</version>
+        </dependency>
+
+
+        <!-- pool 对象池 -->
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-pool2</artifactId>
+        </dependency>
+
+        <!--阿里数据库连接池 -->
+        <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>druid-spring-boot-starter</artifactId>
+            <version>${druid.version}</version>
+        </dependency>
+
+
+        <!-- redis 缓存操作 -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-redis</artifactId>
+        </dependency>
+
+        <!--常用工具类 -->
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-lang3</artifactId>
+        </dependency>
+
+        <!--io常用工具类 -->
+        <dependency>
+            <groupId>commons-io</groupId>
+            <artifactId>commons-io</artifactId>
+            <version>${commons.io.version}</version>
+        </dependency>
+
+        <!--文件上传工具类 -->
+        <dependency>
+            <groupId>commons-fileupload</groupId>
+            <artifactId>commons-fileupload</artifactId>
+            <version>${commons.fileupload.version}</version>
+        </dependency>
+
+        <!-- 解析客户端操作系统、浏览器等 -->
+        <dependency>
+            <groupId>eu.bitwalker</groupId>
+            <artifactId>UserAgentUtils</artifactId>
+            <version>${bitwalker.version}</version>
+        </dependency>
+
+        <!-- 阿里JSON解析器 -->
+        <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>fastjson</artifactId>
+            <version>${fastjson.version}</version>
+        </dependency>
+
+        <!--Spring框架基本的核心工具-->
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-context-support</artifactId>
+        </dependency>
+
+        <!--Token生成与解析-->
+        <dependency>
+            <groupId>io.jsonwebtoken</groupId>
+            <artifactId>jjwt</artifactId>
+            <version>${jwt.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>joda-time</groupId>
+            <artifactId>joda-time</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.belerweb</groupId>
+            <artifactId>pinyin4j</artifactId>
+            <version>${pinyin4j.version}</version>
+        </dependency>
+
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.junit.vintage</groupId>
+                    <artifactId>junit-vintage-engine</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+
+
+        <!-- ===========获取系统信息======== -->
+        <dependency>
+            <groupId>com.github.oshi</groupId>
+            <artifactId>oshi-core</artifactId>
+            <version>${oshi.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>net.java.dev.jna</groupId>
+            <artifactId>jna</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>net.java.dev.jna</groupId>
+            <artifactId>jna-platform</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>cn.afterturn</groupId>
+            <artifactId>easypoi-spring-boot-starter</artifactId>
+            <version>${easypoi.version}</version>
+        </dependency>
+    </dependencies>
+
+    <dependencyManagement>
+        <dependencies>
+            <!--  sqlserver-->
+            <dependency>
+                <groupId>com.microsoft.sqlserver</groupId>
+                <artifactId>sqljdbc4</artifactId>
+                <version>${sqlserver.version}</version>
+                <scope>runtime</scope>
+            </dependency>
+
+
+            <!-- oracle驱动 -->
+            <dependency>
+                <groupId>com.fudian</groupId>
+                <artifactId>ojdbc8</artifactId>
+                <version>${oracle.version}</version>
+                <scope>runtime</scope>
+            </dependency>
+
+
+            <!-- postgresql驱动 -->
+            <dependency>
+                <groupId>org.postgresql</groupId>
+                <artifactId>postgresql</artifactId>
+                <version>42.2.6</version>
+                <scope>runtime</scope>
+            </dependency>
+
+            <!-- SpringBoot集成mybatis-plus框架 -->
+
+            <dependency>
+                <groupId>com.baomidou</groupId>
+                <artifactId>mybatis-plus-boot-starter</artifactId>
+                <version>${mybatisPlus.spring.boot.starter.version}</version>
+            </dependency>
+
+            <!-- pagehelper 分页插件 -->
+            <dependency>
+                <groupId>com.github.pagehelper</groupId>
+                <artifactId>pagehelper-spring-boot-starter</artifactId>
+                <version>${pagehelper.spring.boot.starter.version}</version>
+                <exclusions>
+                    <exclusion>
+                        <artifactId>mybatis-spring</artifactId>
+                        <groupId>org.mybatis</groupId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+
+            <!--hutool工具包-->
+            <dependency>
+                <groupId>cn.hutool</groupId>
+                <artifactId>hutool-all</artifactId>
+                <version>${hutool.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.fudian</groupId>
+                <artifactId>fudian-boot-common</artifactId>
+                <version>${fudian.boot.common.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.fudian</groupId>
+                <artifactId>fudian-boot-framework</artifactId>
+                <version>${fudian.boot.framework.version}</version>
+                <scope>compile</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>com.fudian</groupId>
+                <artifactId>fudian-boot-system</artifactId>
+                <version>${fudian.boot.system.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.fudian</groupId>
+                <artifactId>fudian-boot-business</artifactId>
+                <version>${fudian.boot.business.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.fudian</groupId>
+                <artifactId>fudian-boot-interface</artifactId>
+                <version>${fudian.boot.interface.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.fudian</groupId>
+                <artifactId>fudian-boot-dataway</artifactId>
+                <version>${fudian.boot.dataway.version}</version>
+            </dependency>
+            <!-- 达梦数据库驱动包 -->
+            <dependency>
+                <groupId>ams.jdbc.dmJdbc</groupId>
+                <artifactId>dm-jdbc-driver</artifactId>
+                <version>${dm.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.thetransactioncompany</groupId>
+                <artifactId>java-property-utils</artifactId>
+                <version>1.9</version>
+            </dependency>
+            <dependency>
+                <groupId>com.thetransactioncompany</groupId>
+                <artifactId>cors-filter</artifactId>
+                <version>2.5</version>
+            </dependency>
+
+
+        </dependencies>
+
+    </dependencyManagement>
+
+    <build>
+        <!--        <plugins>-->
+        <!--            <plugin>-->
+        <!--                <groupId>org.springframework.boot</groupId>-->
+        <!--                <artifactId>spring-boot-maven-plugin</artifactId>-->
+        <!--                <configuration>-->
+        <!--                    <includeSystemScope>true</includeSystemScope>-->
+        <!--                    <fork>true</fork>-->
+        <!--                </configuration>-->
+        <!--            </plugin>-->
+        <!--        </plugins>-->
+        <!--        <resources>-->
+        <!--            <resource>-->
+        <!--                <directory>lib</directory>-->
+        <!--                <targetPath>/BOOT-INF/lib/</targetPath>-->
+        <!--                <includes>-->
+        <!--                    <include>**/*.jar</include>-->
+        <!--                </includes>-->
+        <!--            </resource>-->
+        <!--        </resources>-->
+        <!--<plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <configuration>
+                    <fork>true</fork> &lt;!&ndash; 如果没有该配置，devtools不会生效 &ndash;&gt;
+                </configuration>
+            </plugin>
+
+        </plugins>-->
+    </build>
+    <!--构建发布配置-->
+    <distributionManagement>
+        <repository>
+            <!--id的名字可以任意取，但是在setting文件中的属性<server>的ID与这里一致-->
+            <id>releases</id>
+            <!--指向仓库类型为host(宿主仓库）的储存类型为Release的仓库-->
+            <url>http://192.168.0.102:8081/nexus/content/repositories/releases/</url>
+        </repository>
+        <snapshotRepository>
+            <id>snapshots</id>
+            <!--指向仓库类型为host(宿主仓库）的储存类型为Snapshot的仓库-->
+            <url>http://192.168.0.102:8081/nexus/content/repositories/snapshots/</url>
+        </snapshotRepository>
+    </distributionManagement>
+    <!--仓库配置-->
+    <repositories>
+        <repository>
+            <id>aliyun</id>
+            <name>aliyun Repository</name>
+            <url>http://maven.aliyun.com/nexus/content/groups/public</url>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+        </repository>
+        <repository>
+            <id>releases</id>
+            <name>fudian Repository</name>
+            <url>http://192.168.0.102:8081/nexus/content/repositories/releases/</url>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+        </repository>
+        <repository>
+            <id>snapshots</id>
+            <name>fudian Repository</name>
+            <url>http://192.168.0.102:8081/nexus/content/repositories/snapshots/</url>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+        </repository>
+    </repositories>
+</project>

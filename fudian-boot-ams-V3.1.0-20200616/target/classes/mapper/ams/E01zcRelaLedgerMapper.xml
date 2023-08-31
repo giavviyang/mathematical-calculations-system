@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.fudian.project.ams.mapper.E01zcRelaLedgerMapper">
+  <resultMap id="BaseResultMap" type="com.fudian.project.ams.pojo.E01zcRelaLedger">
+    <!--@mbg.generated-->
+    <!--@Table e01zc_rela_ledger-->
+    <id column="id" jdbcType="VARCHAR" property="id" />
+    <result column="a0101" jdbcType="VARCHAR" property="a0101" />
+    <result column="a01_id" jdbcType="VARCHAR" property="a01Id" />
+    <result column="dept_id" jdbcType="VARCHAR" property="deptId" />
+    <result column="dept_name" jdbcType="VARCHAR" property="deptName" />
+    <result column="duty" jdbcType="VARCHAR" property="duty" />
+    <result column="politcy" jdbcType="VARCHAR" property="politcy" />
+    <result column="e01z801" jdbcType="VARCHAR" property="e01z801" />
+    <result column="e01z804" jdbcType="TIMESTAMP" property="e01z804" />
+    <result column="e01z805" jdbcType="TIMESTAMP" property="e01z805" />
+    <result column="e01zc_id" jdbcType="VARCHAR" property="e01zcId" />
+    <result column="e01z811" jdbcType="VARCHAR" property="e01z811" />
+    <result column="e01z814" jdbcType="VARCHAR" property="e01z814" />
+    <result column="e01z817" jdbcType="VARCHAR" property="e01z817" />
+    <result column="e01z821" jdbcType="VARCHAR" property="e01z821" />
+    <result column="pri_type" jdbcType="VARCHAR" property="priType" />
+    <result column="e01z1_id" jdbcType="VARCHAR" property="e01z1Id" />
+    <result column="e01z111a" jdbcType="VARCHAR" property="e01z111a" />
+    <result column="adopt_e01z1_id" jdbcType="VARCHAR" property="adoptE01z1Id" />
+    <result column="approval_opinion" jdbcType="VARCHAR" property="approvalOpinion" />
+    <result column="flag" jdbcType="VARCHAR" property="flag" />
+    <result column="e01z831" jdbcType="VARCHAR" property="e01z831" />
+    <result column="feedback" jdbcType="VARCHAR" property="feedback" />
+    <result column="adopt_e01z1_msg" jdbcType="VARCHAR" property="adoptE01z1Msg" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    <!--@mbg.generated-->
+    id, a0101, a01_id, dept_id, dept_name, duty, politcy, e01z801, e01z804, e01z805,
+    e01zc_id, e01z811, e01z814, e01z817, e01z821, pri_type, e01z1_id, e01z111a, adopt_e01z1_id,
+    approval_opinion, flag, e01z831, feedback, adopt_e01z1_msg
+  </sql>
+  <select id="queryBillsByMap" resultType="java.util.Map">
+    select
+    zc.id as zcId,
+    zc.org_id as orgId,
+    zc.user_id as userId,
+    zc.user_name as userName,
+    zc.duty,
+    zc.politcy,
+    zc.e01z824a,
+    zc.e01z824b,
+    zc.e01z831,
+    zc.target,
+    zc.approv_time as approvTime,
+    zc.status,
+    zc.user_card as userCard,
+    zc.user_phone as userPhone,
+    zc.application_reasons as applicationReasons,
+    zc.rela_num as relaNum,
+    zc.approver,
+    zc.person_charge as personCharge,
+    zc.approver_date as approverDate,
+    zc.approver_opinion as approverOpinion,
+    zc.user_code as userCode,
+    zc.print_remark as printRemark,
+    zc.end_date as endDate,
+    zc.type,
+    rl.id,
+    rl.a0101,
+    rl.a01_id as a01Id,
+    rl.dept_id as deptId,
+    rl.dept_name as deptName,
+    rl.duty,
+    rl.politcy,
+    rl.e01z801,
+    rl.e01z804,
+    rl.e01z805,
+    rl.e01zc_id as e01zcId,
+    rl.e01z811,
+    rl.e01z814,
+    rl.e01z817,
+    rl.e01z821,
+    rl.pri_type as priType,
+    rl.e01z1_id as e01z1Id,
+    rl.e01z111a,
+    rl.adopt_e01z1_id as adoptE01z1Id,
+    rl.flag,
+    rl.e01z831,
+    rl.feedback,
+    rl.adopt_e01z1_msg as adoptE01z1Msg
+    from e01zc_rela_ledger as rl
+    right join e01zc_ledger as zc
+    on rl.e01zc_id = zc.id
+    <where>
+      <if test="personName!=null">
+        (zc.user_name LIKE CONCAT("%",#{personName}, "%"))
+      </if>
+      <if test="beginTime!=null">
+        and zc.approv_time &gt;= #{beginTime}
+      </if>
+      <if test="endTime!=null">
+        and zc.approv_time &lt;= #{endTime}
+      </if>
+      <if test="appTime!=null">
+        and zc.approv_time LIKE CONCAT("%",#{appTime}, "%")
+      </if>
+      and rl.id is not null
+    </where>
+    ORDER BY zc.approv_time desc
+  </select>
+</mapper>

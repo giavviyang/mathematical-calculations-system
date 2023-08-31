@@ -1,0 +1,824 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.fudian.project.ams.mapper.E01z9RelaMapper">
+  <resultMap id="BaseResultMap" type="com.fudian.project.ams.pojo.E01z9Rela">
+    <!--@mbg.generated-->
+    <!--@Table e01z9_rela-->
+    <id column="id" jdbcType="VARCHAR" property="id" />
+    <result column="a0101" jdbcType="VARCHAR" property="a0101" />
+    <result column="a01_id" jdbcType="VARCHAR" property="a01Id" />
+    <result column="dept_id" jdbcType="VARCHAR" property="deptId" />
+    <result column="dept_name" jdbcType="VARCHAR" property="deptName" />
+    <result column="duty" jdbcType="VARCHAR" property="duty" />
+    <result column="politcy" jdbcType="VARCHAR" property="politcy" />
+    <result column="e01z801" jdbcType="VARCHAR" property="e01z801" />
+    <result column="e01z804" jdbcType="TIMESTAMP" property="e01z804" />
+    <result column="e01z805" jdbcType="TIMESTAMP" property="e01z805" />
+    <result column="e01z806" jdbcType="TIMESTAMP" property="e01z806" />
+    <result column="e01z9_id" jdbcType="VARCHAR" property="e01z9Id" />
+    <result column="e01z811" jdbcType="VARCHAR" property="e01z811" />
+    <result column="e01z814" jdbcType="VARCHAR" property="e01z814" />
+    <result column="e01z817" jdbcType="VARCHAR" property="e01z817" />
+    <result column="e01z821" jdbcType="VARCHAR" property="e01z821" />
+    <result column="pri_type" jdbcType="VARCHAR" property="priType" />
+    <result column="e01z1_id" jdbcType="VARCHAR" property="e01z1Id" />
+    <result column="materials" jdbcType="INTEGER" property="materials" />
+    <result column="total_pages" jdbcType="INTEGER" property="totalPages" />
+    <result column="e01z111a" jdbcType="VARCHAR" property="e01z111a" />
+    <result column="flag" jdbcType="VARCHAR" property="flag" />
+    <result column="e01z831" jdbcType="VARCHAR" property="e01z831" />
+    <result column="feedback" jdbcType="VARCHAR" property="feedback" />
+    <result column="modified" jdbcType="VARCHAR" property="modified" />
+    <result column="is_break" jdbcType="VARCHAR" property="isBreak" />
+    <result column="broken" jdbcType="VARCHAR" property="broken" />
+    <result column="is_lose" jdbcType="VARCHAR" property="isLose" />
+    <result column="instructions" jdbcType="VARCHAR" property="instructions" />
+    <result column="remind" jdbcType="VARCHAR" property="remind" />
+    <result column="e01z934" jdbcType="VARCHAR" property="e01z934" />
+  </resultMap>
+
+  <resultMap id="ViewDetailsResultMap" type="java.util.Map">
+    <!--海关查看详情-->
+    <id column="id" jdbcType="VARCHAR" property="id" />
+    <result column="a0101" jdbcType="VARCHAR" property="a0101" />
+    <result column="dept_name" jdbcType="VARCHAR" property="deptName" />
+    <result column="creaters_time" jdbcType="VARCHAR" property="creatersTime" />
+    <result column="end_time" jdbcType="VARCHAR" property="endTime" />
+    <result column="start_time" jdbcType="VARCHAR" property="startTime" />
+  </resultMap>
+
+  <sql id="Base_Column_List">
+    <!--@mbg.generated-->
+    id, a0101, a01_id, dept_id, dept_name, duty, politcy, e01z801, e01z804, e01z805,
+    e01z806, e01z9_id, e01z811, e01z814, e01z817, e01z821, pri_type, e01z1_id, materials,
+    total_pages, e01z111a, flag, e01z831, feedback, modified, is_break, broken, is_lose,
+    instructions, remind, e01z934
+  </sql>
+
+  <sql id="ViewDetails">
+    <!-- 根据海关修改查看详情sql-->
+    e01z9_rela.id,a01.a0101,sys_dept.dept_name,e01z9.creaters_time,e01z9.end_time,e01z9.start_time
+  </sql>
+
+  <update id="updateBatch" parameterType="java.util.List">
+    <!--@mbg.generated-->
+    update e01z9_rela
+    <trim prefix="set" suffixOverrides=",">
+      <trim prefix="a0101 = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=VARCHAR} then #{item.a0101,jdbcType=VARCHAR}
+        </foreach>
+      </trim>
+      <trim prefix="a01_id = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=VARCHAR} then #{item.a01Id,jdbcType=VARCHAR}
+        </foreach>
+      </trim>
+      <trim prefix="dept_id = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=VARCHAR} then #{item.deptId,jdbcType=VARCHAR}
+        </foreach>
+      </trim>
+      <trim prefix="dept_name = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=VARCHAR} then #{item.deptName,jdbcType=VARCHAR}
+        </foreach>
+      </trim>
+      <trim prefix="duty = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=VARCHAR} then #{item.duty,jdbcType=VARCHAR}
+        </foreach>
+      </trim>
+      <trim prefix="politcy = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=VARCHAR} then #{item.politcy,jdbcType=VARCHAR}
+        </foreach>
+      </trim>
+      <trim prefix="e01z801 = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=VARCHAR} then #{item.e01z801,jdbcType=VARCHAR}
+        </foreach>
+      </trim>
+      <trim prefix="e01z804 = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=VARCHAR} then #{item.e01z804,jdbcType=TIMESTAMP}
+        </foreach>
+      </trim>
+      <trim prefix="e01z805 = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=VARCHAR} then #{item.e01z805,jdbcType=TIMESTAMP}
+        </foreach>
+      </trim>
+      <trim prefix="e01z806 = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=VARCHAR} then #{item.e01z806,jdbcType=TIMESTAMP}
+        </foreach>
+      </trim>
+      <trim prefix="e01z9_id = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=VARCHAR} then #{item.e01z9Id,jdbcType=VARCHAR}
+        </foreach>
+      </trim>
+      <trim prefix="e01z811 = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=VARCHAR} then #{item.e01z811,jdbcType=VARCHAR}
+        </foreach>
+      </trim>
+      <trim prefix="e01z814 = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=VARCHAR} then #{item.e01z814,jdbcType=VARCHAR}
+        </foreach>
+      </trim>
+      <trim prefix="e01z817 = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=VARCHAR} then #{item.e01z817,jdbcType=VARCHAR}
+        </foreach>
+      </trim>
+      <trim prefix="e01z821 = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=VARCHAR} then #{item.e01z821,jdbcType=VARCHAR}
+        </foreach>
+      </trim>
+      <trim prefix="pri_type = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=VARCHAR} then #{item.priType,jdbcType=VARCHAR}
+        </foreach>
+      </trim>
+      <trim prefix="e01z1_id = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=VARCHAR} then #{item.e01z1Id,jdbcType=VARCHAR}
+        </foreach>
+      </trim>
+      <trim prefix="materials = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=VARCHAR} then #{item.materials,jdbcType=INTEGER}
+        </foreach>
+      </trim>
+      <trim prefix="total_pages = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=VARCHAR} then #{item.totalPages,jdbcType=INTEGER}
+        </foreach>
+      </trim>
+      <trim prefix="e01z111a = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=VARCHAR} then #{item.e01z111a,jdbcType=VARCHAR}
+        </foreach>
+      </trim>
+      <trim prefix="flag = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=VARCHAR} then #{item.flag,jdbcType=VARCHAR}
+        </foreach>
+      </trim>
+      <trim prefix="e01z831 = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=VARCHAR} then #{item.e01z831,jdbcType=VARCHAR}
+        </foreach>
+      </trim>
+      <trim prefix="feedback = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=VARCHAR} then #{item.feedback,jdbcType=VARCHAR}
+        </foreach>
+      </trim>
+      <trim prefix="modified = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=VARCHAR} then #{item.modified,jdbcType=VARCHAR}
+        </foreach>
+      </trim>
+      <trim prefix="is_break = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=VARCHAR} then #{item.isBreak,jdbcType=VARCHAR}
+        </foreach>
+      </trim>
+      <trim prefix="broken = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=VARCHAR} then #{item.broken,jdbcType=VARCHAR}
+        </foreach>
+      </trim>
+      <trim prefix="is_lose = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=VARCHAR} then #{item.isLose,jdbcType=VARCHAR}
+        </foreach>
+      </trim>
+      <trim prefix="instructions = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=VARCHAR} then #{item.instructions,jdbcType=VARCHAR}
+        </foreach>
+      </trim>
+      <trim prefix="remind = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=VARCHAR} then #{item.remind,jdbcType=VARCHAR}
+        </foreach>
+      </trim>
+      <trim prefix="e01z934 = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=VARCHAR} then #{item.e01z934,jdbcType=VARCHAR}
+        </foreach>
+      </trim>
+    </trim>
+    where id in
+    <foreach close=")" collection="list" item="item" open="(" separator=", ">
+      #{item.id,jdbcType=VARCHAR}
+    </foreach>
+  </update>
+  <update id="updateBatchSelective" parameterType="java.util.List">
+    <!--@mbg.generated-->
+    update e01z9_rela
+    <trim prefix="set" suffixOverrides=",">
+      <trim prefix="a0101 = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          <if test="item.a0101 != null">
+            when id = #{item.id,jdbcType=VARCHAR} then #{item.a0101,jdbcType=VARCHAR}
+          </if>
+        </foreach>
+      </trim>
+      <trim prefix="a01_id = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          <if test="item.a01Id != null">
+            when id = #{item.id,jdbcType=VARCHAR} then #{item.a01Id,jdbcType=VARCHAR}
+          </if>
+        </foreach>
+      </trim>
+      <trim prefix="dept_id = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          <if test="item.deptId != null">
+            when id = #{item.id,jdbcType=VARCHAR} then #{item.deptId,jdbcType=VARCHAR}
+          </if>
+        </foreach>
+      </trim>
+      <trim prefix="dept_name = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          <if test="item.deptName != null">
+            when id = #{item.id,jdbcType=VARCHAR} then #{item.deptName,jdbcType=VARCHAR}
+          </if>
+        </foreach>
+      </trim>
+      <trim prefix="duty = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          <if test="item.duty != null">
+            when id = #{item.id,jdbcType=VARCHAR} then #{item.duty,jdbcType=VARCHAR}
+          </if>
+        </foreach>
+      </trim>
+      <trim prefix="politcy = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          <if test="item.politcy != null">
+            when id = #{item.id,jdbcType=VARCHAR} then #{item.politcy,jdbcType=VARCHAR}
+          </if>
+        </foreach>
+      </trim>
+      <trim prefix="e01z801 = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          <if test="item.e01z801 != null">
+            when id = #{item.id,jdbcType=VARCHAR} then #{item.e01z801,jdbcType=VARCHAR}
+          </if>
+        </foreach>
+      </trim>
+      <trim prefix="e01z804 = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          <if test="item.e01z804 != null">
+            when id = #{item.id,jdbcType=VARCHAR} then #{item.e01z804,jdbcType=TIMESTAMP}
+          </if>
+        </foreach>
+      </trim>
+      <trim prefix="e01z805 = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          <if test="item.e01z805 != null">
+            when id = #{item.id,jdbcType=VARCHAR} then #{item.e01z805,jdbcType=TIMESTAMP}
+          </if>
+        </foreach>
+      </trim>
+      <trim prefix="e01z806 = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          <if test="item.e01z806 != null">
+            when id = #{item.id,jdbcType=VARCHAR} then #{item.e01z806,jdbcType=TIMESTAMP}
+          </if>
+        </foreach>
+      </trim>
+      <trim prefix="e01z9_id = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          <if test="item.e01z9Id != null">
+            when id = #{item.id,jdbcType=VARCHAR} then #{item.e01z9Id,jdbcType=VARCHAR}
+          </if>
+        </foreach>
+      </trim>
+      <trim prefix="e01z811 = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          <if test="item.e01z811 != null">
+            when id = #{item.id,jdbcType=VARCHAR} then #{item.e01z811,jdbcType=VARCHAR}
+          </if>
+        </foreach>
+      </trim>
+      <trim prefix="e01z814 = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          <if test="item.e01z814 != null">
+            when id = #{item.id,jdbcType=VARCHAR} then #{item.e01z814,jdbcType=VARCHAR}
+          </if>
+        </foreach>
+      </trim>
+      <trim prefix="e01z817 = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          <if test="item.e01z817 != null">
+            when id = #{item.id,jdbcType=VARCHAR} then #{item.e01z817,jdbcType=VARCHAR}
+          </if>
+        </foreach>
+      </trim>
+      <trim prefix="e01z821 = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          <if test="item.e01z821 != null">
+            when id = #{item.id,jdbcType=VARCHAR} then #{item.e01z821,jdbcType=VARCHAR}
+          </if>
+        </foreach>
+      </trim>
+      <trim prefix="pri_type = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          <if test="item.priType != null">
+            when id = #{item.id,jdbcType=VARCHAR} then #{item.priType,jdbcType=VARCHAR}
+          </if>
+        </foreach>
+      </trim>
+      <trim prefix="e01z1_id = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          <if test="item.e01z1Id != null">
+            when id = #{item.id,jdbcType=VARCHAR} then #{item.e01z1Id,jdbcType=VARCHAR}
+          </if>
+        </foreach>
+      </trim>
+      <trim prefix="materials = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          <if test="item.materials != null">
+            when id = #{item.id,jdbcType=VARCHAR} then #{item.materials,jdbcType=INTEGER}
+          </if>
+        </foreach>
+      </trim>
+      <trim prefix="total_pages = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          <if test="item.totalPages != null">
+            when id = #{item.id,jdbcType=VARCHAR} then #{item.totalPages,jdbcType=INTEGER}
+          </if>
+        </foreach>
+      </trim>
+      <trim prefix="e01z111a = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          <if test="item.e01z111a != null">
+            when id = #{item.id,jdbcType=VARCHAR} then #{item.e01z111a,jdbcType=VARCHAR}
+          </if>
+        </foreach>
+      </trim>
+      <trim prefix="flag = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          <if test="item.flag != null">
+            when id = #{item.id,jdbcType=VARCHAR} then #{item.flag,jdbcType=VARCHAR}
+          </if>
+        </foreach>
+      </trim>
+      <trim prefix="e01z831 = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          <if test="item.e01z831 != null">
+            when id = #{item.id,jdbcType=VARCHAR} then #{item.e01z831,jdbcType=VARCHAR}
+          </if>
+        </foreach>
+      </trim>
+      <trim prefix="feedback = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          <if test="item.feedback != null">
+            when id = #{item.id,jdbcType=VARCHAR} then #{item.feedback,jdbcType=VARCHAR}
+          </if>
+        </foreach>
+      </trim>
+      <trim prefix="modified = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          <if test="item.modified != null">
+            when id = #{item.id,jdbcType=VARCHAR} then #{item.modified,jdbcType=VARCHAR}
+          </if>
+        </foreach>
+      </trim>
+      <trim prefix="is_break = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          <if test="item.isBreak != null">
+            when id = #{item.id,jdbcType=VARCHAR} then #{item.isBreak,jdbcType=VARCHAR}
+          </if>
+        </foreach>
+      </trim>
+      <trim prefix="broken = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          <if test="item.broken != null">
+            when id = #{item.id,jdbcType=VARCHAR} then #{item.broken,jdbcType=VARCHAR}
+          </if>
+        </foreach>
+      </trim>
+      <trim prefix="is_lose = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          <if test="item.isLose != null">
+            when id = #{item.id,jdbcType=VARCHAR} then #{item.isLose,jdbcType=VARCHAR}
+          </if>
+        </foreach>
+      </trim>
+      <trim prefix="instructions = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          <if test="item.instructions != null">
+            when id = #{item.id,jdbcType=VARCHAR} then #{item.instructions,jdbcType=VARCHAR}
+          </if>
+        </foreach>
+      </trim>
+      <trim prefix="remind = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          <if test="item.remind != null">
+            when id = #{item.id,jdbcType=VARCHAR} then #{item.remind,jdbcType=VARCHAR}
+          </if>
+        </foreach>
+      </trim>
+      <trim prefix="e01z934 = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          <if test="item.e01z934 != null">
+            when id = #{item.id,jdbcType=VARCHAR} then #{item.e01z934,jdbcType=VARCHAR}
+          </if>
+        </foreach>
+      </trim>
+    </trim>
+    where id in
+    <foreach close=")" collection="list" item="item" open="(" separator=", ">
+      #{item.id,jdbcType=VARCHAR}
+    </foreach>
+  </update>
+  <insert id="batchInsert" parameterType="map">
+    <!--@mbg.generated-->
+    insert into e01z9_rela
+    (id, a0101, a01_id, dept_id, dept_name, duty, politcy, e01z801, e01z804, e01z805,
+    e01z806, e01z9_id, e01z811, e01z814, e01z817, e01z821, pri_type, e01z1_id, materials,
+    total_pages, e01z111a, flag, e01z831, feedback, modified, is_break, broken, is_lose,
+    instructions, remind, e01z934)
+    values
+    <foreach collection="list" item="item" separator=",">
+      (#{item.id,jdbcType=VARCHAR}, #{item.a0101,jdbcType=VARCHAR}, #{item.a01Id,jdbcType=VARCHAR},
+      #{item.deptId,jdbcType=VARCHAR}, #{item.deptName,jdbcType=VARCHAR}, #{item.duty,jdbcType=VARCHAR},
+      #{item.politcy,jdbcType=VARCHAR}, #{item.e01z801,jdbcType=VARCHAR}, #{item.e01z804,jdbcType=TIMESTAMP},
+      #{item.e01z805,jdbcType=TIMESTAMP}, #{item.e01z806,jdbcType=TIMESTAMP}, #{item.e01z9Id,jdbcType=VARCHAR},
+      #{item.e01z811,jdbcType=VARCHAR}, #{item.e01z814,jdbcType=VARCHAR}, #{item.e01z817,jdbcType=VARCHAR},
+      #{item.e01z821,jdbcType=VARCHAR}, #{item.priType,jdbcType=VARCHAR}, #{item.e01z1Id,jdbcType=VARCHAR},
+      #{item.materials,jdbcType=INTEGER}, #{item.totalPages,jdbcType=INTEGER}, #{item.e01z111a,jdbcType=VARCHAR},
+      #{item.flag,jdbcType=VARCHAR}, #{item.e01z831,jdbcType=VARCHAR}, #{item.feedback,jdbcType=VARCHAR},
+      #{item.modified,jdbcType=VARCHAR}, #{item.isBreak,jdbcType=VARCHAR}, #{item.broken,jdbcType=VARCHAR},
+      #{item.isLose,jdbcType=VARCHAR}, #{item.instructions,jdbcType=VARCHAR}, #{item.remind,jdbcType=VARCHAR},
+      #{item.e01z934,jdbcType=VARCHAR})
+    </foreach>
+  </insert>
+  <insert id="insertOrUpdate" parameterType="com.fudian.project.ams.pojo.E01z9Rela">
+    <!--@mbg.generated-->
+    insert into e01z9_rela
+    (id, a0101, a01_id, dept_id, dept_name, duty, politcy, e01z801, e01z804, e01z805,
+    e01z806, e01z9_id, e01z811, e01z814, e01z817, e01z821, pri_type, e01z1_id, materials,
+    total_pages, e01z111a, flag, e01z831, feedback, modified, is_break, broken, is_lose,
+    instructions, remind, e01z934)
+    values
+    (#{id,jdbcType=VARCHAR}, #{a0101,jdbcType=VARCHAR}, #{a01Id,jdbcType=VARCHAR}, #{deptId,jdbcType=VARCHAR},
+    #{deptName,jdbcType=VARCHAR}, #{duty,jdbcType=VARCHAR}, #{politcy,jdbcType=VARCHAR},
+    #{e01z801,jdbcType=VARCHAR}, #{e01z804,jdbcType=TIMESTAMP}, #{e01z805,jdbcType=TIMESTAMP},
+    #{e01z806,jdbcType=TIMESTAMP}, #{e01z9Id,jdbcType=VARCHAR}, #{e01z811,jdbcType=VARCHAR},
+    #{e01z814,jdbcType=VARCHAR}, #{e01z817,jdbcType=VARCHAR}, #{e01z821,jdbcType=VARCHAR},
+    #{priType,jdbcType=VARCHAR}, #{e01z1Id,jdbcType=VARCHAR}, #{materials,jdbcType=INTEGER},
+    #{totalPages,jdbcType=INTEGER}, #{e01z111a,jdbcType=VARCHAR}, #{flag,jdbcType=VARCHAR},
+    #{e01z831,jdbcType=VARCHAR}, #{feedback,jdbcType=VARCHAR}, #{modified,jdbcType=VARCHAR},
+    #{isBreak,jdbcType=VARCHAR}, #{broken,jdbcType=VARCHAR}, #{isLose,jdbcType=VARCHAR},
+    #{instructions,jdbcType=VARCHAR}, #{remind,jdbcType=VARCHAR}, #{e01z934,jdbcType=VARCHAR}
+    )
+    on duplicate key update
+    id = #{id,jdbcType=VARCHAR},
+    a0101 = #{a0101,jdbcType=VARCHAR},
+    a01_id = #{a01Id,jdbcType=VARCHAR},
+    dept_id = #{deptId,jdbcType=VARCHAR},
+    dept_name = #{deptName,jdbcType=VARCHAR},
+    duty = #{duty,jdbcType=VARCHAR},
+    politcy = #{politcy,jdbcType=VARCHAR},
+    e01z801 = #{e01z801,jdbcType=VARCHAR},
+    e01z804 = #{e01z804,jdbcType=TIMESTAMP},
+    e01z805 = #{e01z805,jdbcType=TIMESTAMP},
+    e01z806 = #{e01z806,jdbcType=TIMESTAMP},
+    e01z9_id = #{e01z9Id,jdbcType=VARCHAR},
+    e01z811 = #{e01z811,jdbcType=VARCHAR},
+    e01z814 = #{e01z814,jdbcType=VARCHAR},
+    e01z817 = #{e01z817,jdbcType=VARCHAR},
+    e01z821 = #{e01z821,jdbcType=VARCHAR},
+    pri_type = #{priType,jdbcType=VARCHAR},
+    e01z1_id = #{e01z1Id,jdbcType=VARCHAR},
+    materials = #{materials,jdbcType=INTEGER},
+    total_pages = #{totalPages,jdbcType=INTEGER},
+    e01z111a = #{e01z111a,jdbcType=VARCHAR},
+    flag = #{flag,jdbcType=VARCHAR},
+    e01z831 = #{e01z831,jdbcType=VARCHAR},
+    feedback = #{feedback,jdbcType=VARCHAR},
+    modified = #{modified,jdbcType=VARCHAR},
+    is_break = #{isBreak,jdbcType=VARCHAR},
+    broken = #{broken,jdbcType=VARCHAR},
+    is_lose = #{isLose,jdbcType=VARCHAR},
+    instructions = #{instructions,jdbcType=VARCHAR},
+    remind = #{remind,jdbcType=VARCHAR},
+    e01z934 = #{e01z934,jdbcType=VARCHAR}
+  </insert>
+  <insert id="insertOrUpdateSelective" parameterType="com.fudian.project.ams.pojo.E01z9Rela">
+    <!--@mbg.generated-->
+    insert into e01z9_rela
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="a0101 != null">
+        a0101,
+      </if>
+      <if test="a01Id != null">
+        a01_id,
+      </if>
+      <if test="deptId != null">
+        dept_id,
+      </if>
+      <if test="deptName != null">
+        dept_name,
+      </if>
+      <if test="duty != null">
+        duty,
+      </if>
+      <if test="politcy != null">
+        politcy,
+      </if>
+      <if test="e01z801 != null">
+        e01z801,
+      </if>
+      <if test="e01z804 != null">
+        e01z804,
+      </if>
+      <if test="e01z805 != null">
+        e01z805,
+      </if>
+      <if test="e01z806 != null">
+        e01z806,
+      </if>
+      <if test="e01z9Id != null">
+        e01z9_id,
+      </if>
+      <if test="e01z811 != null">
+        e01z811,
+      </if>
+      <if test="e01z814 != null">
+        e01z814,
+      </if>
+      <if test="e01z817 != null">
+        e01z817,
+      </if>
+      <if test="e01z821 != null">
+        e01z821,
+      </if>
+      <if test="priType != null">
+        pri_type,
+      </if>
+      <if test="e01z1Id != null">
+        e01z1_id,
+      </if>
+      <if test="materials != null">
+        materials,
+      </if>
+      <if test="totalPages != null">
+        total_pages,
+      </if>
+      <if test="e01z111a != null">
+        e01z111a,
+      </if>
+      <if test="flag != null">
+        flag,
+      </if>
+      <if test="e01z831 != null">
+        e01z831,
+      </if>
+      <if test="feedback != null">
+        feedback,
+      </if>
+      <if test="modified != null">
+        modified,
+      </if>
+      <if test="isBreak != null">
+        is_break,
+      </if>
+      <if test="broken != null">
+        broken,
+      </if>
+      <if test="isLose != null">
+        is_lose,
+      </if>
+      <if test="instructions != null">
+        instructions,
+      </if>
+      <if test="remind != null">
+        remind,
+      </if>
+      <if test="e01z934 != null">
+        e01z934,
+      </if>
+    </trim>
+    values
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="a0101 != null">
+        #{a0101,jdbcType=VARCHAR},
+      </if>
+      <if test="a01Id != null">
+        #{a01Id,jdbcType=VARCHAR},
+      </if>
+      <if test="deptId != null">
+        #{deptId,jdbcType=VARCHAR},
+      </if>
+      <if test="deptName != null">
+        #{deptName,jdbcType=VARCHAR},
+      </if>
+      <if test="duty != null">
+        #{duty,jdbcType=VARCHAR},
+      </if>
+      <if test="politcy != null">
+        #{politcy,jdbcType=VARCHAR},
+      </if>
+      <if test="e01z801 != null">
+        #{e01z801,jdbcType=VARCHAR},
+      </if>
+      <if test="e01z804 != null">
+        #{e01z804,jdbcType=TIMESTAMP},
+      </if>
+      <if test="e01z805 != null">
+        #{e01z805,jdbcType=TIMESTAMP},
+      </if>
+      <if test="e01z806 != null">
+        #{e01z806,jdbcType=TIMESTAMP},
+      </if>
+      <if test="e01z9Id != null">
+        #{e01z9Id,jdbcType=VARCHAR},
+      </if>
+      <if test="e01z811 != null">
+        #{e01z811,jdbcType=VARCHAR},
+      </if>
+      <if test="e01z814 != null">
+        #{e01z814,jdbcType=VARCHAR},
+      </if>
+      <if test="e01z817 != null">
+        #{e01z817,jdbcType=VARCHAR},
+      </if>
+      <if test="e01z821 != null">
+        #{e01z821,jdbcType=VARCHAR},
+      </if>
+      <if test="priType != null">
+        #{priType,jdbcType=VARCHAR},
+      </if>
+      <if test="e01z1Id != null">
+        #{e01z1Id,jdbcType=VARCHAR},
+      </if>
+      <if test="materials != null">
+        #{materials,jdbcType=INTEGER},
+      </if>
+      <if test="totalPages != null">
+        #{totalPages,jdbcType=INTEGER},
+      </if>
+      <if test="e01z111a != null">
+        #{e01z111a,jdbcType=VARCHAR},
+      </if>
+      <if test="flag != null">
+        #{flag,jdbcType=VARCHAR},
+      </if>
+      <if test="e01z831 != null">
+        #{e01z831,jdbcType=VARCHAR},
+      </if>
+      <if test="feedback != null">
+        #{feedback,jdbcType=VARCHAR},
+      </if>
+      <if test="modified != null">
+        #{modified,jdbcType=VARCHAR},
+      </if>
+      <if test="isBreak != null">
+        #{isBreak,jdbcType=VARCHAR},
+      </if>
+      <if test="broken != null">
+        #{broken,jdbcType=VARCHAR},
+      </if>
+      <if test="isLose != null">
+        #{isLose,jdbcType=VARCHAR},
+      </if>
+      <if test="instructions != null">
+        #{instructions,jdbcType=VARCHAR},
+      </if>
+      <if test="remind != null">
+        #{remind,jdbcType=VARCHAR},
+      </if>
+      <if test="e01z934 != null">
+        #{e01z934,jdbcType=VARCHAR},
+      </if>
+    </trim>
+    on duplicate key update
+    <trim suffixOverrides=",">
+      <if test="id != null">
+        id = #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="a0101 != null">
+        a0101 = #{a0101,jdbcType=VARCHAR},
+      </if>
+      <if test="a01Id != null">
+        a01_id = #{a01Id,jdbcType=VARCHAR},
+      </if>
+      <if test="deptId != null">
+        dept_id = #{deptId,jdbcType=VARCHAR},
+      </if>
+      <if test="deptName != null">
+        dept_name = #{deptName,jdbcType=VARCHAR},
+      </if>
+      <if test="duty != null">
+        duty = #{duty,jdbcType=VARCHAR},
+      </if>
+      <if test="politcy != null">
+        politcy = #{politcy,jdbcType=VARCHAR},
+      </if>
+      <if test="e01z801 != null">
+        e01z801 = #{e01z801,jdbcType=VARCHAR},
+      </if>
+      <if test="e01z804 != null">
+        e01z804 = #{e01z804,jdbcType=TIMESTAMP},
+      </if>
+      <if test="e01z805 != null">
+        e01z805 = #{e01z805,jdbcType=TIMESTAMP},
+      </if>
+      <if test="e01z806 != null">
+        e01z806 = #{e01z806,jdbcType=TIMESTAMP},
+      </if>
+      <if test="e01z9Id != null">
+        e01z9_id = #{e01z9Id,jdbcType=VARCHAR},
+      </if>
+      <if test="e01z811 != null">
+        e01z811 = #{e01z811,jdbcType=VARCHAR},
+      </if>
+      <if test="e01z814 != null">
+        e01z814 = #{e01z814,jdbcType=VARCHAR},
+      </if>
+      <if test="e01z817 != null">
+        e01z817 = #{e01z817,jdbcType=VARCHAR},
+      </if>
+      <if test="e01z821 != null">
+        e01z821 = #{e01z821,jdbcType=VARCHAR},
+      </if>
+      <if test="priType != null">
+        pri_type = #{priType,jdbcType=VARCHAR},
+      </if>
+      <if test="e01z1Id != null">
+        e01z1_id = #{e01z1Id,jdbcType=VARCHAR},
+      </if>
+      <if test="materials != null">
+        materials = #{materials,jdbcType=INTEGER},
+      </if>
+      <if test="totalPages != null">
+        total_pages = #{totalPages,jdbcType=INTEGER},
+      </if>
+      <if test="e01z111a != null">
+        e01z111a = #{e01z111a,jdbcType=VARCHAR},
+      </if>
+      <if test="flag != null">
+        flag = #{flag,jdbcType=VARCHAR},
+      </if>
+      <if test="e01z831 != null">
+        e01z831 = #{e01z831,jdbcType=VARCHAR},
+      </if>
+      <if test="feedback != null">
+        feedback = #{feedback,jdbcType=VARCHAR},
+      </if>
+      <if test="modified != null">
+        modified = #{modified,jdbcType=VARCHAR},
+      </if>
+      <if test="isBreak != null">
+        is_break = #{isBreak,jdbcType=VARCHAR},
+      </if>
+      <if test="broken != null">
+        broken = #{broken,jdbcType=VARCHAR},
+      </if>
+      <if test="isLose != null">
+        is_lose = #{isLose,jdbcType=VARCHAR},
+      </if>
+      <if test="instructions != null">
+        instructions = #{instructions,jdbcType=VARCHAR},
+      </if>
+      <if test="remind != null">
+        remind = #{remind,jdbcType=VARCHAR},
+      </if>
+      <if test="e01z934 != null">
+        e01z934 = #{e01z934,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="selectViewDetails" parameterType="com.fudian.project.ams.pojo.E01z9" resultMap="ViewDetailsResultMap">
+    select
+    <include refid="ViewDetails" />
+    from e01z9_rela  left join a01
+    on a01.id=e01z9_rela.a01_id
+    left join sys_dept
+    on sys_dept.id=a01.dept_id
+    left join e01z9
+    on e01z9.id=e01z9_rela.e01z9_id
+    <where>
+      <if test="id!=null and id!=&quot;&quot;">
+        e01z9_rela.e01z9_id = #{id}
+      </if>
+    </where>
+  </select>
+
+</mapper>

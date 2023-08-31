@@ -1,0 +1,118 @@
+.mainHeight {
+  height: 100%;
+}
+
+//弹框标题底部样式
+.dialog-style {
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  .el-dialog {
+    //height: 95%;
+    max-height: 95%;
+    min-height: 20%;
+    position: relative;
+    margin: 0 !important;
+    display: flex;
+    flex-direction: column;
+
+    & .el-dialog__header {
+      background: rgba(204, 204, 204, 0.18);
+      width: 100%;
+      padding: 10px;
+
+      .el-dialog__headerbtn {
+        top: 15px;
+      }
+
+      & .el-dialog__title {
+        font-weight: 600;
+        font-size: 18px;
+        color: #333;
+        opacity: 0.8;
+        letter-spacing: 1px;
+      }
+    }
+
+    & .el-dialog__body {
+      padding: 5px 5px;
+      font-size: 12px;
+      min-height: 100px;
+      overflow: scroll;
+      //background-color: red;
+    }
+
+    & .el-dialog__footer {
+      background: rgba(204, 204, 204, 0.18);
+      width: 100%;
+      padding: 10px;
+    }
+
+    & .el-button + .el-button {
+      margin-left: 6px;
+    }
+  }
+}
+
+//分页器公共样式
+.page {
+  $fontSize: 12px;
+  height: 38px;
+  text-align: right;
+  padding: 5px;
+
+  .el-pagination {
+    height: 28px;
+    font-size: $fontSize;
+
+    & > .el-pagination__total {
+      font-size: $fontSize;
+    }
+
+    & > .el-pagination__sizes {
+      .el-input {
+        input {
+          font-size: $fontSize;
+          height: 26px;
+        }
+      }
+    }
+
+    button {
+      background-color: transparent;
+    }
+
+    & > .el-pager {
+      li {
+        font-size: $fontSize;
+        background-color: transparent;
+      }
+    }
+
+    & > .el-pagination__jump {
+      font-size: $fontSize;
+
+      .el-input {
+        input {
+          font-size: $fontSize;
+          height: 26px;
+        }
+      }
+    }
+  }
+}
+
+//滚动条
+/**滚动条的宽度*/
+::-webkit-scrollbar {
+  width: 5px !important; /*竖向*/
+  height: 5px !important; /*横向*/
+}
+
+/*滚动条的滑块*/
+::-webkit-scrollbar-thumb {
+  background-color: #ddd !important;
+  border-radius: 3px !important;
+}

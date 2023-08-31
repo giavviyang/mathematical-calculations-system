@@ -1,0 +1,471 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.fudian.project.ams.mapper.E01z8LedgerMapper">
+  <resultMap id="BaseResultMap" type="com.fudian.project.ams.pojo.E01z8Ledger">
+    <!--@mbg.generated-->
+    <!--@Table e01z8_ledger-->
+    <id column="id" jdbcType="VARCHAR" property="id" />
+    <result column="org_id" jdbcType="VARCHAR" property="orgId" />
+    <result column="user_id" jdbcType="VARCHAR" property="userId" />
+    <result column="user_name" jdbcType="VARCHAR" property="userName" />
+    <result column="duty" jdbcType="VARCHAR" property="duty" />
+    <result column="politcy" jdbcType="VARCHAR" property="politcy" />
+    <result column="e01z824a" jdbcType="VARCHAR" property="e01z824a" />
+    <result column="e01z824b" jdbcType="VARCHAR" property="e01z824b" />
+    <result column="e01z831" jdbcType="VARCHAR" property="e01z831" />
+    <result column="target" jdbcType="VARCHAR" property="target" />
+    <result column="approv_time" jdbcType="TIMESTAMP" property="approvTime" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+    <result column="start_time" jdbcType="TIMESTAMP" property="startTime" />
+    <result column="end_time" jdbcType="TIMESTAMP" property="endTime" />
+    <result column="print_contents" jdbcType="VARCHAR" property="printContents" />
+    <result column="application_reasons" jdbcType="VARCHAR" property="applicationReasons" />
+    <result column="user_card" jdbcType="VARCHAR" property="userCard" />
+    <result column="user_phone" jdbcType="VARCHAR" property="userPhone" />
+    <result column="flag" jdbcType="VARCHAR" property="flag" />
+    <result column="e01z817" jdbcType="VARCHAR" property="e01z817" />
+    <result column="e01z801" jdbcType="VARCHAR" property="e01z801" />
+    <result column="creaters_time" jdbcType="TIMESTAMP" property="creatersTime" />
+    <result column="user_number" jdbcType="VARCHAR" property="userNumber" />
+    <result column="apply_number" jdbcType="INTEGER" property="applyNumber" />
+    <result column="apply_status" jdbcType="VARCHAR" property="applyStatus" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    <!--@mbg.generated-->
+    id, org_id, user_id, user_name, duty, politcy, e01z824a, e01z824b, e01z831, target, 
+    approv_time, `status`, start_time, end_time, print_contents, application_reasons, 
+    user_card, user_phone, flag, e01z817, e01z801, creaters_time, user_number, apply_number, 
+    apply_status
+  </sql>
+  <update id="updateBatch" parameterType="java.util.List">
+    <!--@mbg.generated-->
+    update e01z8_ledger
+    <trim prefix="set" suffixOverrides=",">
+      <trim prefix="org_id = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=VARCHAR} then #{item.orgId,jdbcType=VARCHAR}
+        </foreach>
+      </trim>
+      <trim prefix="user_id = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=VARCHAR} then #{item.userId,jdbcType=VARCHAR}
+        </foreach>
+      </trim>
+      <trim prefix="user_name = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=VARCHAR} then #{item.userName,jdbcType=VARCHAR}
+        </foreach>
+      </trim>
+      <trim prefix="duty = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=VARCHAR} then #{item.duty,jdbcType=VARCHAR}
+        </foreach>
+      </trim>
+      <trim prefix="politcy = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=VARCHAR} then #{item.politcy,jdbcType=VARCHAR}
+        </foreach>
+      </trim>
+      <trim prefix="e01z824a = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=VARCHAR} then #{item.e01z824a,jdbcType=VARCHAR}
+        </foreach>
+      </trim>
+      <trim prefix="e01z824b = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=VARCHAR} then #{item.e01z824b,jdbcType=VARCHAR}
+        </foreach>
+      </trim>
+      <trim prefix="e01z831 = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=VARCHAR} then #{item.e01z831,jdbcType=VARCHAR}
+        </foreach>
+      </trim>
+      <trim prefix="target = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=VARCHAR} then #{item.target,jdbcType=VARCHAR}
+        </foreach>
+      </trim>
+      <trim prefix="approv_time = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=VARCHAR} then #{item.approvTime,jdbcType=TIMESTAMP}
+        </foreach>
+      </trim>
+      <trim prefix="`status` = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=VARCHAR} then #{item.status,jdbcType=INTEGER}
+        </foreach>
+      </trim>
+      <trim prefix="start_time = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=VARCHAR} then #{item.startTime,jdbcType=TIMESTAMP}
+        </foreach>
+      </trim>
+      <trim prefix="end_time = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=VARCHAR} then #{item.endTime,jdbcType=TIMESTAMP}
+        </foreach>
+      </trim>
+      <trim prefix="print_contents = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=VARCHAR} then #{item.printContents,jdbcType=VARCHAR}
+        </foreach>
+      </trim>
+      <trim prefix="application_reasons = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=VARCHAR} then #{item.applicationReasons,jdbcType=VARCHAR}
+        </foreach>
+      </trim>
+      <trim prefix="user_card = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=VARCHAR} then #{item.userCard,jdbcType=VARCHAR}
+        </foreach>
+      </trim>
+      <trim prefix="user_phone = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=VARCHAR} then #{item.userPhone,jdbcType=VARCHAR}
+        </foreach>
+      </trim>
+      <trim prefix="flag = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=VARCHAR} then #{item.flag,jdbcType=VARCHAR}
+        </foreach>
+      </trim>
+      <trim prefix="e01z817 = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=VARCHAR} then #{item.e01z817,jdbcType=VARCHAR}
+        </foreach>
+      </trim>
+      <trim prefix="e01z801 = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=VARCHAR} then #{item.e01z801,jdbcType=VARCHAR}
+        </foreach>
+      </trim>
+      <trim prefix="creaters_time = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=VARCHAR} then #{item.creatersTime,jdbcType=TIMESTAMP}
+        </foreach>
+      </trim>
+      <trim prefix="user_number = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=VARCHAR} then #{item.userNumber,jdbcType=VARCHAR}
+        </foreach>
+      </trim>
+      <trim prefix="apply_number = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=VARCHAR} then #{item.applyNumber,jdbcType=INTEGER}
+        </foreach>
+      </trim>
+      <trim prefix="apply_status = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=VARCHAR} then #{item.applyStatus,jdbcType=VARCHAR}
+        </foreach>
+      </trim>
+    </trim>
+    where id in
+    <foreach close=")" collection="list" item="item" open="(" separator=", ">
+      #{item.id,jdbcType=VARCHAR}
+    </foreach>
+  </update>
+  <insert id="batchInsert" parameterType="map">
+    <!--@mbg.generated-->
+    insert into e01z8_ledger
+    (id, org_id, user_id, user_name, duty, politcy, e01z824a, e01z824b, e01z831, target, 
+      approv_time, `status`, start_time, end_time, print_contents, application_reasons, 
+      user_card, user_phone, flag, e01z817, e01z801, creaters_time, user_number, apply_number, 
+      apply_status)
+    values
+    <foreach collection="list" item="item" separator=",">
+      (#{item.id,jdbcType=VARCHAR}, #{item.orgId,jdbcType=VARCHAR}, #{item.userId,jdbcType=VARCHAR}, 
+        #{item.userName,jdbcType=VARCHAR}, #{item.duty,jdbcType=VARCHAR}, #{item.politcy,jdbcType=VARCHAR}, 
+        #{item.e01z824a,jdbcType=VARCHAR}, #{item.e01z824b,jdbcType=VARCHAR}, #{item.e01z831,jdbcType=VARCHAR}, 
+        #{item.target,jdbcType=VARCHAR}, #{item.approvTime,jdbcType=TIMESTAMP}, #{item.status,jdbcType=INTEGER}, 
+        #{item.startTime,jdbcType=TIMESTAMP}, #{item.endTime,jdbcType=TIMESTAMP}, #{item.printContents,jdbcType=VARCHAR}, 
+        #{item.applicationReasons,jdbcType=VARCHAR}, #{item.userCard,jdbcType=VARCHAR}, 
+        #{item.userPhone,jdbcType=VARCHAR}, #{item.flag,jdbcType=VARCHAR}, #{item.e01z817,jdbcType=VARCHAR}, 
+        #{item.e01z801,jdbcType=VARCHAR}, #{item.creatersTime,jdbcType=TIMESTAMP}, #{item.userNumber,jdbcType=VARCHAR}, 
+        #{item.applyNumber,jdbcType=INTEGER}, #{item.applyStatus,jdbcType=VARCHAR})
+    </foreach>
+  </insert>
+  <insert id="insertOrUpdate" parameterType="com.fudian.project.ams.pojo.E01z8Ledger">
+    <!--@mbg.generated-->
+    insert into e01z8_ledger
+    (id, org_id, user_id, user_name, duty, politcy, e01z824a, e01z824b, e01z831, target, 
+      approv_time, `status`, start_time, end_time, print_contents, application_reasons, 
+      user_card, user_phone, flag, e01z817, e01z801, creaters_time, user_number, apply_number, 
+      apply_status)
+    values
+    (#{id,jdbcType=VARCHAR}, #{orgId,jdbcType=VARCHAR}, #{userId,jdbcType=VARCHAR}, #{userName,jdbcType=VARCHAR}, 
+      #{duty,jdbcType=VARCHAR}, #{politcy,jdbcType=VARCHAR}, #{e01z824a,jdbcType=VARCHAR}, 
+      #{e01z824b,jdbcType=VARCHAR}, #{e01z831,jdbcType=VARCHAR}, #{target,jdbcType=VARCHAR}, 
+      #{approvTime,jdbcType=TIMESTAMP}, #{status,jdbcType=INTEGER}, #{startTime,jdbcType=TIMESTAMP}, 
+      #{endTime,jdbcType=TIMESTAMP}, #{printContents,jdbcType=VARCHAR}, #{applicationReasons,jdbcType=VARCHAR}, 
+      #{userCard,jdbcType=VARCHAR}, #{userPhone,jdbcType=VARCHAR}, #{flag,jdbcType=VARCHAR}, 
+      #{e01z817,jdbcType=VARCHAR}, #{e01z801,jdbcType=VARCHAR}, #{creatersTime,jdbcType=TIMESTAMP}, 
+      #{userNumber,jdbcType=VARCHAR}, #{applyNumber,jdbcType=INTEGER}, #{applyStatus,jdbcType=VARCHAR}
+      )
+    on duplicate key update 
+    id = #{id,jdbcType=VARCHAR}, 
+    org_id = #{orgId,jdbcType=VARCHAR}, 
+    user_id = #{userId,jdbcType=VARCHAR}, 
+    user_name = #{userName,jdbcType=VARCHAR}, 
+    duty = #{duty,jdbcType=VARCHAR}, 
+    politcy = #{politcy,jdbcType=VARCHAR}, 
+    e01z824a = #{e01z824a,jdbcType=VARCHAR}, 
+    e01z824b = #{e01z824b,jdbcType=VARCHAR}, 
+    e01z831 = #{e01z831,jdbcType=VARCHAR}, 
+    target = #{target,jdbcType=VARCHAR}, 
+    approv_time = #{approvTime,jdbcType=TIMESTAMP}, 
+    `status` = #{status,jdbcType=INTEGER}, 
+    start_time = #{startTime,jdbcType=TIMESTAMP}, 
+    end_time = #{endTime,jdbcType=TIMESTAMP}, 
+    print_contents = #{printContents,jdbcType=VARCHAR}, 
+    application_reasons = #{applicationReasons,jdbcType=VARCHAR}, 
+    user_card = #{userCard,jdbcType=VARCHAR}, 
+    user_phone = #{userPhone,jdbcType=VARCHAR}, 
+    flag = #{flag,jdbcType=VARCHAR}, 
+    e01z817 = #{e01z817,jdbcType=VARCHAR}, 
+    e01z801 = #{e01z801,jdbcType=VARCHAR}, 
+    creaters_time = #{creatersTime,jdbcType=TIMESTAMP}, 
+    user_number = #{userNumber,jdbcType=VARCHAR}, 
+    apply_number = #{applyNumber,jdbcType=INTEGER}, 
+    apply_status = #{applyStatus,jdbcType=VARCHAR}
+  </insert>
+  <insert id="insertOrUpdateSelective" parameterType="com.fudian.project.ams.pojo.E01z8Ledger">
+    <!--@mbg.generated-->
+    insert into e01z8_ledger
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="orgId != null">
+        org_id,
+      </if>
+      <if test="userId != null">
+        user_id,
+      </if>
+      <if test="userName != null">
+        user_name,
+      </if>
+      <if test="duty != null">
+        duty,
+      </if>
+      <if test="politcy != null">
+        politcy,
+      </if>
+      <if test="e01z824a != null">
+        e01z824a,
+      </if>
+      <if test="e01z824b != null">
+        e01z824b,
+      </if>
+      <if test="e01z831 != null">
+        e01z831,
+      </if>
+      <if test="target != null">
+        target,
+      </if>
+      <if test="approvTime != null">
+        approv_time,
+      </if>
+      <if test="status != null">
+        `status`,
+      </if>
+      <if test="startTime != null">
+        start_time,
+      </if>
+      <if test="endTime != null">
+        end_time,
+      </if>
+      <if test="printContents != null">
+        print_contents,
+      </if>
+      <if test="applicationReasons != null">
+        application_reasons,
+      </if>
+      <if test="userCard != null">
+        user_card,
+      </if>
+      <if test="userPhone != null">
+        user_phone,
+      </if>
+      <if test="flag != null">
+        flag,
+      </if>
+      <if test="e01z817 != null">
+        e01z817,
+      </if>
+      <if test="e01z801 != null">
+        e01z801,
+      </if>
+      <if test="creatersTime != null">
+        creaters_time,
+      </if>
+      <if test="userNumber != null">
+        user_number,
+      </if>
+      <if test="applyNumber != null">
+        apply_number,
+      </if>
+      <if test="applyStatus != null">
+        apply_status,
+      </if>
+    </trim>
+    values
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="orgId != null">
+        #{orgId,jdbcType=VARCHAR},
+      </if>
+      <if test="userId != null">
+        #{userId,jdbcType=VARCHAR},
+      </if>
+      <if test="userName != null">
+        #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="duty != null">
+        #{duty,jdbcType=VARCHAR},
+      </if>
+      <if test="politcy != null">
+        #{politcy,jdbcType=VARCHAR},
+      </if>
+      <if test="e01z824a != null">
+        #{e01z824a,jdbcType=VARCHAR},
+      </if>
+      <if test="e01z824b != null">
+        #{e01z824b,jdbcType=VARCHAR},
+      </if>
+      <if test="e01z831 != null">
+        #{e01z831,jdbcType=VARCHAR},
+      </if>
+      <if test="target != null">
+        #{target,jdbcType=VARCHAR},
+      </if>
+      <if test="approvTime != null">
+        #{approvTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="startTime != null">
+        #{startTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="endTime != null">
+        #{endTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="printContents != null">
+        #{printContents,jdbcType=VARCHAR},
+      </if>
+      <if test="applicationReasons != null">
+        #{applicationReasons,jdbcType=VARCHAR},
+      </if>
+      <if test="userCard != null">
+        #{userCard,jdbcType=VARCHAR},
+      </if>
+      <if test="userPhone != null">
+        #{userPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="flag != null">
+        #{flag,jdbcType=VARCHAR},
+      </if>
+      <if test="e01z817 != null">
+        #{e01z817,jdbcType=VARCHAR},
+      </if>
+      <if test="e01z801 != null">
+        #{e01z801,jdbcType=VARCHAR},
+      </if>
+      <if test="creatersTime != null">
+        #{creatersTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="userNumber != null">
+        #{userNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="applyNumber != null">
+        #{applyNumber,jdbcType=INTEGER},
+      </if>
+      <if test="applyStatus != null">
+        #{applyStatus,jdbcType=VARCHAR},
+      </if>
+    </trim>
+    on duplicate key update 
+    <trim suffixOverrides=",">
+      <if test="id != null">
+        id = #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="orgId != null">
+        org_id = #{orgId,jdbcType=VARCHAR},
+      </if>
+      <if test="userId != null">
+        user_id = #{userId,jdbcType=VARCHAR},
+      </if>
+      <if test="userName != null">
+        user_name = #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="duty != null">
+        duty = #{duty,jdbcType=VARCHAR},
+      </if>
+      <if test="politcy != null">
+        politcy = #{politcy,jdbcType=VARCHAR},
+      </if>
+      <if test="e01z824a != null">
+        e01z824a = #{e01z824a,jdbcType=VARCHAR},
+      </if>
+      <if test="e01z824b != null">
+        e01z824b = #{e01z824b,jdbcType=VARCHAR},
+      </if>
+      <if test="e01z831 != null">
+        e01z831 = #{e01z831,jdbcType=VARCHAR},
+      </if>
+      <if test="target != null">
+        target = #{target,jdbcType=VARCHAR},
+      </if>
+      <if test="approvTime != null">
+        approv_time = #{approvTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null">
+        `status` = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="startTime != null">
+        start_time = #{startTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="endTime != null">
+        end_time = #{endTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="printContents != null">
+        print_contents = #{printContents,jdbcType=VARCHAR},
+      </if>
+      <if test="applicationReasons != null">
+        application_reasons = #{applicationReasons,jdbcType=VARCHAR},
+      </if>
+      <if test="userCard != null">
+        user_card = #{userCard,jdbcType=VARCHAR},
+      </if>
+      <if test="userPhone != null">
+        user_phone = #{userPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="flag != null">
+        flag = #{flag,jdbcType=VARCHAR},
+      </if>
+      <if test="e01z817 != null">
+        e01z817 = #{e01z817,jdbcType=VARCHAR},
+      </if>
+      <if test="e01z801 != null">
+        e01z801 = #{e01z801,jdbcType=VARCHAR},
+      </if>
+      <if test="creatersTime != null">
+        creaters_time = #{creatersTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="userNumber != null">
+        user_number = #{userNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="applyNumber != null">
+        apply_number = #{applyNumber,jdbcType=INTEGER},
+      </if>
+      <if test="applyStatus != null">
+        apply_status = #{applyStatus,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+</mapper>

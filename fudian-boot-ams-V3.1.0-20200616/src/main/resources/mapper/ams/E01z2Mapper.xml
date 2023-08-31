@@ -1,0 +1,631 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.fudian.project.ams.mapper.E01z2Mapper">
+  <resultMap id="BaseResultMap" type="com.fudian.project.ams.pojo.E01z2">
+    <!--@mbg.generated-->
+    <!--@Table e01z2-->
+    <id column="id" property="id" />
+    <result column="org_id" property="orgId" />
+    <result column="a01_id" property="a01Id" />
+    <result column="e01z201" property="e01z201" />
+    <result column="e01z204a" property="e01z204a" />
+    <result column="e01z204b" property="e01z204b" />
+    <result column="e01z207" property="e01z207" />
+    <result column="e01z211" property="e01z211" />
+    <result column="e01z214" property="e01z214" />
+    <result column="e01z217" property="e01z217" />
+    <result column="e01z221a" property="e01z221a" />
+    <result column="e01z221b" property="e01z221b" />
+    <result column="e01z224" property="e01z224" />
+    <result column="e01z227" property="e01z227" />
+    <result column="e01z231" property="e01z231" />
+    <result column="e01z234" property="e01z234" />
+    <result column="e01z237" property="e01z237" />
+    <result column="e01z241" property="e01z241" />
+    <result column="e01z244" property="e01z244" />
+    <result column="archive" property="archive" />
+  </resultMap>
+  <resultMap id="E01z2AndA01Map" type="java.util.Map">
+    <!--@mbg.generated-->
+    <!--@Table e01z2-->
+    <!--@Table a01-->
+    <id column="id" property="id" />
+    <result column="org_id" property="orgId" />
+    <result column="a01_id" property="a01Id" />
+    <result column="e01z201" property="e01z201" />
+    <result column="e01z204a" property="e01z204a" />
+    <result column="e01z204b" property="e01z204b" />
+    <result column="e01z207" property="e01z207" />
+    <result column="e01z211" property="e01z211" />
+    <result column="e01z214" property="e01z214" />
+    <result column="e01z217" property="e01z217" />
+    <result column="e01z221a" property="e01z221a" />
+    <result column="e01z221b" property="e01z221b" />
+    <result column="e01z224" property="e01z224" />
+    <result column="e01z227" property="e01z227" />
+    <result column="e01z231" property="e01z231" />
+    <result column="e01z234" property="e01z234" />
+    <result column="e01z237" property="e01z237" />
+    <result column="e01z241" property="e01z241" />
+    <result column="e01z244" property="e01z244" />
+    <result column="archive" property="archive" />
+    <result column="a0101" property="a0101" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <!--@mbg.generated-->
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <!--@mbg.generated-->
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    <!--@mbg.generated-->
+    id, org_id, a01_id, e01z201, e01z204a, e01z204b, e01z207, e01z211, e01z214, e01z217,
+    e01z221a, e01z221b, e01z224, e01z227, e01z231, e01z234, e01z237, e01z241, e01z244,
+    archive
+  </sql>
+  <sql id="E01z2AndA01_Column_List">
+    <!--@mbg.generated-->
+    e01z2.id, e01z2.org_id, e01z2.a01_id, e01z2.e01z201, e01z2.e01z204a, e01z2.e01z204b, e01z2.e01z207, e01z2.e01z211, e01z2.e01z214, e01z2.e01z217,
+    e01z2.e01z221a, e01z2.e01z221b, e01z2.e01z224, e01z2.e01z227, e01z2.e01z231, e01z2.e01z234, e01z2.e01z237, e01z2.e01z241, e01z2.e01z244,
+    e01z2.archive,a01.a0101,a01.duty
+  </sql>
+  <select id="selectByExample" parameterType="com.fudian.project.ams.pojo.E01z2Example" resultMap="BaseResultMap">
+    <!--@mbg.generated-->
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from e01z2
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <delete id="deleteByExample" parameterType="com.fudian.project.ams.pojo.E01z2Example">
+    <!--@mbg.generated-->
+    delete from e01z2
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <select id="countByExample" parameterType="com.fudian.project.ams.pojo.E01z2Example" resultType="java.lang.Long">
+    <!--@mbg.generated-->
+    select count(*) from e01z2
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    <!--@mbg.generated-->
+    update e01z2
+    <set>
+      <if test="record.id != null">
+        id = #{record.id},
+      </if>
+      <if test="record.orgId != null">
+        org_id = #{record.orgId},
+      </if>
+      <if test="record.a01Id != null">
+        a01_id = #{record.a01Id},
+      </if>
+      <if test="record.e01z201 != null">
+        e01z201 = #{record.e01z201},
+      </if>
+      <if test="record.e01z204a != null">
+        e01z204a = #{record.e01z204a},
+      </if>
+      <if test="record.e01z204b != null">
+        e01z204b = #{record.e01z204b},
+      </if>
+      <if test="record.e01z207 != null">
+        e01z207 = #{record.e01z207},
+      </if>
+      <if test="record.e01z211 != null">
+        e01z211 = #{record.e01z211},
+      </if>
+      <if test="record.e01z214 != null">
+        e01z214 = #{record.e01z214},
+      </if>
+      <if test="record.e01z217 != null">
+        e01z217 = #{record.e01z217},
+      </if>
+      <if test="record.e01z221a != null">
+        e01z221a = #{record.e01z221a},
+      </if>
+      <if test="record.e01z221b != null">
+        e01z221b = #{record.e01z221b},
+      </if>
+      <if test="record.e01z224 != null">
+        e01z224 = #{record.e01z224},
+      </if>
+      <if test="record.e01z227 != null">
+        e01z227 = #{record.e01z227},
+      </if>
+      <if test="record.e01z231 != null">
+        e01z231 = #{record.e01z231},
+      </if>
+      <if test="record.e01z234 != null">
+        e01z234 = #{record.e01z234},
+      </if>
+      <if test="record.e01z237 != null">
+        e01z237 = #{record.e01z237},
+      </if>
+      <if test="record.e01z241 != null">
+        e01z241 = #{record.e01z241},
+      </if>
+      <if test="record.e01z244 != null">
+        e01z244 = #{record.e01z244},
+      </if>
+      <if test="record.archive != null">
+        archive = #{record.archive},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    <!--@mbg.generated-->
+    update e01z2
+    set id = #{record.id},
+    org_id = #{record.orgId},
+    a01_id = #{record.a01Id},
+    e01z201 = #{record.e01z201},
+    e01z204a = #{record.e01z204a},
+    e01z204b = #{record.e01z204b},
+    e01z207 = #{record.e01z207},
+    e01z211 = #{record.e01z211},
+    e01z214 = #{record.e01z214},
+    e01z217 = #{record.e01z217},
+    e01z221a = #{record.e01z221a},
+    e01z221b = #{record.e01z221b},
+    e01z224 = #{record.e01z224},
+    e01z227 = #{record.e01z227},
+    e01z231 = #{record.e01z231},
+    e01z234 = #{record.e01z234},
+    e01z237 = #{record.e01z237},
+    e01z241 = #{record.e01z241},
+    e01z244 = #{record.e01z244},
+    archive = #{record.archive}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateBatch" parameterType="java.util.List">
+    <!--@mbg.generated-->
+    update e01z2
+    <trim prefix="set" suffixOverrides=",">
+      <trim prefix="org_id = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id} then #{item.orgId}
+        </foreach>
+      </trim>
+      <trim prefix="a01_id = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id} then #{item.a01Id}
+        </foreach>
+      </trim>
+      <trim prefix="e01z201 = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id} then #{item.e01z201}
+        </foreach>
+      </trim>
+      <trim prefix="e01z204a = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id} then #{item.e01z204a}
+        </foreach>
+      </trim>
+      <trim prefix="e01z204b = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id} then #{item.e01z204b}
+        </foreach>
+      </trim>
+      <trim prefix="e01z207 = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id} then #{item.e01z207}
+        </foreach>
+      </trim>
+      <trim prefix="e01z211 = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id} then #{item.e01z211}
+        </foreach>
+      </trim>
+      <trim prefix="e01z214 = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id} then #{item.e01z214}
+        </foreach>
+      </trim>
+      <trim prefix="e01z217 = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id} then #{item.e01z217}
+        </foreach>
+      </trim>
+      <trim prefix="e01z221a = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id} then #{item.e01z221a}
+        </foreach>
+      </trim>
+      <trim prefix="e01z221b = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id} then #{item.e01z221b}
+        </foreach>
+      </trim>
+      <trim prefix="e01z224 = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id} then #{item.e01z224}
+        </foreach>
+      </trim>
+      <trim prefix="e01z227 = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id} then #{item.e01z227}
+        </foreach>
+      </trim>
+      <trim prefix="e01z231 = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id} then #{item.e01z231}
+        </foreach>
+      </trim>
+      <trim prefix="e01z234 = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id} then #{item.e01z234}
+        </foreach>
+      </trim>
+      <trim prefix="e01z237 = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id} then #{item.e01z237}
+        </foreach>
+      </trim>
+      <trim prefix="e01z241 = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id} then #{item.e01z241}
+        </foreach>
+      </trim>
+      <trim prefix="e01z244 = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id} then #{item.e01z244}
+        </foreach>
+      </trim>
+      <trim prefix="archive = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id} then #{item.archive}
+        </foreach>
+      </trim>
+    </trim>
+    where id in
+    <foreach close=")" collection="list" item="item" open="(" separator=", ">
+      #{item.id}
+    </foreach>
+  </update>
+  <insert id="batchInsert" parameterType="map">
+    <!--@mbg.generated-->
+    insert into e01z2
+    (id, org_id, a01_id, e01z201, e01z204a, e01z204b, e01z207, e01z211, e01z214, e01z217,
+    e01z221a, e01z221b, e01z224, e01z227, e01z231, e01z234, e01z237, e01z241, e01z244,
+    archive)
+    values
+    <foreach collection="list" item="item" separator=",">
+      (#{item.id}, #{item.orgId}, #{item.a01Id}, #{item.e01z201}, #{item.e01z204a}, #{item.e01z204b},
+      #{item.e01z207}, #{item.e01z211}, #{item.e01z214}, #{item.e01z217}, #{item.e01z221a},
+      #{item.e01z221b}, #{item.e01z224}, #{item.e01z227}, #{item.e01z231}, #{item.e01z234},
+      #{item.e01z237}, #{item.e01z241}, #{item.e01z244}, #{item.archive})
+    </foreach>
+  </insert>
+  <insert id="insertOrUpdate" parameterType="com.fudian.project.ams.pojo.E01z2">
+    <!--@mbg.generated-->
+    insert into e01z2
+    (id, org_id, a01_id, e01z201, e01z204a, e01z204b, e01z207, e01z211, e01z214, e01z217,
+    e01z221a, e01z221b, e01z224, e01z227, e01z231, e01z234, e01z237, e01z241, e01z244,
+    archive)
+    values
+    (#{id}, #{orgId}, #{a01Id}, #{e01z201}, #{e01z204a}, #{e01z204b}, #{e01z207}, #{e01z211},
+    #{e01z214}, #{e01z217}, #{e01z221a}, #{e01z221b}, #{e01z224}, #{e01z227}, #{e01z231},
+    #{e01z234}, #{e01z237}, #{e01z241}, #{e01z244}, #{archive})
+    on duplicate key update
+    id = #{id},
+    org_id = #{orgId},
+    a01_id = #{a01Id},
+    e01z201 = #{e01z201},
+    e01z204a = #{e01z204a},
+    e01z204b = #{e01z204b},
+    e01z207 = #{e01z207},
+    e01z211 = #{e01z211},
+    e01z214 = #{e01z214},
+    e01z217 = #{e01z217},
+    e01z221a = #{e01z221a},
+    e01z221b = #{e01z221b},
+    e01z224 = #{e01z224},
+    e01z227 = #{e01z227},
+    e01z231 = #{e01z231},
+    e01z234 = #{e01z234},
+    e01z237 = #{e01z237},
+    e01z241 = #{e01z241},
+    e01z244 = #{e01z244},
+    archive = #{archive}
+  </insert>
+  <insert id="insertOrUpdateSelective" parameterType="com.fudian.project.ams.pojo.E01z2">
+    <!--@mbg.generated-->
+    insert into e01z2
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="orgId != null">
+        org_id,
+      </if>
+      <if test="a01Id != null">
+        a01_id,
+      </if>
+      <if test="e01z201 != null">
+        e01z201,
+      </if>
+      <if test="e01z204a != null">
+        e01z204a,
+      </if>
+      <if test="e01z204b != null">
+        e01z204b,
+      </if>
+      <if test="e01z207 != null">
+        e01z207,
+      </if>
+      <if test="e01z211 != null">
+        e01z211,
+      </if>
+      <if test="e01z214 != null">
+        e01z214,
+      </if>
+      <if test="e01z217 != null">
+        e01z217,
+      </if>
+      <if test="e01z221a != null">
+        e01z221a,
+      </if>
+      <if test="e01z221b != null">
+        e01z221b,
+      </if>
+      <if test="e01z224 != null">
+        e01z224,
+      </if>
+      <if test="e01z227 != null">
+        e01z227,
+      </if>
+      <if test="e01z231 != null">
+        e01z231,
+      </if>
+      <if test="e01z234 != null">
+        e01z234,
+      </if>
+      <if test="e01z237 != null">
+        e01z237,
+      </if>
+      <if test="e01z241 != null">
+        e01z241,
+      </if>
+      <if test="e01z244 != null">
+        e01z244,
+      </if>
+      <if test="archive != null">
+        archive,
+      </if>
+    </trim>
+    values
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id},
+      </if>
+      <if test="orgId != null">
+        #{orgId},
+      </if>
+      <if test="a01Id != null">
+        #{a01Id},
+      </if>
+      <if test="e01z201 != null">
+        #{e01z201},
+      </if>
+      <if test="e01z204a != null">
+        #{e01z204a},
+      </if>
+      <if test="e01z204b != null">
+        #{e01z204b},
+      </if>
+      <if test="e01z207 != null">
+        #{e01z207},
+      </if>
+      <if test="e01z211 != null">
+        #{e01z211},
+      </if>
+      <if test="e01z214 != null">
+        #{e01z214},
+      </if>
+      <if test="e01z217 != null">
+        #{e01z217},
+      </if>
+      <if test="e01z221a != null">
+        #{e01z221a},
+      </if>
+      <if test="e01z221b != null">
+        #{e01z221b},
+      </if>
+      <if test="e01z224 != null">
+        #{e01z224},
+      </if>
+      <if test="e01z227 != null">
+        #{e01z227},
+      </if>
+      <if test="e01z231 != null">
+        #{e01z231},
+      </if>
+      <if test="e01z234 != null">
+        #{e01z234},
+      </if>
+      <if test="e01z237 != null">
+        #{e01z237},
+      </if>
+      <if test="e01z241 != null">
+        #{e01z241},
+      </if>
+      <if test="e01z244 != null">
+        #{e01z244},
+      </if>
+      <if test="archive != null">
+        #{archive},
+      </if>
+    </trim>
+    on duplicate key update
+    <trim suffixOverrides=",">
+      <if test="id != null">
+        id = #{id},
+      </if>
+      <if test="orgId != null">
+        org_id = #{orgId},
+      </if>
+      <if test="a01Id != null">
+        a01_id = #{a01Id},
+      </if>
+      <if test="e01z201 != null">
+        e01z201 = #{e01z201},
+      </if>
+      <if test="e01z204a != null">
+        e01z204a = #{e01z204a},
+      </if>
+      <if test="e01z204b != null">
+        e01z204b = #{e01z204b},
+      </if>
+      <if test="e01z207 != null">
+        e01z207 = #{e01z207},
+      </if>
+      <if test="e01z211 != null">
+        e01z211 = #{e01z211},
+      </if>
+      <if test="e01z214 != null">
+        e01z214 = #{e01z214},
+      </if>
+      <if test="e01z217 != null">
+        e01z217 = #{e01z217},
+      </if>
+      <if test="e01z221a != null">
+        e01z221a = #{e01z221a},
+      </if>
+      <if test="e01z221b != null">
+        e01z221b = #{e01z221b},
+      </if>
+      <if test="e01z224 != null">
+        e01z224 = #{e01z224},
+      </if>
+      <if test="e01z227 != null">
+        e01z227 = #{e01z227},
+      </if>
+      <if test="e01z231 != null">
+        e01z231 = #{e01z231},
+      </if>
+      <if test="e01z234 != null">
+        e01z234 = #{e01z234},
+      </if>
+      <if test="e01z237 != null">
+        e01z237 = #{e01z237},
+      </if>
+      <if test="e01z241 != null">
+        e01z241 = #{e01z241},
+      </if>
+      <if test="e01z244 != null">
+        e01z244 = #{e01z244},
+      </if>
+      <if test="archive != null">
+        archive = #{archive},
+      </if>
+    </trim>
+  </insert>
+  <select id="queryE01z2s" parameterType="java.util.Map" resultMap="E01z2AndA01Map">
+    select
+    <include refid="E01z2AndA01_Column_List" />
+    from e01z2
+    left join a01
+    on e01z2.a01_id = a01.id
+    left join sys_dept
+    on e01z2.dept_id = sys_dept.id
+    left join sys_file
+    on e01z2.id = sys_file.binding_id
+    <where>
+      <if test="checkYear!=null">
+        (e01z2.e01z201 LIKE CONCAT("",#{checkYear}, "%"))
+      </if>
+      <if test="personName!=null">
+        and (a01.a0101 LIKE CONCAT("%",#{personName}, "%") or a0102 LIKE CONCAT("%",#{personName}, "%"))
+      </if>
+      <if test="deptName!=null">
+        and (sys_dept.dept_name LIKE CONCAT("%",#{deptName}, "%"))
+      </if>
+      <if test="e01z201!=null">
+        and e01z2.e01z201 = #{e01z201}
+      </if>
+      <if test="e01z221a!=null">
+        and (e01z2.e01z221a LIKE CONCAT("%",#{e01z221a}, "%"))
+      </if>
+    </where>
+    order by e01z2.e01z201 DESC
+  </select>
+    <select id="summaryE01z2" resultType="java.util.Map">
+        SELECT
+          COUNT(batchNum) AS 'batchNum',
+          SUM(num) AS 'num',
+          n.`year` FROM
+        (SELECT LEFT(e01z2.e01z201,4) AS 'year',COUNT(batch_number) AS 'num',batch_number AS 'batchNum' FROM e01z2 GROUP BY LEFT(e01z2.e01z201,4),batch_number) AS n
+        GROUP BY n.year
+    </select>
+</mapper>

@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.fudian.project.system.mapper.SysUserRoleMapper">
+  <resultMap id="BaseResultMap" type="com.fudian.project.system.pojo.SysUserRole">
+    <!--@mbg.generated-->
+    <!--@Table sys_user_role-->
+    <id column="user_id" property="userId" />
+    <id column="role_id" property="roleId" />
+  </resultMap>
+  <update id="updateBatch" parameterType="java.util.List">
+    <!--@mbg.generated-->
+    update sys_user_role
+    <trim prefix="set" suffixOverrides="," />
+    where user_id in
+    <foreach close=")" collection="list" item="item" open="(" separator=", ">
+      #{item.userId}
+    </foreach>
+  </update>
+  <update id="updateBatchSelective" parameterType="java.util.List">
+    <!--@mbg.generated-->
+    update sys_user_role
+    <trim prefix="set" suffixOverrides="," />
+    where user_id in
+    <foreach close=")" collection="list" item="item" open="(" separator=", ">
+      #{item.userId}
+    </foreach>
+  </update>
+  <insert id="batchInsert" parameterType="map">
+    <!--@mbg.generated-->
+    insert into sys_user_role
+    (user_id, role_id)
+    values
+    <foreach collection="list" item="item" separator=",">
+      (#{item.userId}, #{item.roleId})
+    </foreach>
+  </insert>
+  <insert id="insertOrUpdate" parameterType="com.fudian.project.system.pojo.SysUserRole">
+    <!--@mbg.generated-->
+    insert into sys_user_role
+    (user_id, role_id)
+    values
+    (#{userId}, #{roleId})
+    on duplicate key update 
+    user_id = #{userId}, 
+    role_id = #{roleId}
+  </insert>
+  <insert id="insertOrUpdateSelective" parameterType="com.fudian.project.system.pojo.SysUserRole">
+    <!--@mbg.generated-->
+    insert into sys_user_role
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="userId != null">
+        user_id,
+      </if>
+      <if test="roleId != null">
+        role_id,
+      </if>
+    </trim>
+    values
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="userId != null">
+        #{userId},
+      </if>
+      <if test="roleId != null">
+        #{roleId},
+      </if>
+    </trim>
+    on duplicate key update 
+    <trim suffixOverrides=",">
+      <if test="userId != null">
+        user_id = #{userId},
+      </if>
+      <if test="roleId != null">
+        role_id = #{roleId},
+      </if>
+    </trim>
+  </insert>
+</mapper>

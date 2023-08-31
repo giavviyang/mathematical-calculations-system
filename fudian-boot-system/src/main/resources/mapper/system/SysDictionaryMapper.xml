@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.fudian.project.system.mapper.SysDictionaryMapper">
+  <resultMap id="BaseResultMap" type="com.fudian.api.system.pojo.SysDictionary">
+    <!--@mbg.generated-->
+    <!--@Table sys_dictionary-->
+    <id column="dict_type" property="dictType" />
+    <id column="dict_code" property="dictCode" />
+    <result column="Eparent_code" property="eparentCode" />
+    <result column="full_name" property="fullName" />
+    <result column="nicker_name" property="nickerName" />
+    <result column="pinyin" property="pinyin" />
+    <result column="code_attr" property="codeAttr" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    <!--@mbg.generated-->
+    dict_type, dict_code, Eparent_code, full_name, nicker_name, pinyin, code_attr
+  </sql>
+  <update id="updateBatch" parameterType="java.util.List">
+    <!--@mbg.generated-->
+    update sys_dictionary
+    <trim prefix="set" suffixOverrides=",">
+      <trim prefix="Eparent_code = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when dict_type = #{item.dictType} then #{item.eparentCode}
+        </foreach>
+      </trim>
+      <trim prefix="full_name = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when dict_type = #{item.dictType} then #{item.fullName}
+        </foreach>
+      </trim>
+      <trim prefix="nicker_name = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when dict_type = #{item.dictType} then #{item.nickerName}
+        </foreach>
+      </trim>
+      <trim prefix="pinyin = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when dict_type = #{item.dictType} then #{item.pinyin}
+        </foreach>
+      </trim>
+      <trim prefix="code_attr = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when dict_type = #{item.dictType} then #{item.codeAttr}
+        </foreach>
+      </trim>
+    </trim>
+    where dict_type in
+    <foreach close=")" collection="list" item="item" open="(" separator=", ">
+      #{item.dictType}
+    </foreach>
+  </update>
+  <insert id="batchInsert" parameterType="map">
+    <!--@mbg.generated-->
+    insert into sys_dictionary
+    (dict_type, dict_code, Eparent_code, full_name, nicker_name, pinyin, code_attr)
+    values
+    <foreach collection="list" item="item" separator=",">
+      (#{item.dictType}, #{item.dictCode}, #{item.eparentCode}, #{item.fullName}, #{item.nickerName},
+        #{item.pinyin}, #{item.codeAttr})
+    </foreach>
+  </insert>
+  <insert id="insertOrUpdate" parameterType="com.fudian.api.system.pojo.SysDictionary">
+    <!--@mbg.generated-->
+    insert into sys_dictionary
+    (dict_type, dict_code, Eparent_code, full_name, nicker_name, pinyin, code_attr)
+    values
+    (#{dictType}, #{dictCode}, #{eparentCode}, #{fullName}, #{nickerName}, #{pinyin},
+      #{codeAttr})
+    on duplicate key update
+    dict_type = #{dictType},
+    dict_code = #{dictCode},
+    Eparent_code = #{eparentCode},
+    full_name = #{fullName},
+    nicker_name = #{nickerName},
+    pinyin = #{pinyin},
+    code_attr = #{codeAttr}
+  </insert>
+  <insert id="insertOrUpdateSelective" parameterType="com.fudian.api.system.pojo.SysDictionary">
+    <!--@mbg.generated-->
+    insert into sys_dictionary
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="dictType != null">
+        dict_type,
+      </if>
+      <if test="dictCode != null">
+        dict_code,
+      </if>
+      <if test="eparentCode != null">
+        Eparent_code,
+      </if>
+      <if test="fullName != null">
+        full_name,
+      </if>
+      <if test="nickerName != null">
+        nicker_name,
+      </if>
+      <if test="pinyin != null">
+        pinyin,
+      </if>
+      <if test="codeAttr != null">
+        code_attr,
+      </if>
+    </trim>
+    values
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="dictType != null">
+        #{dictType},
+      </if>
+      <if test="dictCode != null">
+        #{dictCode},
+      </if>
+      <if test="eparentCode != null">
+        #{eparentCode},
+      </if>
+      <if test="fullName != null">
+        #{fullName},
+      </if>
+      <if test="nickerName != null">
+        #{nickerName},
+      </if>
+      <if test="pinyin != null">
+        #{pinyin},
+      </if>
+      <if test="codeAttr != null">
+        #{codeAttr},
+      </if>
+    </trim>
+    on duplicate key update
+    <trim suffixOverrides=",">
+      <if test="dictType != null">
+        dict_type = #{dictType},
+      </if>
+      <if test="dictCode != null">
+        dict_code = #{dictCode},
+      </if>
+      <if test="eparentCode != null">
+        Eparent_code = #{eparentCode},
+      </if>
+      <if test="fullName != null">
+        full_name = #{fullName},
+      </if>
+      <if test="nickerName != null">
+        nicker_name = #{nickerName},
+      </if>
+      <if test="pinyin != null">
+        pinyin = #{pinyin},
+      </if>
+      <if test="codeAttr != null">
+        code_attr = #{codeAttr},
+      </if>
+    </trim>
+  </insert>
+  <select id="getDataByEparentCode" resultType="java.util.Map" parameterType="com.fudian.api.system.pojo.SysDictionary">
+    select
+    dict_type as dictType,
+    dict_code as dictCode,
+    Eparent_code eparentCode,
+    full_name as fullName,
+    nicker_name as nickerName,
+    pinyin as pinyin,
+    code_attr as codeAttr
+     from sys_dictionary
+    <where>
+      <if test="dictType!=null and dictType != ''">
+        and dict_type = #{dictType}
+      </if>
+      <if test="eparentCode!=null and eparentCode != ''">
+        and eparent_code = #{eparentCode}
+      </if>
+      <if test="dictCode!=null and dictCode != ''">
+        and dict_code = #{dictCode}
+      </if>
+    </where>
+  </select>
+</mapper>

@@ -1,0 +1,370 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.fudian.project.ams.mapper.TransferBatchMapper">
+  <resultMap id="BaseResultMap" type="com.fudian.project.ams.pojo.TransferBatch">
+    <!--@mbg.generated-->
+    <!--@Table transfer_batch-->
+    <id column="id" jdbcType="VARCHAR" property="id" />
+    <result column="org_id" jdbcType="VARCHAR" property="orgId" />
+    <result column="e01z704a" jdbcType="VARCHAR" property="e01z704a" />
+    <result column="e01z704b" jdbcType="VARCHAR" property="e01z704b" />
+    <result column="e01z701" jdbcType="VARCHAR" property="e01z701" />
+    <result column="person_num" jdbcType="INTEGER" property="personNum" />
+    <result column="e01z717" jdbcType="VARCHAR" property="e01z717" />
+    <result column="e01z724" jdbcType="VARCHAR" property="e01z724" />
+    <result column="e01z727" jdbcType="VARCHAR" property="e01z727" />
+    <result column="ramark" jdbcType="VARCHAR" property="ramark" />
+    <result column="wfi_id" jdbcType="VARCHAR" property="wfiId" />
+    <result column="flag" jdbcType="INTEGER" property="flag" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    <!--@mbg.generated-->
+    transfer_batch.id, transfer_batch.org_id, e01z704a, e01z704b, e01z701, person_num, e01z717, e01z724, e01z727, ramark,
+    wfi_id, transfer_batch.flag,sys_file.file_name as otherParam
+  </sql>
+  <update id="updateBatch" parameterType="java.util.List">
+    <!--@mbg.generated-->
+    update transfer_batch
+    <trim prefix="set" suffixOverrides=",">
+      <trim prefix="org_id = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=VARCHAR} then #{item.orgId,jdbcType=VARCHAR}
+        </foreach>
+      </trim>
+      <trim prefix="e01z704a = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=VARCHAR} then #{item.e01z704a,jdbcType=VARCHAR}
+        </foreach>
+      </trim>
+      <trim prefix="e01z704b = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=VARCHAR} then #{item.e01z704b,jdbcType=VARCHAR}
+        </foreach>
+      </trim>
+      <trim prefix="e01z701 = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=VARCHAR} then #{item.e01z701,jdbcType=VARCHAR}
+        </foreach>
+      </trim>
+      <trim prefix="person_num = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=VARCHAR} then #{item.personNum,jdbcType=INTEGER}
+        </foreach>
+      </trim>
+      <trim prefix="e01z717 = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=VARCHAR} then #{item.e01z717,jdbcType=VARCHAR}
+        </foreach>
+      </trim>
+      <trim prefix="e01z724 = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=VARCHAR} then #{item.e01z724,jdbcType=VARCHAR}
+        </foreach>
+      </trim>
+      <trim prefix="e01z727 = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=VARCHAR} then #{item.e01z727,jdbcType=VARCHAR}
+        </foreach>
+      </trim>
+      <trim prefix="ramark = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=VARCHAR} then #{item.ramark,jdbcType=VARCHAR}
+        </foreach>
+      </trim>
+      <trim prefix="wfi_id = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=VARCHAR} then #{item.wfiId,jdbcType=VARCHAR}
+        </foreach>
+      </trim>
+      <trim prefix="flag = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=VARCHAR} then #{item.flag,jdbcType=INTEGER}
+        </foreach>
+      </trim>
+    </trim>
+    where id in
+    <foreach close=")" collection="list" item="item" open="(" separator=", ">
+      #{item.id,jdbcType=VARCHAR}
+    </foreach>
+  </update>
+  <update id="updateBatchSelective" parameterType="java.util.List">
+    <!--@mbg.generated-->
+    update transfer_batch
+    <trim prefix="set" suffixOverrides=",">
+      <trim prefix="org_id = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          <if test="item.orgId != null">
+            when id = #{item.id,jdbcType=VARCHAR} then #{item.orgId,jdbcType=VARCHAR}
+          </if>
+        </foreach>
+      </trim>
+      <trim prefix="e01z704a = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          <if test="item.e01z704a != null">
+            when id = #{item.id,jdbcType=VARCHAR} then #{item.e01z704a,jdbcType=VARCHAR}
+          </if>
+        </foreach>
+      </trim>
+      <trim prefix="e01z704b = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          <if test="item.e01z704b != null">
+            when id = #{item.id,jdbcType=VARCHAR} then #{item.e01z704b,jdbcType=VARCHAR}
+          </if>
+        </foreach>
+      </trim>
+      <trim prefix="e01z701 = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          <if test="item.e01z701 != null">
+            when id = #{item.id,jdbcType=VARCHAR} then #{item.e01z701,jdbcType=VARCHAR}
+          </if>
+        </foreach>
+      </trim>
+      <trim prefix="person_num = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          <if test="item.personNum != null">
+            when id = #{item.id,jdbcType=VARCHAR} then #{item.personNum,jdbcType=INTEGER}
+          </if>
+        </foreach>
+      </trim>
+      <trim prefix="e01z717 = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          <if test="item.e01z717 != null">
+            when id = #{item.id,jdbcType=VARCHAR} then #{item.e01z717,jdbcType=VARCHAR}
+          </if>
+        </foreach>
+      </trim>
+      <trim prefix="e01z724 = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          <if test="item.e01z724 != null">
+            when id = #{item.id,jdbcType=VARCHAR} then #{item.e01z724,jdbcType=VARCHAR}
+          </if>
+        </foreach>
+      </trim>
+      <trim prefix="e01z727 = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          <if test="item.e01z727 != null">
+            when id = #{item.id,jdbcType=VARCHAR} then #{item.e01z727,jdbcType=VARCHAR}
+          </if>
+        </foreach>
+      </trim>
+      <trim prefix="ramark = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          <if test="item.ramark != null">
+            when id = #{item.id,jdbcType=VARCHAR} then #{item.ramark,jdbcType=VARCHAR}
+          </if>
+        </foreach>
+      </trim>
+      <trim prefix="wfi_id = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          <if test="item.wfiId != null">
+            when id = #{item.id,jdbcType=VARCHAR} then #{item.wfiId,jdbcType=VARCHAR}
+          </if>
+        </foreach>
+      </trim>
+      <trim prefix="flag = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          <if test="item.flag != null">
+            when id = #{item.id,jdbcType=VARCHAR} then #{item.flag,jdbcType=INTEGER}
+          </if>
+        </foreach>
+      </trim>
+    </trim>
+    where id in
+    <foreach close=")" collection="list" item="item" open="(" separator=", ">
+      #{item.id,jdbcType=VARCHAR}
+    </foreach>
+  </update>
+  <insert id="batchInsert" parameterType="map">
+    <!--@mbg.generated-->
+    insert into transfer_batch
+    (id, org_id, e01z704a, e01z704b, e01z701, person_num, e01z717, e01z724, e01z727,
+    ramark, wfi_id, flag)
+    values
+    <foreach collection="list" item="item" separator=",">
+      (#{item.id,jdbcType=VARCHAR}, #{item.orgId,jdbcType=VARCHAR}, #{item.e01z704a,jdbcType=VARCHAR},
+      #{item.e01z704b,jdbcType=VARCHAR}, #{item.e01z701,jdbcType=VARCHAR}, #{item.personNum,jdbcType=INTEGER},
+      #{item.e01z717,jdbcType=VARCHAR}, #{item.e01z724,jdbcType=VARCHAR}, #{item.e01z727,jdbcType=VARCHAR},
+      #{item.ramark,jdbcType=VARCHAR}, #{item.wfiId,jdbcType=VARCHAR}, #{item.flag,jdbcType=INTEGER}
+      )
+    </foreach>
+  </insert>
+  <insert id="insertOrUpdate" parameterType="com.fudian.project.ams.pojo.TransferBatch">
+    <!--@mbg.generated-->
+    insert into transfer_batch
+    (id, org_id, e01z704a, e01z704b, e01z701, person_num, e01z717, e01z724, e01z727,
+    ramark, wfi_id, flag)
+    values
+    (#{id,jdbcType=VARCHAR}, #{orgId,jdbcType=VARCHAR}, #{e01z704a,jdbcType=VARCHAR},
+    #{e01z704b,jdbcType=VARCHAR}, #{e01z701,jdbcType=VARCHAR}, #{personNum,jdbcType=INTEGER},
+    #{e01z717,jdbcType=VARCHAR}, #{e01z724,jdbcType=VARCHAR}, #{e01z727,jdbcType=VARCHAR},
+    #{ramark,jdbcType=VARCHAR}, #{wfiId,jdbcType=VARCHAR}, #{flag,jdbcType=INTEGER}
+    )
+    on duplicate key update
+    id = #{id,jdbcType=VARCHAR},
+    org_id = #{orgId,jdbcType=VARCHAR},
+    e01z704a = #{e01z704a,jdbcType=VARCHAR},
+    e01z704b = #{e01z704b,jdbcType=VARCHAR},
+    e01z701 = #{e01z701,jdbcType=VARCHAR},
+    person_num = #{personNum,jdbcType=INTEGER},
+    e01z717 = #{e01z717,jdbcType=VARCHAR},
+    e01z724 = #{e01z724,jdbcType=VARCHAR},
+    e01z727 = #{e01z727,jdbcType=VARCHAR},
+    ramark = #{ramark,jdbcType=VARCHAR},
+    wfi_id = #{wfiId,jdbcType=VARCHAR},
+    flag = #{flag,jdbcType=INTEGER}
+  </insert>
+  <insert id="insertOrUpdateSelective" parameterType="com.fudian.project.ams.pojo.TransferBatch">
+    <!--@mbg.generated-->
+    insert into transfer_batch
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="orgId != null">
+        org_id,
+      </if>
+      <if test="e01z704a != null">
+        e01z704a,
+      </if>
+      <if test="e01z704b != null">
+        e01z704b,
+      </if>
+      <if test="e01z701 != null">
+        e01z701,
+      </if>
+      <if test="personNum != null">
+        person_num,
+      </if>
+      <if test="e01z717 != null">
+        e01z717,
+      </if>
+      <if test="e01z724 != null">
+        e01z724,
+      </if>
+      <if test="e01z727 != null">
+        e01z727,
+      </if>
+      <if test="ramark != null">
+        ramark,
+      </if>
+      <if test="wfiId != null">
+        wfi_id,
+      </if>
+      <if test="flag != null">
+        flag,
+      </if>
+    </trim>
+    values
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="orgId != null">
+        #{orgId,jdbcType=VARCHAR},
+      </if>
+      <if test="e01z704a != null">
+        #{e01z704a,jdbcType=VARCHAR},
+      </if>
+      <if test="e01z704b != null">
+        #{e01z704b,jdbcType=VARCHAR},
+      </if>
+      <if test="e01z701 != null">
+        #{e01z701,jdbcType=VARCHAR},
+      </if>
+      <if test="personNum != null">
+        #{personNum,jdbcType=INTEGER},
+      </if>
+      <if test="e01z717 != null">
+        #{e01z717,jdbcType=VARCHAR},
+      </if>
+      <if test="e01z724 != null">
+        #{e01z724,jdbcType=VARCHAR},
+      </if>
+      <if test="e01z727 != null">
+        #{e01z727,jdbcType=VARCHAR},
+      </if>
+      <if test="ramark != null">
+        #{ramark,jdbcType=VARCHAR},
+      </if>
+      <if test="wfiId != null">
+        #{wfiId,jdbcType=VARCHAR},
+      </if>
+      <if test="flag != null">
+        #{flag,jdbcType=INTEGER},
+      </if>
+    </trim>
+    on duplicate key update
+    <trim suffixOverrides=",">
+      <if test="id != null">
+        id = #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="orgId != null">
+        org_id = #{orgId,jdbcType=VARCHAR},
+      </if>
+      <if test="e01z704a != null">
+        e01z704a = #{e01z704a,jdbcType=VARCHAR},
+      </if>
+      <if test="e01z704b != null">
+        e01z704b = #{e01z704b,jdbcType=VARCHAR},
+      </if>
+      <if test="e01z701 != null">
+        e01z701 = #{e01z701,jdbcType=VARCHAR},
+      </if>
+      <if test="personNum != null">
+        person_num = #{personNum,jdbcType=INTEGER},
+      </if>
+      <if test="e01z717 != null">
+        e01z717 = #{e01z717,jdbcType=VARCHAR},
+      </if>
+      <if test="e01z724 != null">
+        e01z724 = #{e01z724,jdbcType=VARCHAR},
+      </if>
+      <if test="e01z727 != null">
+        e01z727 = #{e01z727,jdbcType=VARCHAR},
+      </if>
+      <if test="ramark != null">
+        ramark = #{ramark,jdbcType=VARCHAR},
+      </if>
+      <if test="wfiId != null">
+        wfi_id = #{wfiId,jdbcType=VARCHAR},
+      </if>
+      <if test="flag != null">
+        flag = #{flag,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <select id="selectByMaps" parameterType="java.util.Map" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    FROM transfer_batch
+    RIGHT JOIN transfer_bill ON transfer_batch.id = transfer_bill.trans_id
+    LEFT JOIN a01 ON transfer_bill.a01_id = a01.id
+    left join sys_file on transfer_batch.id = sys_file.binding_id
+    <where>
+      <if test="personName!=null">
+        (transfer_bill.a0101 LIKE CONCAT("%",#{personName}, "%") or a01.a0102 LIKE CONCAT("%",#{personName}, "%") )
+      </if>
+
+      <if test="beginTime!=null and endTime!=null">
+        and transfer_batch.e01z701 BETWEEN #{beginTime} and #{endTime}
+      </if>
+
+      <if test="orgName!=null">
+        and transfer_bill.org_name LIKE CONCAT("%",#{orgName}, "%")
+      </if>
+
+      <if test="transId!=null">
+        and transfer_batch.id LIKE CONCAT("%",#{transId}, "%")
+      </if>
+    </where>
+    group by transfer_batch.id
+    order by transfer_batch.id desc
+  </select>
+    <select id="summaryTransferBathc" resultType="java.util.Map">
+        SELECT
+          SUM(transfer_batch.`person_num`) AS 'num',
+          LEFT(transfer_batch.e01z701,6) AS 'month'
+        FROM transfer_batch
+        GROUP BY LEFT(transfer_batch.e01z701,6)
+    </select>
+</mapper>

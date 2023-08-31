@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.fudian.business.mapper.ExercisesTrainSetMapper">
+    <select id="getAlgorithmAmount" resultType="map">
+        SELECT
+            count( b.knowledge_id ) as num,
+            kl.knowledge_operation as algorithm
+        FROM knowledge_list kl
+        LEFT JOIN (
+            select klc.knowledge_id
+            from student_knowledge_relation skr
+            INNER JOIN knowledge_list_classification klc
+            ON klc.classification_id = skr.relation_id
+            where skr.is_master = 1
+            and skr.relation_type = 0
+            and skr.student_id = #{studentId}
+        ) b ON b.knowledge_id = kl.knowledge_id
+        WHERE
+                kl.knowledge_num_field = #{numberType}
+        GROUP BY
+                kl.knowledge_operation
+        ORDER BY
+                kl.knowledge_operation
+    </select>
+
+    <select id="getKnowledgeAmount" resultType="java.util.Map">
+        SELECT
+            C.classification_id as classificationId,
+            ifnull( c.classification_nickname, concat(sd.full_name,c.classification_msg) ) as classificationMsg,
+            sd.full_name as fullName,
+            MAX(s.correc_rate) * 100 as score
+        FROM
+            `knowledge_list_classification` c
+                LEFT JOIN `knowledge_list` k ON k.knowledge_id = c.knowledge_id
+                LEFT JOIN `sys_dictionary` sd ON sd.dict_type = 'classfiy'
+                            AND sd.dict_code = concat( k.knowledge_num_field, '-', k.knowledge_operation, '-', k.knowledge_type )
+				LEFT JOIN (SELECT * FROM `student_answer` WHERE student_id = #{studentId} AND type = 0)s
+							ON c.classification_id = s.classification_id
+        WHERE
+          c.is_subclass = 0
+          AND k.knowledge_num_field = #{numberType}
+          AND k.knowledge_operation = #{algorithm}
+        GROUP BY
+            c.classification_id,sd.full_name
+    </select>
+    <!--<select id="getKnowledgeAmount" resultType="java.util.Map">
+        SELECT
+            s.classification_id as classificationId,
+            ifnull( c.classification_nickname, concat(sd.full_name,c.classification_msg) ) as classificationMsg,
+            sd.full_name as fullName,
+            s.correc_rate * 100 as score
+        FROM
+            `student_answer` s
+                LEFT JOIN `knowledge_list_classification` c ON c.classification_id = s.classification_id
+                LEFT JOIN `knowledge_list` k ON k.knowledge_id = c.knowledge_id
+                LEFT JOIN `sys_dictionary` sd ON sd.dict_type = 'classfiy'
+                AND sd.dict_code = concat( k.knowledge_num_field, '-', k.knowledge_operation, '-', k.knowledge_type )
+        WHERE
+            s.student_id = #{studentId}
+          AND k.knowledge_num_field = #{numberType}
+          AND k.knowledge_operation = #{algorithm}
+          AND s.type = 0
+        GROUP BY
+            s.classification_id
+    </select>-->
+
+    <select id="getBreakThroughTopic" resultType="com.fudian.business.pojo.BreakThroughDetail">
+        <!-- 1-知识点id、2-知识点名称、3-题目是否做对（0-错误，1-正确）、4-当前知识点的总（错误/正确）条数、5-当前知识点所有（错误/正确）题目 -->
+        SELECT e.classification_id as classificationId,k.classification_msg as classificationMsg,
+        e.exercises_answers = ifnull(e.error_answers,0) as isCorrect,count(*) as count,
+        group_concat(concat(concat(e.exercises_num,'='),ifnull(e.error_answers,0))) as wrongQuestion
+        FROM `exercises_train_set` e
+        left join `knowledge_list_classification` k on k.classification_id = e.classification_id
+        where e.type=1 and e.student_id=#{studentId}
+        and e.batch_id in
+        <foreach close=")" collection="batchIds" item="item" index="index" open="(" separator=", ">
+            #{item}
+        </foreach>
+        group by e.classification_id,isCorrect
+    </select>
+
+    <select id="getPracticeWrongQuestions" resultType="com.fudian.business.pojo.RelatedKnowledgePoints">
+        SELECT e.batch_id as answerId,e.classification_id as classificationId,
+        group_concat(concat(concat(e.exercises_num,'='),ifnull(e.error_answers,0))) as wrongQuestion
+        FROM `exercises_train_set` e
+        where e.type=0 and e.student_id=#{studentId} and e.exercises_answers != ifnull(e.error_answers,0)
+        and e.batch_id in (
+        SELECT
+        substring_index( group_concat( s1.id ORDER BY s1.create_time DESC ), ',', 1 ) AS rid
+        FROM
+        student_answer s1
+        where s1.type=0 and s1.student_id=#{studentId}
+        and s1.classification_id in
+        <foreach close=")" collection="classificationIds" item="item" index="index" open="(" separator=", ">
+            #{item}
+        </foreach>
+        GROUP BY s1.classification_id
+        )
+        group by e.classification_id
+    </select>
+
+
+    <select id="getErrorExercises" resultType="com.fudian.business.pojo.ExercisesTrainSet">
+        SELECT *
+        FROM `exercises_train_set`
+        WHERE is_error = 1 and batch_id in
+        <foreach collection="ids" item="item" index="index" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </select>
+
+    <!--删除没有作答的习题-->
+    <delete id="batchDeleteExercisesSet">
+        delete from exercises_train_set
+        where student_id = #{studentId}
+        <if test="type == 0 or type == 2">
+            and classification_id = #{relationId}
+        </if>
+        <if test="type == 1">
+            and level_id = #{relationId}
+        </if>
+         and error_answers is null
+    </delete>
+</mapper>

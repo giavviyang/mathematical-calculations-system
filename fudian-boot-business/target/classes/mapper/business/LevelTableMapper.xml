@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.fudian.business.mapper.LevelTableMapper">
+    <resultMap type="com.fudian.business.pojo.LevelTable" id="LevelKnowledgeResult">
+        <result property="levelId"    column="level_id"    />
+        <result property="levelName"    column="level_name"    />
+        <result property="levelTime"    column="level_time"    />
+        <result property="levelNumTopic"    column="level_num_topic"    />
+        <result property="gradeNum"    column="grade_num"    />
+    </resultMap>
+
+    <sql id="selectLevelKnowledgeVo">
+        select level_id, level_name, level_time , level_num_topic ,grade_num from level_table
+    </sql>
+    <select id="queryList" parameterType="java.util.Map" resultType="java.util.Map">
+        select
+        lt.level_id as levelId,
+        lt.level_name as levelName,
+        lt.level_time as levelTime,
+        lt.level_num_topic as levelNumTopic,
+        grade_num as gradeNum
+        from level_table lt
+        <where>
+            <if test="gradeId !=null and gradeId != ''">
+                and lt.grade_num = #{gradeId}
+            </if>
+            <if test="levelName !=null and levelName != ''">
+                and CONCAT('第',lt.level_name,'关') LIKE CONCAT('%',#{levelName},'%')
+            </if>
+        </where>
+        order by lt.level_name
+    </select>
+
+    <select id="getMaxLevelNum" resultType="java.lang.Integer" parameterType="java.lang.String">
+        select max(level_name) from level_table where grade_num = #{gradeId}
+    </select>
+</mapper>

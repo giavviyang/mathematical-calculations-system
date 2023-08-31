@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.fudian.business.mapper.StudentTestRelationMapper">
+    <!--批量删除根据testId-->
+    <delete id="deleteByTestIds" parameterType="java.lang.String">
+        delete from student_test_relation where test_id in
+        <foreach collection="testIds" item="testId" open="(" close=")" separator=",">
+            #{testId}
+        </foreach>
+    </delete>
+    <!--删除根据testId-->
+    <delete id="deleteByTestId" parameterType="java.lang.String">
+        delete from student_test_relation where test_id = #{testId}
+    </delete>
+
+    <!--查询正确率/用时排名-->
+    <select id="obtainRanking" resultType="java.lang.Double"
+            parameterType="com.fudian.business.pojo.StudentTestRelation">
+        select 100-(IFNULL(100/(count(str.id)),0)*count(st.id))
+        from (
+            select *
+            from student_test_relation
+            where test_id = #{studentTestRelation.testId}
+        ) str
+        left join (
+            select *
+            from student_test_relation
+            where test_id = #{studentTestRelation.testId}
+              <if test="studentTestRelation.highestScore != null">
+                 and highest_score >= #{studentTestRelation.highestScore}
+              </if>
+              <if test="studentTestRelation.second != null">
+                 and #{studentTestRelation.second} >= second
+              </if>
+        ) st
+        on str.id = st.id
+    </select>
+</mapper>

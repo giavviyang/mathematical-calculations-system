@@ -1,0 +1,622 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.fudian.project.system.mapper.SysUserMapper">
+    <resultMap id="BaseResultMap" type="com.fudian.api.system.pojo.SysUser">
+        <!--@mbg.generated-->
+        <!--@Table sys_user-->
+        <id column="user_id" jdbcType="VARCHAR" property="userId"/>
+        <result column="user_name" jdbcType="VARCHAR" property="userName"/>
+        <result column="user_type" jdbcType="INTEGER" property="userType"/>
+        <result column="login_code" jdbcType="VARCHAR" property="loginCode"/>
+        <result column="login_password" jdbcType="VARCHAR" property="loginPassword"/>
+        <result column="create_time" jdbcType="DATE" property="createTime"/>
+        <result column="create_by" jdbcType="VARCHAR" property="createBy"/>
+        <result column="update_time" jdbcType="DATE" property="updateTime"/>
+        <result column="update_by" jdbcType="VARCHAR" property="updateBy"/>
+        <result column="user_status" jdbcType="INTEGER" property="userStatus"/>
+        <result column="org_id" jdbcType="VARCHAR" property="orgId"/>
+        <result column="dept_id" jdbcType="VARCHAR" property="deptId"/>
+        <result column="remark" jdbcType="VARCHAR" property="remark"/>
+        <result column="order_num" jdbcType="INTEGER" property="orderNum"/>
+        <result column="user_number" jdbcType="VARCHAR" property="userNumber"/>
+        <result column="sex" jdbcType="VARCHAR" property="sex"/>
+        <result column="iphone" jdbcType="VARCHAR" property="iphone"/>
+        <result column="email" jdbcType="VARCHAR" property="email"/>
+        <result column="login_password_date" jdbcType="TIMESTAMP" property="loginPasswordDate"/>
+    </resultMap>
+    <resultMap id="userAndDeptResultMap" type="java.util.Map">
+        <!--@mbg.generated-->
+        <!--@Table sys_user-->
+        <id column="user_id" jdbcType="VARCHAR" property="userId"/>
+        <result column="user_name" jdbcType="VARCHAR" property="userName"/>
+        <result column="user_type" jdbcType="INTEGER" property="userType"/>
+        <result column="login_code" jdbcType="VARCHAR" property="loginCode"/>
+        <result column="login_password" jdbcType="VARCHAR" property="loginPassword"/>
+        <result column="create_time" jdbcType="DATE" property="createTime"/>
+        <result column="create_by" jdbcType="VARCHAR" property="createBy"/>
+        <result column="update_time" jdbcType="DATE" property="updateTime"/>
+        <result column="update_by" jdbcType="VARCHAR" property="updateBy"/>
+        <result column="user_status" jdbcType="INTEGER" property="userStatus"/>
+        <result column="org_id" jdbcType="VARCHAR" property="orgId"/>
+        <result column="dept_id" jdbcType="VARCHAR" property="deptId"/>
+        <result column="remark" jdbcType="VARCHAR" property="remark"/>
+        <result column="order_num" jdbcType="INTEGER" property="orderNum"/>
+        <result column="user_number" jdbcType="VARCHAR" property="userNumber"/>
+        <result column="sex" jdbcType="VARCHAR" property="sex"/>
+        <result column="iphone" jdbcType="VARCHAR" property="iphone"/>
+        <result column="email" jdbcType="VARCHAR" property="email"/>
+        <result column="login_password_date" jdbcType="TIMESTAMP" property="loginPasswordDate"/>
+        <result column="dept_name" jdbcType="VARCHAR" property="deptName"/>
+        <result column="role_name" jdbcType="VARCHAR" property="roleName"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        <!--@mbg.generated-->
+        user_id, user_name, user_type, login_code, login_password, create_time, create_by,
+        update_time, update_by, user_status, org_id, dept_id, remark, order_num, user_number,
+        sex, iphone, email, login_password_date
+    </sql>
+    <update id="updateBatch" parameterType="java.util.List">
+        <!--@mbg.generated-->
+        update sys_user
+        <trim prefix="set" suffixOverrides=",">
+            <trim prefix="user_name = case" suffix="end,">
+                <foreach collection="list" index="index" item="item">
+                    when user_id = #{item.userId,jdbcType=VARCHAR} then #{item.userName,jdbcType=VARCHAR}
+                </foreach>
+            </trim>
+            <trim prefix="user_type = case" suffix="end,">
+                <foreach collection="list" index="index" item="item">
+                    when user_id = #{item.userId,jdbcType=VARCHAR} then #{item.userType,jdbcType=INTEGER}
+                </foreach>
+            </trim>
+            <trim prefix="login_code = case" suffix="end,">
+                <foreach collection="list" index="index" item="item">
+                    when user_id = #{item.userId,jdbcType=VARCHAR} then #{item.loginCode,jdbcType=VARCHAR}
+                </foreach>
+            </trim>
+            <trim prefix="login_password = case" suffix="end,">
+                <foreach collection="list" index="index" item="item">
+                    when user_id = #{item.userId,jdbcType=VARCHAR} then #{item.loginPassword,jdbcType=VARCHAR}
+                </foreach>
+            </trim>
+            <trim prefix="create_time = case" suffix="end,">
+                <foreach collection="list" index="index" item="item">
+                    when user_id = #{item.userId,jdbcType=VARCHAR} then #{item.createTime,jdbcType=DATE}
+                </foreach>
+            </trim>
+            <trim prefix="create_by = case" suffix="end,">
+                <foreach collection="list" index="index" item="item">
+                    when user_id = #{item.userId,jdbcType=VARCHAR} then #{item.createBy,jdbcType=VARCHAR}
+                </foreach>
+            </trim>
+            <trim prefix="update_time = case" suffix="end,">
+                <foreach collection="list" index="index" item="item">
+                    when user_id = #{item.userId,jdbcType=VARCHAR} then #{item.updateTime,jdbcType=DATE}
+                </foreach>
+            </trim>
+            <trim prefix="update_by = case" suffix="end,">
+                <foreach collection="list" index="index" item="item">
+                    when user_id = #{item.userId,jdbcType=VARCHAR} then #{item.updateBy,jdbcType=VARCHAR}
+                </foreach>
+            </trim>
+            <trim prefix="user_status = case" suffix="end,">
+                <foreach collection="list" index="index" item="item">
+                    when user_id = #{item.userId,jdbcType=VARCHAR} then #{item.userStatus,jdbcType=INTEGER}
+                </foreach>
+            </trim>
+            <trim prefix="org_id = case" suffix="end,">
+                <foreach collection="list" index="index" item="item">
+                    when user_id = #{item.userId,jdbcType=VARCHAR} then #{item.orgId,jdbcType=VARCHAR}
+                </foreach>
+            </trim>
+            <trim prefix="dept_id = case" suffix="end,">
+                <foreach collection="list" index="index" item="item">
+                    when user_id = #{item.userId,jdbcType=VARCHAR} then #{item.deptId,jdbcType=VARCHAR}
+                </foreach>
+            </trim>
+            <trim prefix="remark = case" suffix="end,">
+                <foreach collection="list" index="index" item="item">
+                    when user_id = #{item.userId,jdbcType=VARCHAR} then #{item.remark,jdbcType=VARCHAR}
+                </foreach>
+            </trim>
+            <trim prefix="order_num = case" suffix="end,">
+                <foreach collection="list" index="index" item="item">
+                    when user_id = #{item.userId,jdbcType=VARCHAR} then #{item.orderNum,jdbcType=INTEGER}
+                </foreach>
+            </trim>
+            <trim prefix="user_number = case" suffix="end,">
+                <foreach collection="list" index="index" item="item">
+                    when user_id = #{item.userId,jdbcType=VARCHAR} then #{item.userNumber,jdbcType=VARCHAR}
+                </foreach>
+            </trim>
+            <trim prefix="sex = case" suffix="end,">
+                <foreach collection="list" index="index" item="item">
+                    when user_id = #{item.userId,jdbcType=VARCHAR} then #{item.sex,jdbcType=VARCHAR}
+                </foreach>
+            </trim>
+            <trim prefix="iphone = case" suffix="end,">
+                <foreach collection="list" index="index" item="item">
+                    when user_id = #{item.userId,jdbcType=VARCHAR} then #{item.iphone,jdbcType=VARCHAR}
+                </foreach>
+            </trim>
+            <trim prefix="email = case" suffix="end,">
+                <foreach collection="list" index="index" item="item">
+                    when user_id = #{item.userId,jdbcType=VARCHAR} then #{item.email,jdbcType=VARCHAR}
+                </foreach>
+            </trim>
+            <trim prefix="login_password_date = case" suffix="end,">
+                <foreach collection="list" index="index" item="item">
+                    when user_id = #{item.userId,jdbcType=VARCHAR} then #{item.loginPasswordDate,jdbcType=TIMESTAMP}
+                </foreach>
+            </trim>
+        </trim>
+        where user_id in
+        <foreach close=")" collection="list" item="item" open="(" separator=", ">
+            #{item.userId,jdbcType=VARCHAR}
+        </foreach>
+    </update>
+    <update id="updateBatchSelective" parameterType="java.util.List">
+        <!--@mbg.generated-->
+        update sys_user
+        <trim prefix="set" suffixOverrides=",">
+            <trim prefix="user_name = case" suffix="end,">
+                <foreach collection="list" index="index" item="item">
+                    <if test="item.userName != null">
+                        when user_id = #{item.userId,jdbcType=VARCHAR} then #{item.userName,jdbcType=VARCHAR}
+                    </if>
+                </foreach>
+            </trim>
+            <trim prefix="user_type = case" suffix="end,">
+                <foreach collection="list" index="index" item="item">
+                    <if test="item.userType != null">
+                        when user_id = #{item.userId,jdbcType=VARCHAR} then #{item.userType,jdbcType=INTEGER}
+                    </if>
+                </foreach>
+            </trim>
+            <trim prefix="login_code = case" suffix="end,">
+                <foreach collection="list" index="index" item="item">
+                    <if test="item.loginCode != null">
+                        when user_id = #{item.userId,jdbcType=VARCHAR} then #{item.loginCode,jdbcType=VARCHAR}
+                    </if>
+                </foreach>
+            </trim>
+            <trim prefix="login_password = case" suffix="end,">
+                <foreach collection="list" index="index" item="item">
+                    <if test="item.loginPassword != null">
+                        when user_id = #{item.userId,jdbcType=VARCHAR} then #{item.loginPassword,jdbcType=VARCHAR}
+                    </if>
+                </foreach>
+            </trim>
+            <trim prefix="create_time = case" suffix="end,">
+                <foreach collection="list" index="index" item="item">
+                    <if test="item.createTime != null">
+                        when user_id = #{item.userId,jdbcType=VARCHAR} then #{item.createTime,jdbcType=DATE}
+                    </if>
+                </foreach>
+            </trim>
+            <trim prefix="create_by = case" suffix="end,">
+                <foreach collection="list" index="index" item="item">
+                    <if test="item.createBy != null">
+                        when user_id = #{item.userId,jdbcType=VARCHAR} then #{item.createBy,jdbcType=VARCHAR}
+                    </if>
+                </foreach>
+            </trim>
+            <trim prefix="update_time = case" suffix="end,">
+                <foreach collection="list" index="index" item="item">
+                    <if test="item.updateTime != null">
+                        when user_id = #{item.userId,jdbcType=VARCHAR} then #{item.updateTime,jdbcType=DATE}
+                    </if>
+                </foreach>
+            </trim>
+            <trim prefix="update_by = case" suffix="end,">
+                <foreach collection="list" index="index" item="item">
+                    <if test="item.updateBy != null">
+                        when user_id = #{item.userId,jdbcType=VARCHAR} then #{item.updateBy,jdbcType=VARCHAR}
+                    </if>
+                </foreach>
+            </trim>
+            <trim prefix="user_status = case" suffix="end,">
+                <foreach collection="list" index="index" item="item">
+                    <if test="item.userStatus != null">
+                        when user_id = #{item.userId,jdbcType=VARCHAR} then #{item.userStatus,jdbcType=INTEGER}
+                    </if>
+                </foreach>
+            </trim>
+            <trim prefix="org_id = case" suffix="end,">
+                <foreach collection="list" index="index" item="item">
+                    <if test="item.orgId != null">
+                        when user_id = #{item.userId,jdbcType=VARCHAR} then #{item.orgId,jdbcType=VARCHAR}
+                    </if>
+                </foreach>
+            </trim>
+            <trim prefix="dept_id = case" suffix="end,">
+                <foreach collection="list" index="index" item="item">
+                    <if test="item.deptId != null">
+                        when user_id = #{item.userId,jdbcType=VARCHAR} then #{item.deptId,jdbcType=VARCHAR}
+                    </if>
+                </foreach>
+            </trim>
+            <trim prefix="remark = case" suffix="end,">
+                <foreach collection="list" index="index" item="item">
+                    <if test="item.remark != null">
+                        when user_id = #{item.userId,jdbcType=VARCHAR} then #{item.remark,jdbcType=VARCHAR}
+                    </if>
+                </foreach>
+            </trim>
+            <trim prefix="order_num = case" suffix="end,">
+                <foreach collection="list" index="index" item="item">
+                    <if test="item.orderNum != null">
+                        when user_id = #{item.userId,jdbcType=VARCHAR} then #{item.orderNum,jdbcType=INTEGER}
+                    </if>
+                </foreach>
+            </trim>
+            <trim prefix="user_number = case" suffix="end,">
+                <foreach collection="list" index="index" item="item">
+                    <if test="item.userNumber != null">
+                        when user_id = #{item.userId,jdbcType=VARCHAR} then #{item.userNumber,jdbcType=VARCHAR}
+                    </if>
+                </foreach>
+            </trim>
+            <trim prefix="sex = case" suffix="end,">
+                <foreach collection="list" index="index" item="item">
+                    <if test="item.sex != null">
+                        when user_id = #{item.userId,jdbcType=VARCHAR} then #{item.sex,jdbcType=VARCHAR}
+                    </if>
+                </foreach>
+            </trim>
+            <trim prefix="iphone = case" suffix="end,">
+                <foreach collection="list" index="index" item="item">
+                    <if test="item.iphone != null">
+                        when user_id = #{item.userId,jdbcType=VARCHAR} then #{item.iphone,jdbcType=VARCHAR}
+                    </if>
+                </foreach>
+            </trim>
+            <trim prefix="email = case" suffix="end,">
+                <foreach collection="list" index="index" item="item">
+                    <if test="item.email != null">
+                        when user_id = #{item.userId,jdbcType=VARCHAR} then #{item.email,jdbcType=VARCHAR}
+                    </if>
+                </foreach>
+            </trim>
+            <trim prefix="login_password_date = case" suffix="end,">
+                <foreach collection="list" index="index" item="item">
+                    <if test="item.loginPasswordDate != null">
+                        when user_id = #{item.userId,jdbcType=VARCHAR} then #{item.loginPasswordDate,jdbcType=TIMESTAMP}
+                    </if>
+                </foreach>
+            </trim>
+        </trim>
+        where user_id in
+        <foreach close=")" collection="list" item="item" open="(" separator=", ">
+            #{item.userId,jdbcType=VARCHAR}
+        </foreach>
+    </update>
+    <insert id="batchInsert" parameterType="map">
+        <!--@mbg.generated-->
+        insert into sys_user
+        (user_id, user_name, user_type, login_code, login_password, create_time, create_by,
+        update_time, update_by, user_status, org_id, dept_id, remark, order_num, user_number,
+        sex, iphone, email, login_password_date)
+        values
+        <foreach collection="list" item="item" separator=",">
+            (#{item.userId,jdbcType=VARCHAR}, #{item.userName,jdbcType=VARCHAR}, #{item.userType,jdbcType=INTEGER},
+            #{item.loginCode,jdbcType=VARCHAR}, #{item.loginPassword,jdbcType=VARCHAR},
+            #{item.createTime,jdbcType=DATE},
+            #{item.createBy,jdbcType=VARCHAR}, #{item.updateTime,jdbcType=DATE}, #{item.updateBy,jdbcType=VARCHAR},
+            #{item.userStatus,jdbcType=INTEGER}, #{item.orgId,jdbcType=VARCHAR}, #{item.deptId,jdbcType=VARCHAR},
+            #{item.remark,jdbcType=VARCHAR}, #{item.orderNum,jdbcType=INTEGER}, #{item.userNumber,jdbcType=VARCHAR},
+            #{item.sex,jdbcType=VARCHAR}, #{item.iphone,jdbcType=VARCHAR}, #{item.email,jdbcType=VARCHAR},
+            #{item.loginPasswordDate,jdbcType=TIMESTAMP})
+        </foreach>
+    </insert>
+    <insert id="insertOrUpdate" parameterType="com.fudian.api.system.pojo.SysUser">
+        <!--@mbg.generated-->
+        insert into sys_user
+        (user_id, user_name, user_type, login_code, login_password, create_time, create_by,
+        update_time, update_by, user_status, org_id, dept_id, remark, order_num, user_number,
+        sex, iphone, email, login_password_date)
+        values
+        (#{userId,jdbcType=VARCHAR}, #{userName,jdbcType=VARCHAR}, #{userType,jdbcType=INTEGER},
+        #{loginCode,jdbcType=VARCHAR}, #{loginPassword,jdbcType=VARCHAR}, #{createTime,jdbcType=DATE},
+        #{createBy,jdbcType=VARCHAR}, #{updateTime,jdbcType=DATE}, #{updateBy,jdbcType=VARCHAR},
+        #{userStatus,jdbcType=INTEGER}, #{orgId,jdbcType=VARCHAR}, #{deptId,jdbcType=VARCHAR},
+        #{remark,jdbcType=VARCHAR}, #{orderNum,jdbcType=INTEGER}, #{userNumber,jdbcType=VARCHAR},
+        #{sex,jdbcType=VARCHAR}, #{iphone,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR},
+        #{loginPasswordDate,jdbcType=TIMESTAMP})
+        on duplicate key update
+        user_id = #{userId,jdbcType=VARCHAR},
+        user_name = #{userName,jdbcType=VARCHAR},
+        user_type = #{userType,jdbcType=INTEGER},
+        login_code = #{loginCode,jdbcType=VARCHAR},
+        login_password = #{loginPassword,jdbcType=VARCHAR},
+        create_time = #{createTime,jdbcType=DATE},
+        create_by = #{createBy,jdbcType=VARCHAR},
+        update_time = #{updateTime,jdbcType=DATE},
+        update_by = #{updateBy,jdbcType=VARCHAR},
+        user_status = #{userStatus,jdbcType=INTEGER},
+        org_id = #{orgId,jdbcType=VARCHAR},
+        dept_id = #{deptId,jdbcType=VARCHAR},
+        remark = #{remark,jdbcType=VARCHAR},
+        order_num = #{orderNum,jdbcType=INTEGER},
+        user_number = #{userNumber,jdbcType=VARCHAR},
+        sex = #{sex,jdbcType=VARCHAR},
+        iphone = #{iphone,jdbcType=VARCHAR},
+        email = #{email,jdbcType=VARCHAR},
+        login_password_date = #{loginPasswordDate,jdbcType=TIMESTAMP}
+    </insert>
+    <insert id="insertOrUpdateSelective" parameterType="com.fudian.api.system.pojo.SysUser">
+        <!--@mbg.generated-->
+        insert into sys_user
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="userId != null">
+                user_id,
+            </if>
+            <if test="userName != null">
+                user_name,
+            </if>
+            <if test="userType != null">
+                user_type,
+            </if>
+            <if test="loginCode != null">
+                login_code,
+            </if>
+            <if test="loginPassword != null">
+                login_password,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+            <if test="createBy != null">
+                create_by,
+            </if>
+            <if test="updateTime != null">
+                update_time,
+            </if>
+            <if test="updateBy != null">
+                update_by,
+            </if>
+            <if test="userStatus != null">
+                user_status,
+            </if>
+            <if test="orgId != null">
+                org_id,
+            </if>
+            <if test="deptId != null">
+                dept_id,
+            </if>
+            <if test="remark != null">
+                remark,
+            </if>
+            <if test="orderNum != null">
+                order_num,
+            </if>
+            <if test="userNumber != null">
+                user_number,
+            </if>
+            <if test="sex != null">
+                sex,
+            </if>
+            <if test="iphone != null">
+                iphone,
+            </if>
+            <if test="email != null">
+                email,
+            </if>
+            <if test="loginPasswordDate != null">
+                login_password_date,
+            </if>
+        </trim>
+        values
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="userId != null">
+                #{userId,jdbcType=VARCHAR},
+            </if>
+            <if test="userName != null">
+                #{userName,jdbcType=VARCHAR},
+            </if>
+            <if test="userType != null">
+                #{userType,jdbcType=INTEGER},
+            </if>
+            <if test="loginCode != null">
+                #{loginCode,jdbcType=VARCHAR},
+            </if>
+            <if test="loginPassword != null">
+                #{loginPassword,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null">
+                #{createTime,jdbcType=DATE},
+            </if>
+            <if test="createBy != null">
+                #{createBy,jdbcType=VARCHAR},
+            </if>
+            <if test="updateTime != null">
+                #{updateTime,jdbcType=DATE},
+            </if>
+            <if test="updateBy != null">
+                #{updateBy,jdbcType=VARCHAR},
+            </if>
+            <if test="userStatus != null">
+                #{userStatus,jdbcType=INTEGER},
+            </if>
+            <if test="orgId != null">
+                #{orgId,jdbcType=VARCHAR},
+            </if>
+            <if test="deptId != null">
+                #{deptId,jdbcType=VARCHAR},
+            </if>
+            <if test="remark != null">
+                #{remark,jdbcType=VARCHAR},
+            </if>
+            <if test="orderNum != null">
+                #{orderNum,jdbcType=INTEGER},
+            </if>
+            <if test="userNumber != null">
+                #{userNumber,jdbcType=VARCHAR},
+            </if>
+            <if test="sex != null">
+                #{sex,jdbcType=VARCHAR},
+            </if>
+            <if test="iphone != null">
+                #{iphone,jdbcType=VARCHAR},
+            </if>
+            <if test="email != null">
+                #{email,jdbcType=VARCHAR},
+            </if>
+            <if test="loginPasswordDate != null">
+                #{loginPasswordDate,jdbcType=TIMESTAMP},
+            </if>
+        </trim>
+        on duplicate key update
+        <trim suffixOverrides=",">
+            <if test="userId != null">
+                user_id = #{userId,jdbcType=VARCHAR},
+            </if>
+            <if test="userName != null">
+                user_name = #{userName,jdbcType=VARCHAR},
+            </if>
+            <if test="userType != null">
+                user_type = #{userType,jdbcType=INTEGER},
+            </if>
+            <if test="loginCode != null">
+                login_code = #{loginCode,jdbcType=VARCHAR},
+            </if>
+            <if test="loginPassword != null">
+                login_password = #{loginPassword,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime,jdbcType=DATE},
+            </if>
+            <if test="createBy != null">
+                create_by = #{createBy,jdbcType=VARCHAR},
+            </if>
+            <if test="updateTime != null">
+                update_time = #{updateTime,jdbcType=DATE},
+            </if>
+            <if test="updateBy != null">
+                update_by = #{updateBy,jdbcType=VARCHAR},
+            </if>
+            <if test="userStatus != null">
+                user_status = #{userStatus,jdbcType=INTEGER},
+            </if>
+            <if test="orgId != null">
+                org_id = #{orgId,jdbcType=VARCHAR},
+            </if>
+            <if test="deptId != null">
+                dept_id = #{deptId,jdbcType=VARCHAR},
+            </if>
+            <if test="remark != null">
+                remark = #{remark,jdbcType=VARCHAR},
+            </if>
+            <if test="orderNum != null">
+                order_num = #{orderNum,jdbcType=INTEGER},
+            </if>
+            <if test="userNumber != null">
+                user_number = #{userNumber,jdbcType=VARCHAR},
+            </if>
+            <if test="sex != null">
+                sex = #{sex,jdbcType=VARCHAR},
+            </if>
+            <if test="iphone != null">
+                iphone = #{iphone,jdbcType=VARCHAR},
+            </if>
+            <if test="email != null">
+                email = #{email,jdbcType=VARCHAR},
+            </if>
+            <if test="loginPasswordDate != null">
+                login_password_date = #{loginPasswordDate,jdbcType=TIMESTAMP},
+            </if>
+        </trim>
+    </insert>
+
+    <select id="queryUserByPermissionId" parameterType="String">
+    SELECT
+      *
+      FROM
+        sys_user  s
+      WHERE
+        s.user_id IN (
+        SELECT
+        p.userId
+        FROM
+          sys_user_permission  p
+          WHERE
+            p.permission_id = #{permissionId}
+        )
+  </select>
+
+
+    <select id="queryUserByRoleId" parameterType="String">
+    SELECT
+      *
+      FROM
+        sys_user  s
+      WHERE
+        s.user_id IN (
+        SELECT
+        r.userId
+        FROM
+          sys_user_role  r
+          WHERE
+            r.role_id = #{roleId}
+        )
+  </select>
+
+    <select id="queryUserListByParamters" parameterType="java.util.HashMap"
+            resultType="com.fudian.api.system.pojo.SysUser">
+        SELECT
+        *
+        FROM
+        sys_user s
+        LEFT JOIN
+        sys_user_role r
+        ON
+        s.user_id = r.user_id
+        WHERE
+        r.role_id=#{roleId}
+        <if test="userName != null and userName != '' ">
+            AND s.user_name = #{userName}
+        </if>
+    </select>
+
+    <select id="querySysUser" parameterType="string" resultType="com.fudian.api.system.pojo.SysUser">
+    select * from ${tableName}
+  </select>
+
+    <select id="querySysUserByNameAndDeptId" parameterType="com.fudian.api.system.pojo.SysUser"
+            resultMap="userAndDeptResultMap">
+        select sys_user.*,dept_name,
+        GROUP_CONCAT(sys_role.role_name SEPARATOR ',') as role_name
+        from sys_user
+        left join sys_dept
+        on sys_dept.id = sys_user.dept_id
+        left join sys_user_role
+        on sys_user_role.user_id = sys_user.user_id
+        left join sys_role
+        on sys_user_role.role_id = sys_role.role_id
+        WHERE sys_user.user_id != 'admin'
+        <if test="userName != null and userName != '' ">
+            AND sys_user.user_name LIKE CONCAT("%",#{userName}, "%")
+        </if>
+        <if test="deptId != null and deptId != '' ">
+            AND sys_user.dept_id = #{deptId}
+        </if>
+        group by sys_user.user_id
+        order by sys_user.create_time desc
+    </select>
+
+
+    <select id="querySysUserByClassId" parameterType="java.lang.String" resultType="com.fudian.api.system.pojo.SysUser">
+
+        SELECT u.*
+        FROM sys_user u
+        LEFT JOIN  sys_role_data d
+        ON u.user_id = d.role_id
+        LEFT JOIN sys_dept sd
+        ON d.data_permission_id = sd.id
+
+        WHERE d.is_teacher = 1
+        AND sd.id = #{classId}
+        GROUP BY u.user_id
+    </select>
+</mapper>

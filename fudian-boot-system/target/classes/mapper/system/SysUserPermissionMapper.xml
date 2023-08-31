@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.fudian.project.system.mapper.SysUserPermissionMapper">
+  <resultMap id="BaseResultMap" type="com.fudian.project.system.pojo.SysUserPermission">
+    <!--@mbg.generated-->
+    <!--@Table sys_user_permission-->
+    <id column="user_id" property="userId" />
+    <id column="permission_id" property="permissionId" />
+  </resultMap>
+  <update id="updateBatch" parameterType="java.util.List">
+    <!--@mbg.generated-->
+    update sys_user_permission
+    <trim prefix="set" suffixOverrides="," />
+    where user_id in
+    <foreach close=")" collection="list" item="item" open="(" separator=", ">
+      #{item.userId}
+    </foreach>
+  </update>
+  <insert id="batchInsert" parameterType="map">
+    <!--@mbg.generated-->
+    insert into sys_user_permission
+    (user_id, permission_id)
+    values
+    <foreach collection="list" item="item" separator=",">
+      (#{item.userId}, #{item.permissionId})
+    </foreach>
+  </insert>
+  <insert id="insertOrUpdate" parameterType="com.fudian.project.system.pojo.SysUserPermission">
+    <!--@mbg.generated-->
+    insert into sys_user_permission
+    (user_id, permission_id)
+    values
+    (#{userId}, #{permissionId})
+    on duplicate key update 
+    user_id = #{userId}, 
+    permission_id = #{permissionId}
+  </insert>
+  <insert id="insertOrUpdateSelective" parameterType="com.fudian.project.system.pojo.SysUserPermission">
+    <!--@mbg.generated-->
+    insert into sys_user_permission
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="userId != null">
+        user_id,
+      </if>
+      <if test="permissionId != null">
+        permission_id,
+      </if>
+    </trim>
+    values
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="userId != null">
+        #{userId},
+      </if>
+      <if test="permissionId != null">
+        #{permissionId},
+      </if>
+    </trim>
+    on duplicate key update 
+    <trim suffixOverrides=",">
+      <if test="userId != null">
+        user_id = #{userId},
+      </if>
+      <if test="permissionId != null">
+        permission_id = #{permissionId},
+      </if>
+    </trim>
+  </insert>
+</mapper>

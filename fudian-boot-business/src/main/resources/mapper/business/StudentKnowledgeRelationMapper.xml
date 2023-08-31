@@ -1,0 +1,447 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.fudian.business.mapper.StudentKnowledgeRelationMapper">
+  <resultMap id="BaseResultMap" type="com.fudian.business.pojo.StudentKnowledgeRelation">
+    <!--@mbg.generated-->
+    <!--@Table custom_message-->
+    <id column="id" jdbcType="VARCHAR" property="id" />
+    <result column="studentId"   property="studentId" />
+    <result column="studentName"  property="studentName" />
+    <result column="relationId"  property="relationId" />
+    <result column="relationName"  property="relationName" />
+    <result column="relationType" property="relationType" />
+    <result column="isMaster"  property="isMaster" />
+    <result column="isLock" property="isLock" />
+    <result column="highestScore"  property="highestScore" />
+    <result column="highestCoinsNum"  property="highestCoinsNum" />
+    <result column="errorNum" property="errorNum" />
+    <result column="correctNum"  property="correctNum" />
+    <result column="deptId" property="deptId" />
+    <result column="lockTime" property="lockTime" />
+    <result column="diagnosisMsg"   property="diagnosisMsg" />
+    <result column="correcRate"  property="correcRate" />
+    <collection property="errorList" ofType="com.alibaba.fastjson.JSONObject" >
+
+      <result column="exercisesNum" property="exercisesNum" />
+      <result column="exercisesAnswers" property="exercisesAnswers" />
+      <result column="errorAnswers" property="errorAnswers" />
+    </collection>
+  </resultMap>
+  <!--查询知识点错题本锁定数据-->
+  <select id="pagingSelect" resultMap="BaseResultMap" parameterType="com.fudian.business.pojo.StudentKnowledgeRelation">
+    select
+      skr.id,
+      skr.studentId,
+      skr.studentName,
+      skr.relationId,
+      skr.relationName,
+      skr.relationType,
+      skr.isMaster,
+      skr.isLock,
+      skr.highestScore,
+      skr.highestCoinsNum,
+      skr.errorNum,
+      skr.correctNum,
+      skr.deptId,
+      skr.lockTime
+      ,skr.diagnosisMsg
+      ,sa2.correcRate
+      ,ets.exercises_num exercisesNum
+      ,ets.exercises_answers exercisesAnswers
+      ,ets.error_answers errorAnswers
+    from (
+      select
+        skr.id,
+        s.student_id studentId,
+        s.student_name studentName,
+        c.classification_id relationId,
+        CONCAT(GROUP_CONCAT(distinct sd.full_name order by  sd.dict_code SEPARATOR '-' ),'-',ifnull(cc.classification_msg,''),'-',c.classification_msg) relationName,
+
+        skr.relation_type relationType,
+        skr.is_master isMaster,
+        skr.is_lock isLock,
+        skr.highest_score highestScore,
+        skr.highest_coins_num highestCoinsNum,
+        skr.error_num errorNum,
+        skr.correct_num correctNum,
+        s.class_room_id deptId,
+        skr.lock_time lockTime
+        ,kls.diagnosis_msg diagnosisMsg
+      from student_knowledge_relation skr
+      left join `knowledge_list_classification` c
+      on c.classification_id = skr.relation_id
+      left join knowledge_list_classification cc
+      on c.pid = cc.classification_id and cc.is_subclass = 1
+      left join knowledge_list_schedule kls
+      on c.classification_id = kls.classification_id
+      left join knowledge_list k
+      on c.knowledge_id = k.knowledge_id
+      left join (
+        SELECT * FROM `sys_dictionary`
+        where dict_type = 'classfiy'
+        ORDER BY dict_code
+      ) sd
+      on sd.dict_type = 'classfiy'
+      and sd.dict_code = k.knowledge_num_field
+      or sd.dict_code = CONCAT(k.knowledge_num_field,'-',k.knowledge_operation)
+      or sd.dict_code = CONCAT(k.knowledge_num_field,'-',k.knowledge_operation,'-',k.knowledge_type)
+      left join students s
+      on s.student_id = skr.student_id
+      <where>
+        s.class_room_id = #{unlock.deptId}
+        and skr.relation_type = #{unlock.relationType}
+        <if test="unlock.isLock == 0">
+          and skr.is_lock != 0
+        </if>
+        <if test="unlock.isLock != 0">
+          and skr.is_lock = #{unlock.isLock}
+        </if>
+        <if test="unlock.studentName != null and unlock.studentName != ''">
+          and s.student_name like concat('%',#{unlock.studentName},'%')
+        </if>
+      </where>
+
+      GROUP BY
+        skr.id,
+        s.student_id ,
+        s.student_name ,
+        skr.relation_id ,
+        skr.relation_type,
+        skr.is_master ,
+        skr.is_lock,
+        skr.highest_score ,
+        skr.highest_coins_num ,
+        skr.error_num ,
+        skr.correct_num ,
+        skr.dept_id ,
+        skr.lock_time
+        ,kls.diagnosis_msg
+      limit ${(unlock.pageNum-1) * unlock.pageSize},#{unlock.pageSize}
+    ) skr
+
+    left join (
+      SELECT
+        id,
+        classification_id,
+        student_id,
+        @rownum:=IF((@student_id=student_id and @classification_id=classification_id),@rownum+1,1) number,
+        @student_id:=student_id,
+        @classification_id:=classification_id,
+        create_time,
+        batch_id,
+        type
+      FROM student_answer
+      where type = #{unlock.relationType}
+      ORDER BY student_id, create_time DESC
+    ) sa
+    on sa.student_id = skr.studentId  and sa.classification_id = skr.relationId
+    left join (
+      SELECT
+        sa.student_id,
+        sa.classification_id,
+        avg(correc_rate)*100 correcRate
+      FROM (
+        SELECT
+          id,
+          classification_id,
+          student_id,
+          @rownum:=IF((@student_id=student_id and @classification_id=classification_id),@rownum+1,1) number,
+          @student_id:=student_id,
+          @classification_id:=classification_id,
+          create_time,
+          correc_rate,
+          batch_id,
+          type
+        FROM student_answer
+        where type = #{unlock.relationType}
+        ORDER BY student_id, create_time DESC
+      )sa
+      where 5 >= sa.number
+      GROUP BY sa.student_id,sa.classification_id
+    ) sa2
+    on skr.studentId = sa2.student_id and skr.relationId = sa2.classification_id
+    left join (
+        select * from exercises_train_set where is_error = 1
+        and type = #{unlock.relationType}
+    ) ets
+    on ets.batch_id = sa.batch_id
+    WHERE 5 >= sa.number
+
+  </select>
+
+  <!--查询知识点错题本锁定数据总条数-->
+  <select id="pagingSelectCount" resultType="integer" parameterType="com.fudian.business.pojo.StudentKnowledgeRelation">
+
+    select
+      count(skr.id)
+    from (
+      select
+        skr.id
+      from student_knowledge_relation skr
+      inner join students s
+      on s.student_id = skr.student_id
+      inner join `knowledge_list_classification` c
+      on c.classification_id = skr.relation_id
+      <where>
+        s.class_room_id = #{unlock.deptId}
+        and skr.relation_type = #{unlock.relationType}
+        <if test="unlock.isLock == 0">
+          and skr.is_lock != 0
+        </if>
+        <if test="unlock.isLock != 0">
+          and skr.is_lock = #{unlock.isLock}
+        </if>
+        <if test="unlock.studentName != null and unlock.studentName != ''">
+          and s.student_name like concat('%',#{unlock.studentName},'%')
+        </if>
+      </where>
+    ) skr
+  </select>
+
+  <resultMap id="BaseResulLeveltMap" type="com.fudian.business.pojo.StudentKnowledgeRelation">
+    <!--@mbg.generated-->
+    <!--@Table custom_message-->
+    <id column="id" property="id" />
+    <result column="studentId"   property="studentId" />
+    <result column="studentName"  property="studentName" />
+    <result column="relationId"  property="relationId" />
+    <result column="relationName"  property="relationName" />
+    <result column="relationType" property="relationType" />
+    <result column="isMaster"  property="isMaster" />
+    <result column="isLock" property="isLock" />
+    <result column="highestScore"  property="highestScore" />
+    <result column="highestCoinsNum"  property="highestCoinsNum" />
+    <result column="errorNum" property="errorNum" />
+    <result column="correctNum"  property="correctNum" />
+    <result column="deptId" property="deptId" />
+    <result column="lockTime" property="lockTime" />
+    <result column="diagnosisMsg"   property="diagnosisMsg" />
+    <result column="totalCorrecRate"  property="correcRate" />
+
+    <collection property="list" ofType="com.fudian.business.vo.LevelKnowledgeVo" >
+      <result column="classificationMsg" property="knowledgeName" />
+      <result column="diagnosisMsg" property="diagnosisMsg" />
+      <result column="percentage" property="proportion" />
+      <result column="correcRate" property="correcRate" />
+      <collection property="errorList" ofType="com.alibaba.fastjson.JSONObject" >
+        <result column="exercisesNum" property="exercisesNum" />
+        <result column="exercisesAnswers" property="exercisesAnswers" />
+        <result column="errorAnswers" property="errorAnswers" />
+      </collection>
+    </collection>
+  </resultMap>
+
+  <!--查询闯关锁定数据-->
+  <select id="pagingSelectLevel" resultMap="BaseResulLeveltMap" parameterType="com.fudian.business.pojo.StudentKnowledgeRelation">
+    SELECT
+      skr.id,
+      skr.studentId,
+      skr.studentName,
+      skr.relationId,
+      skr.relationName,
+      skr.relationType,
+      skr.isMaster,
+      skr.isLock,
+      skr.highestScore,
+      skr.highestCoinsNum,
+      skr.errorNum,
+      skr.correctNum,
+      skr.deptId,
+      skr.lockTime,
+      sa2.correcRate totalCorrecRate,
+      lk.diagnosis_msg diagnosisMsg,
+      lk.classification_msg classificationMsg,
+      lk.percentage percentage,
+      ets2.correcRate correcRate,
+      ets.exercises_num exercisesNum,
+      ets.exercises_answers exercisesAnswers,
+      ets.error_answers errorAnswers
+    FROM (
+      SELECT
+        skr.id,
+        s.student_id studentId,
+        s.student_name studentName,
+        skr.relation_id relationId,
+        skr.relation_name relationName,
+        skr.relation_type relationType,
+        skr.is_master isMaster,
+        skr.is_lock isLock,
+        skr.highest_score highestScore,
+        skr.highest_coins_num highestCoinsNum,
+        skr.error_num errorNum,
+        skr.correct_num correctNum,
+        s.class_room_id deptId,
+        skr.lock_time lockTime
+      FROM student_knowledge_relation skr
+      left JOIN students s
+      ON s.student_id = skr.student_id
+      <where>
+        s.class_room_id = #{unlock.deptId}
+        and skr.relation_type = #{unlock.relationType}
+        <if test="unlock.isLock == 0">
+          and skr.is_lock != 0
+        </if>
+        <if test="unlock.isLock != 0">
+          and skr.is_lock = #{unlock.isLock}
+        </if>
+        <if test="unlock.studentName != null and unlock.studentName != ''">
+          and s.student_name like concat('%',#{unlock.studentName},'%')
+        </if>
+      </where>
+      limit ${(unlock.pageNum-1) * unlock.pageSize},#{unlock.pageSize}
+    ) skr
+    left JOIN level_table lt
+    on lt.level_id = skr.relationId
+    left JOIN (
+      select
+        lk.level_id,
+        lk.classification_id,
+        lk.percentage,
+        kls.diagnosis_msg,
+        CONCAT(
+          GROUP_CONCAT( DISTINCT sd.full_name ORDER BY sd.dict_code SEPARATOR '-' ), '-', ifnull( cc.classification_msg, '' ), '-', c.classification_msg
+        ) classification_msg
+      from level_knowledge lk
+      left JOIN `knowledge_list_classification` c
+      ON c.classification_id = lk.classification_id
+      LEFT JOIN knowledge_list_classification cc
+      ON c.pid = cc.classification_id AND cc.is_subclass = 1
+      LEFT JOIN knowledge_list_schedule kls
+      ON c.classification_id = kls.classification_id
+      left JOIN knowledge_list k
+      ON c.knowledge_id = k.knowledge_id
+      LEFT JOIN (
+        SELECT * FROM `sys_dictionary` WHERE dict_type = 'classfiy' ORDER BY dict_code
+      ) sd
+      ON sd.dict_type = 'classfiy'
+        AND sd.dict_code = k.knowledge_num_field
+        OR sd.dict_code = CONCAT( k.knowledge_num_field, '-', k.knowledge_operation )
+        OR sd.dict_code = CONCAT( k.knowledge_num_field, '-', k.knowledge_operation, '-', k.knowledge_type )
+      GROUP BY
+        lk.level_id,
+        lk.classification_id,
+        lk.percentage,
+        kls.diagnosis_msg
+    ) lk
+    on lt.level_id = lk.level_id
+
+    left JOIN (
+      SELECT
+        id,
+        classification_id level_id,
+        student_id,
+        @rownum := IF(( @student_id = student_id AND @level_id = classification_id ), @rownum + 1, 1 ) number,
+        @student_id := student_id,
+        @level_id := classification_id,
+        create_time,
+        batch_id,
+        type
+      FROM student_answer
+      WHERE type = #{unlock.relationType}
+      ORDER BY
+      student_id,
+      create_time DESC
+    ) sa
+    ON sa.student_id = skr.studentId  AND sa.level_id = skr.relationId
+    left JOIN sys_dept sd
+    on lt.grade_num = sd.id
+    left JOIN (
+      SELECT
+        sa.student_id,
+        sa.level_id,
+        avg(correc_rate)*100 correcRate,
+        avg(correc_rate),
+        count(*)
+      FROM (
+        SELECT
+          id,
+          classification_id level_id,
+          student_id,
+          @rownum := IF(( @student_id = student_id AND @level_id = classification_id ), @rownum + 1, 1 ) number,
+          @student_id := student_id,
+          @level_id := classification_id,
+          create_time,
+          correc_rate,
+          batch_id,
+          type
+        FROM student_answer
+        WHERE type = #{unlock.relationType}
+        ORDER BY student_id, create_time DESC
+      )sa
+      where 5 >= sa.number
+      GROUP BY sa.student_id,sa.level_id
+    ) sa2
+    on skr.studentId = sa2.student_id and skr.relationId = sa2.level_id
+
+    left JOIN (
+        SELECT exercises_id,student_id,level_id,classification_id,batch_id,exercises_num,exercises_answers,error_answers,is_error FROM exercises_train_set WHERE type = 1 and is_error = 1
+    ) ets
+    ON ets.batch_id = sa.batch_id and ets.level_id = skr.relationId and ets.student_id = skr.studentId and ets.classification_id = lk.classification_id
+    left JOIN (
+      SELECT
+        ets.student_id,
+        ets.classification_id,
+        ets.level_id,
+        100/count(*)*count(ets.is_error = 0 or null) correcRate
+      FROM(
+        SELECT
+          ets.student_id,
+          ets.exercises_id,
+          ets.batch_id,
+          ets.level_id,
+          ets.classification_id,
+          ets.is_error
+        FROM exercises_train_set ets
+        left JOIN (
+          SELECT
+            id,
+            classification_id level_id,
+            student_id,
+            @rownum := IF(( @student_id = student_id AND @level_id = classification_id ), @rownum + 1, 1 ) number,
+            @student_id := student_id,
+            @level_id := classification_id,
+            create_time,
+            batch_id,
+            type
+          FROM student_answer
+          ORDER BY student_id, create_time DESC
+        ) sa
+        on sa.batch_id = ets.batch_id
+        WHERE sa.type = #{unlock.relationType} and ets.type = #{unlock.relationType}  and 5 >= sa.number
+      )ets
+      GROUP BY ets.student_id,ets.classification_id,ets.level_id
+    ) ets2
+    ON ets2.student_id = skr.studentId and ets2.classification_id = lk.classification_id and ets2.level_id = skr.relationId
+    WHERE 5 >= sa.number
+    order by sd.order_num,lt.level_name
+  </select>
+  <!--查询闯关锁定数据总条数-->
+  <select id="pagingSelectLevelCount" resultType="integer" parameterType="com.fudian.business.pojo.StudentKnowledgeRelation">
+
+    select
+    count(skr.id)
+    from (
+    select
+    skr.id
+    from student_knowledge_relation skr
+    inner join students s
+    on s.student_id = skr.student_id
+    inner join level_table lt
+    on lt.level_id = skr.relation_id
+    <where>
+      s.class_room_id = #{unlock.deptId}
+      and skr.relation_type = #{unlock.relationType}
+      <if test="unlock.isLock == 0">
+        and skr.is_lock != 0
+      </if>
+      <if test="unlock.isLock != 0">
+        and skr.is_lock = #{unlock.isLock}
+      </if>
+      <if test="unlock.studentName != null and unlock.studentName != ''">
+        and s.student_name like concat('%',#{unlock.studentName},'%')
+      </if>
+    </where>
+    ) skr
+  </select>
+
+</mapper>

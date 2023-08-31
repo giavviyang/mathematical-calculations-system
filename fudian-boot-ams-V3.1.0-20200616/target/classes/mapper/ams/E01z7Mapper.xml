@@ -1,0 +1,458 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.fudian.project.ams.mapper.E01z7Mapper">
+  <resultMap id="BaseResultMap" type="com.fudian.project.ams.pojo.E01z7">
+    <!--@mbg.generated-->
+    <!--@Table e01z7-->
+    <id column="id" property="id" />
+    <result column="send_id" property="sendId" />
+    <result column="A01_ID" property="a01Id" />
+    <result column="E01Z701" property="e01z701" />
+    <result column="E01Z704A" property="e01z704a" />
+    <result column="E01Z704B" property="e01z704b" />
+    <result column="E01Z707" property="e01z707" />
+    <result column="E01Z711" property="e01z711" />
+    <result column="E01Z714" property="e01z714" />
+    <result column="E01Z717" property="e01z717" />
+    <result column="E01Z721" property="e01z721" />
+    <result column="E01Z724" property="e01z724" />
+    <result column="E01Z727" property="e01z727" />
+    <result column="E01Z731" property="e01z731" />
+    <result column="MAT_SUM" property="matSum" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <!--@mbg.generated-->
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <!--@mbg.generated-->
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    <!--@mbg.generated-->
+    id, send_id, A01_ID, E01Z701, E01Z704A, E01Z704B, E01Z707, E01Z711, E01Z714, E01Z717, 
+    E01Z721, E01Z724, E01Z727, E01Z731, MAT_SUM
+  </sql>
+  <select id="selectByExample" parameterType="com.fudian.project.ams.pojo.E01z7Example" resultMap="BaseResultMap">
+    <!--@mbg.generated-->
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from e01z7
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <delete id="deleteByExample" parameterType="com.fudian.project.ams.pojo.E01z7Example">
+    <!--@mbg.generated-->
+    delete from e01z7
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <select id="countByExample" parameterType="com.fudian.project.ams.pojo.E01z7Example" resultType="java.lang.Long">
+    <!--@mbg.generated-->
+    select count(*) from e01z7
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    <!--@mbg.generated-->
+    update e01z7
+    <set>
+      <if test="record.id != null">
+        id = #{record.id},
+      </if>
+      <if test="record.sendId != null">
+        send_id = #{record.sendId},
+      </if>
+      <if test="record.a01Id != null">
+        A01_ID = #{record.a01Id},
+      </if>
+      <if test="record.e01z701 != null">
+        E01Z701 = #{record.e01z701},
+      </if>
+      <if test="record.e01z704a != null">
+        E01Z704A = #{record.e01z704a},
+      </if>
+      <if test="record.e01z704b != null">
+        E01Z704B = #{record.e01z704b},
+      </if>
+      <if test="record.e01z707 != null">
+        E01Z707 = #{record.e01z707},
+      </if>
+      <if test="record.e01z711 != null">
+        E01Z711 = #{record.e01z711},
+      </if>
+      <if test="record.e01z714 != null">
+        E01Z714 = #{record.e01z714},
+      </if>
+      <if test="record.e01z717 != null">
+        E01Z717 = #{record.e01z717},
+      </if>
+      <if test="record.e01z721 != null">
+        E01Z721 = #{record.e01z721},
+      </if>
+      <if test="record.e01z724 != null">
+        E01Z724 = #{record.e01z724},
+      </if>
+      <if test="record.e01z727 != null">
+        E01Z727 = #{record.e01z727},
+      </if>
+      <if test="record.e01z731 != null">
+        E01Z731 = #{record.e01z731},
+      </if>
+      <if test="record.matSum != null">
+        MAT_SUM = #{record.matSum},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    <!--@mbg.generated-->
+    update e01z7
+    set id = #{record.id},
+      send_id = #{record.sendId},
+      A01_ID = #{record.a01Id},
+      E01Z701 = #{record.e01z701},
+      E01Z704A = #{record.e01z704a},
+      E01Z704B = #{record.e01z704b},
+      E01Z707 = #{record.e01z707},
+      E01Z711 = #{record.e01z711},
+      E01Z714 = #{record.e01z714},
+      E01Z717 = #{record.e01z717},
+      E01Z721 = #{record.e01z721},
+      E01Z724 = #{record.e01z724},
+      E01Z727 = #{record.e01z727},
+      E01Z731 = #{record.e01z731},
+      MAT_SUM = #{record.matSum}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateBatch" parameterType="java.util.List">
+    <!--@mbg.generated-->
+    update e01z7
+    <trim prefix="set" suffixOverrides=",">
+      <trim prefix="send_id = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id} then #{item.sendId}
+        </foreach>
+      </trim>
+      <trim prefix="A01_ID = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id} then #{item.a01Id}
+        </foreach>
+      </trim>
+      <trim prefix="E01Z701 = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id} then #{item.e01z701}
+        </foreach>
+      </trim>
+      <trim prefix="E01Z704A = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id} then #{item.e01z704a}
+        </foreach>
+      </trim>
+      <trim prefix="E01Z704B = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id} then #{item.e01z704b}
+        </foreach>
+      </trim>
+      <trim prefix="E01Z707 = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id} then #{item.e01z707}
+        </foreach>
+      </trim>
+      <trim prefix="E01Z711 = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id} then #{item.e01z711}
+        </foreach>
+      </trim>
+      <trim prefix="E01Z714 = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id} then #{item.e01z714}
+        </foreach>
+      </trim>
+      <trim prefix="E01Z717 = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id} then #{item.e01z717}
+        </foreach>
+      </trim>
+      <trim prefix="E01Z721 = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id} then #{item.e01z721}
+        </foreach>
+      </trim>
+      <trim prefix="E01Z724 = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id} then #{item.e01z724}
+        </foreach>
+      </trim>
+      <trim prefix="E01Z727 = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id} then #{item.e01z727}
+        </foreach>
+      </trim>
+      <trim prefix="E01Z731 = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id} then #{item.e01z731}
+        </foreach>
+      </trim>
+      <trim prefix="MAT_SUM = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id} then #{item.matSum}
+        </foreach>
+      </trim>
+    </trim>
+    where id in
+    <foreach close=")" collection="list" item="item" open="(" separator=", ">
+      #{item.id}
+    </foreach>
+  </update>
+  <insert id="batchInsert" parameterType="map">
+    <!--@mbg.generated-->
+    insert into e01z7
+    (id, send_id, A01_ID, E01Z701, E01Z704A, E01Z704B, E01Z707, E01Z711, E01Z714, E01Z717, 
+      E01Z721, E01Z724, E01Z727, E01Z731, MAT_SUM)
+    values
+    <foreach collection="list" item="item" separator=",">
+      (#{item.id}, #{item.sendId}, #{item.a01Id}, #{item.e01z701}, #{item.e01z704a}, #{item.e01z704b}, 
+        #{item.e01z707}, #{item.e01z711}, #{item.e01z714}, #{item.e01z717}, #{item.e01z721}, 
+        #{item.e01z724}, #{item.e01z727}, #{item.e01z731}, #{item.matSum})
+    </foreach>
+  </insert>
+  <insert id="insertOrUpdate" parameterType="com.fudian.project.ams.pojo.E01z7">
+    <!--@mbg.generated-->
+    insert into e01z7
+    (id, send_id, A01_ID, E01Z701, E01Z704A, E01Z704B, E01Z707, E01Z711, E01Z714, E01Z717, 
+      E01Z721, E01Z724, E01Z727, E01Z731, MAT_SUM)
+    values
+    (#{id}, #{sendId}, #{a01Id}, #{e01z701}, #{e01z704a}, #{e01z704b}, #{e01z707}, #{e01z711}, 
+      #{e01z714}, #{e01z717}, #{e01z721}, #{e01z724}, #{e01z727}, #{e01z731}, #{matSum}
+      )
+    on duplicate key update 
+    id = #{id}, 
+    send_id = #{sendId}, 
+    A01_ID = #{a01Id}, 
+    E01Z701 = #{e01z701}, 
+    E01Z704A = #{e01z704a}, 
+    E01Z704B = #{e01z704b}, 
+    E01Z707 = #{e01z707}, 
+    E01Z711 = #{e01z711}, 
+    E01Z714 = #{e01z714}, 
+    E01Z717 = #{e01z717}, 
+    E01Z721 = #{e01z721}, 
+    E01Z724 = #{e01z724}, 
+    E01Z727 = #{e01z727}, 
+    E01Z731 = #{e01z731}, 
+    MAT_SUM = #{matSum}
+  </insert>
+  <insert id="insertOrUpdateSelective" parameterType="com.fudian.project.ams.pojo.E01z7">
+    <!--@mbg.generated-->
+    insert into e01z7
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="sendId != null">
+        send_id,
+      </if>
+      <if test="a01Id != null">
+        A01_ID,
+      </if>
+      <if test="e01z701 != null">
+        E01Z701,
+      </if>
+      <if test="e01z704a != null">
+        E01Z704A,
+      </if>
+      <if test="e01z704b != null">
+        E01Z704B,
+      </if>
+      <if test="e01z707 != null">
+        E01Z707,
+      </if>
+      <if test="e01z711 != null">
+        E01Z711,
+      </if>
+      <if test="e01z714 != null">
+        E01Z714,
+      </if>
+      <if test="e01z717 != null">
+        E01Z717,
+      </if>
+      <if test="e01z721 != null">
+        E01Z721,
+      </if>
+      <if test="e01z724 != null">
+        E01Z724,
+      </if>
+      <if test="e01z727 != null">
+        E01Z727,
+      </if>
+      <if test="e01z731 != null">
+        E01Z731,
+      </if>
+      <if test="matSum != null">
+        MAT_SUM,
+      </if>
+    </trim>
+    values
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id},
+      </if>
+      <if test="sendId != null">
+        #{sendId},
+      </if>
+      <if test="a01Id != null">
+        #{a01Id},
+      </if>
+      <if test="e01z701 != null">
+        #{e01z701},
+      </if>
+      <if test="e01z704a != null">
+        #{e01z704a},
+      </if>
+      <if test="e01z704b != null">
+        #{e01z704b},
+      </if>
+      <if test="e01z707 != null">
+        #{e01z707},
+      </if>
+      <if test="e01z711 != null">
+        #{e01z711},
+      </if>
+      <if test="e01z714 != null">
+        #{e01z714},
+      </if>
+      <if test="e01z717 != null">
+        #{e01z717},
+      </if>
+      <if test="e01z721 != null">
+        #{e01z721},
+      </if>
+      <if test="e01z724 != null">
+        #{e01z724},
+      </if>
+      <if test="e01z727 != null">
+        #{e01z727},
+      </if>
+      <if test="e01z731 != null">
+        #{e01z731},
+      </if>
+      <if test="matSum != null">
+        #{matSum},
+      </if>
+    </trim>
+    on duplicate key update 
+    <trim suffixOverrides=",">
+      <if test="id != null">
+        id = #{id},
+      </if>
+      <if test="sendId != null">
+        send_id = #{sendId},
+      </if>
+      <if test="a01Id != null">
+        A01_ID = #{a01Id},
+      </if>
+      <if test="e01z701 != null">
+        E01Z701 = #{e01z701},
+      </if>
+      <if test="e01z704a != null">
+        E01Z704A = #{e01z704a},
+      </if>
+      <if test="e01z704b != null">
+        E01Z704B = #{e01z704b},
+      </if>
+      <if test="e01z707 != null">
+        E01Z707 = #{e01z707},
+      </if>
+      <if test="e01z711 != null">
+        E01Z711 = #{e01z711},
+      </if>
+      <if test="e01z714 != null">
+        E01Z714 = #{e01z714},
+      </if>
+      <if test="e01z717 != null">
+        E01Z717 = #{e01z717},
+      </if>
+      <if test="e01z721 != null">
+        E01Z721 = #{e01z721},
+      </if>
+      <if test="e01z724 != null">
+        E01Z724 = #{e01z724},
+      </if>
+      <if test="e01z727 != null">
+        E01Z727 = #{e01z727},
+      </if>
+      <if test="e01z731 != null">
+        E01Z731 = #{e01z731},
+      </if>
+      <if test="matSum != null">
+        MAT_SUM = #{matSum},
+      </if>
+    </trim>
+  </insert>
+</mapper>

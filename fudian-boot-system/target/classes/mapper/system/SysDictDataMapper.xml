@@ -1,0 +1,277 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.fudian.project.system.mapper.SysDictDataMapper">
+  <resultMap id="BaseResultMap" type="com.fudian.project.system.pojo.SysDictData">
+    <!--@mbg.generated-->
+    <!--@Table sys_dict_data-->
+    <id column="dict_valueid" property="dictValueid" />
+    <result column="dict_sort" property="dictSort" />
+    <result column="dict_label" property="dictLabel" />
+    <result column="dict_value" property="dictValue" />
+    <result column="dict_type" property="dictType" />
+    <result column="is_default" property="isDefault" />
+    <result column="status" property="status" />
+    <result column="create_by" property="createBy" />
+    <result column="create_time" property="createTime" />
+    <result column="update_by" property="updateBy" />
+    <result column="update_time" property="updateTime" />
+    <result column="remark" property="remark" />
+    <result column="is_system" property="isSystem" />
+    <result column="parent_id" property="parentId" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    <!--@mbg.generated-->
+    dict_valueid, dict_sort, dict_label, dict_value, dict_type, is_default, `status`, 
+    create_by, create_time, update_by, update_time, remark, is_system, parent_id
+  </sql>
+  <update id="updateBatch" parameterType="java.util.List">
+    <!--@mbg.generated-->
+    update sys_dict_data
+    <trim prefix="set" suffixOverrides=",">
+      <trim prefix="dict_sort = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when dict_valueid = #{item.dictValueid} then #{item.dictSort}
+        </foreach>
+      </trim>
+      <trim prefix="dict_label = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when dict_valueid = #{item.dictValueid} then #{item.dictLabel}
+        </foreach>
+      </trim>
+      <trim prefix="dict_value = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when dict_valueid = #{item.dictValueid} then #{item.dictValue}
+        </foreach>
+      </trim>
+      <trim prefix="dict_type = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when dict_valueid = #{item.dictValueid} then #{item.dictType}
+        </foreach>
+      </trim>
+      <trim prefix="is_default = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when dict_valueid = #{item.dictValueid} then #{item.isDefault}
+        </foreach>
+      </trim>
+      <trim prefix="`status` = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when dict_valueid = #{item.dictValueid} then #{item.status}
+        </foreach>
+      </trim>
+      <trim prefix="create_by = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when dict_valueid = #{item.dictValueid} then #{item.createBy}
+        </foreach>
+      </trim>
+      <trim prefix="create_time = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when dict_valueid = #{item.dictValueid} then #{item.createTime}
+        </foreach>
+      </trim>
+      <trim prefix="update_by = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when dict_valueid = #{item.dictValueid} then #{item.updateBy}
+        </foreach>
+      </trim>
+      <trim prefix="update_time = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when dict_valueid = #{item.dictValueid} then #{item.updateTime}
+        </foreach>
+      </trim>
+      <trim prefix="remark = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when dict_valueid = #{item.dictValueid} then #{item.remark}
+        </foreach>
+      </trim>
+      <trim prefix="is_system = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when dict_valueid = #{item.dictValueid} then #{item.isSystem}
+        </foreach>
+      </trim>
+      <trim prefix="parent_id = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when dict_valueid = #{item.dictValueid} then #{item.parentId}
+        </foreach>
+      </trim>
+    </trim>
+    where dict_valueid in
+    <foreach close=")" collection="list" item="item" open="(" separator=", ">
+      #{item.dictValueid}
+    </foreach>
+  </update>
+  <insert id="batchInsert" parameterType="map">
+    <!--@mbg.generated-->
+    insert into sys_dict_data
+    (dict_valueid, dict_sort, dict_label, dict_value, dict_type, is_default, `status`, 
+      create_by, create_time, update_by, update_time, remark, is_system, parent_id)
+    values
+    <foreach collection="list" item="item" separator=",">
+      (#{item.dictValueid}, #{item.dictSort}, #{item.dictLabel}, #{item.dictValue}, #{item.dictType}, 
+        #{item.isDefault}, #{item.status}, #{item.createBy}, #{item.createTime}, #{item.updateBy}, 
+        #{item.updateTime}, #{item.remark}, #{item.isSystem}), , #{item.parentId})
+    </foreach>
+  </insert>
+  <insert id="insertOrUpdate" parameterType="com.fudian.project.system.pojo.SysDictData">
+    <!--@mbg.generated-->
+    insert into sys_dict_data
+    (dict_valueid, dict_sort, dict_label, dict_value, dict_type, is_default, `status`, 
+      create_by, create_time, update_by, update_time, remark, is_system, parent_id)
+    values
+    (#{dictValueid}, #{dictSort}, #{dictLabel}, #{dictValue}, #{dictType}, #{isDefault}, 
+      #{status}, #{createBy}, #{createTime}, #{updateBy}, #{updateTime}, #{remark}, #{isSystem}, , #{parentId}
+      )
+    on duplicate key update 
+    dict_valueid = #{dictValueid}, 
+    dict_sort = #{dictSort}, 
+    dict_label = #{dictLabel}, 
+    dict_value = #{dictValue}, 
+    dict_type = #{dictType}, 
+    is_default = #{isDefault}, 
+    `status` = #{status}, 
+    create_by = #{createBy}, 
+    create_time = #{createTime}, 
+    update_by = #{updateBy}, 
+    update_time = #{updateTime}, 
+    remark = #{remark}, 
+    is_system = #{isSystem},
+    parent_id = #{parentId}
+  </insert>
+  <insert id="insertOrUpdateSelective" parameterType="com.fudian.project.system.pojo.SysDictData">
+    <!--@mbg.generated-->
+    insert into sys_dict_data
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="dictValueid != null">
+        dict_valueid,
+      </if>
+      <if test="dictSort != null">
+        dict_sort,
+      </if>
+      <if test="dictLabel != null">
+        dict_label,
+      </if>
+      <if test="dictValue != null">
+        dict_value,
+      </if>
+      <if test="dictType != null">
+        dict_type,
+      </if>
+      <if test="isDefault != null">
+        is_default,
+      </if>
+      <if test="status != null">
+        `status`,
+      </if>
+      <if test="createBy != null">
+        create_by,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="updateBy != null">
+        update_by,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+      <if test="remark != null">
+        remark,
+      </if>
+      <if test="isSystem != null">
+        is_system,
+      </if>
+      <if test="parentId != null">
+        parent_id,
+      </if>
+    </trim>
+    values
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="dictValueid != null">
+        #{dictValueid},
+      </if>
+      <if test="dictSort != null">
+        #{dictSort},
+      </if>
+      <if test="dictLabel != null">
+        #{dictLabel},
+      </if>
+      <if test="dictValue != null">
+        #{dictValue},
+      </if>
+      <if test="dictType != null">
+        #{dictType},
+      </if>
+      <if test="isDefault != null">
+        #{isDefault},
+      </if>
+      <if test="status != null">
+        #{status},
+      </if>
+      <if test="createBy != null">
+        #{createBy},
+      </if>
+      <if test="createTime != null">
+        #{createTime},
+      </if>
+      <if test="updateBy != null">
+        #{updateBy},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime},
+      </if>
+      <if test="remark != null">
+        #{remark},
+      </if>
+      <if test="isSystem != null">
+        #{isSystem},
+      </if>
+      <if test="parentId != null">
+        #{parentId},
+      </if>
+    </trim>
+    on duplicate key update 
+    <trim suffixOverrides=",">
+      <if test="dictValueid != null">
+        dict_valueid = #{dictValueid},
+      </if>
+      <if test="dictSort != null">
+        dict_sort = #{dictSort},
+      </if>
+      <if test="dictLabel != null">
+        dict_label = #{dictLabel},
+      </if>
+      <if test="dictValue != null">
+        dict_value = #{dictValue},
+      </if>
+      <if test="dictType != null">
+        dict_type = #{dictType},
+      </if>
+      <if test="isDefault != null">
+        is_default = #{isDefault},
+      </if>
+      <if test="status != null">
+        `status` = #{status},
+      </if>
+      <if test="createBy != null">
+        create_by = #{createBy},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime},
+      </if>
+      <if test="updateBy != null">
+        update_by = #{updateBy},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime},
+      </if>
+      <if test="remark != null">
+        remark = #{remark},
+      </if>
+      <if test="isSystem != null">
+        is_system = #{isSystem},
+      </if>
+      <if test="parentId != null">
+        is_system = #{parentId},
+      </if>
+    </trim>
+  </insert>
+</mapper>

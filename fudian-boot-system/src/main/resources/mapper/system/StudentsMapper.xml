@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.fudian.business.mapper.StudentsMapper">
+    <resultMap type="com.fudian.api.system.pojo.Students" id="StudentsResult">
+        <result property="studentId"                column="student_id"/>
+        <result property="studentName"              column="student_name"/>
+        <result property="studentNickname"          column="student_nickname"/>
+        <result property="classRoomId"              column="class_room_id"/>
+        <result property="classHeadmasterId"        column="class_headmaster_id"/>
+        <result property="studentNumber"            column="student_number"/>
+        <result property="studentGrade"             column="student_grade"/>
+        <result property="studentCode"              column="student_code"/>
+        <result property="studentPortrait"          column="student_portrait"/>
+        <result property="studentStatus"            column="student_status"/>
+        <result property="studentOpenid"            column="student_openId"/>
+        <result property="studentPracticeStatus"    column="student_practice_status"/>
+        <result property="goodsId"                  column="goods_id"/>
+        <result property="coinsNum"                 column="coins_num"/>
+        <result property="progressStar"             column="progress_star"/>
+        <result property="diligentStar"             column="diligent_star"/>
+        <result property="cumulativeLogin"          column="cumulative_login"/>
+        <result property="acoustics"                column="acoustics"/>
+        <result property="backgroundMusic"          column="background_music"/>
+        <result property="remark"                   column="remark"/>
+    </resultMap>
+
+    <resultMap type="java.util.Map" id="StudentAndClassResult">
+        <result property="studentId" column="student_id"/>
+        <result property="studentName" column="student_name"/>
+        <result property="studentNickname" column="student_nickname"/>
+        <result property="classRoomId" column="class_room_id"/>
+        <result property="classHeadmasterId" column="class_headmaster_id"/>
+        <result property="studentNumber" column="student_number"/>
+        <result property="studentGrade" column="student_grade"/>
+        <result property="studentCode" column="student_code"/>
+        <result property="studentPortrait" column="student_portrait"/>
+        <result property="studentStatus" column="student_status"/>
+        <result property="studentOpenid" column="student_openId"/>
+        <result property="studentPracticeStatus" column="student_practice_status"/>
+        <result property="goodsId" column="goods_id"/>
+        <result property="coinsNum" column="coins_num"/>
+        <result property="progressStar" column="progress_star"/>
+        <result property="diligentStar" column="diligent_star"/>
+        <result property="cumulativeLogin" column="cumulative_login"/>
+        <result property="acoustics" column="acoustics"/>
+        <result property="backgroundMusic" column="background_music"/>
+        <result property="className" column="class_name"/>
+        <result property="gradeName" column="grade_name"/>
+        <result property="remark" column="remark"/>
+    </resultMap>
+
+    <sql id="selectStudentsVo">
+        select student_id, student_name, student_nickname, class_room_id, class_headmaster_id, student_number, student_grade, student_code, student_portrait, student_status, student_openId, student_practice_status, goods_id, coins_num, progress_star, diligent_star, cumulative_login, acoustics, background_music , remark from students
+    </sql>
+
+    <select id="queryStudentAndClass" resultMap="StudentAndClassResult" parameterType="java.util.Map">
+        select students.*,
+        sys_dept.dept_name as class_name,
+        d2.dept_name as grade_name
+        from students
+        inner join (
+            SELECT id,dept_name,parent_id,ancestors
+            FROM sys_dept
+            WHERE status = 0 and node_type = '2'
+        ) sys_dept
+        on sys_dept.id = students.class_room_id
+        inner join (
+            select id,dept_name from sys_dept  WHERE status = 0 and  node_type = '1'
+        )d2
+        on sys_dept.parent_id = d2.id
+
+        <where>
+
+            <if test="map.studentName != null and map.studentName != ''">
+                AND (
+                    student_name LIKE CONCAT('%',#{map.studentName},'%')
+                    OR #{map.studentName} LIKE CONCAT('%',student_name,'%')
+                )
+                AND student_name != ''
+            </if>
+            <if test="map.classId != null and map.classId != ''">
+                AND sys_dept.ancestors LIKE CONCAT('%',#{map.classId},'%')
+            </if>
+        </where>
+        order by remark asc
+    </select>
+
+    <select id="selectGradeStudent" resultType="com.fudian.api.system.pojo.Students" parameterType="java.lang.String">
+        select * from students
+        where class_room_id in (select id from sys_dept where parent_id = (select parent_id from sys_dept where id = #{classRoomId}))
+    </select>
+    <!--查询个人信息数据 方法未完成。。-->
+    <select id="queryStudentInfoByStudentId" resultType="com.fudian.business.vo.StudentInfo"
+            parameterType="java.lang.String">
+        select * from students
+        where class_room_id
+        in (select id from sys_dept
+            where parent_id = (select parent_id from sys_dept
+                                where id = #{studentId}))
+    </select>
+    <select id="queryStudentInfoByStudent" parameterType="com.fudian.api.system.pojo.Students"
+            resultType="java.util.Map">
+        SELECT
+        count(if(skr.is_master = '1',klc.classification_id,null)) AS master,
+        count(if(skr.is_master = '0',klc.classification_id,null)) AS notHave,
+        klcs.counts-count(klc.classification_id) AS notPractice,
+        s.student_name AS studentName,
+        s.student_nickname AS studentNickname,
+        s.student_number AS studentNumber,
+        s.student_grade AS studentGrade,
+        s.student_status AS studentStatus,
+        s.student_id as studentId
+        FROM students s
+        left join ( SELECT * FROM student_knowledge_relation where relation_type=0 ) skr
+        on skr.student_id = s.student_id
+        left join (select * from knowledge_list_classification where is_subclass = 0) klc
+        on klc.classification_id = skr.relation_id
+        left join (select count(classification_id) counts from knowledge_list_classification where is_subclass = 0) klcs
+        on 1=1
+        <where>
+            student_status = 0
+            <if test="studentName!=null and studentName!=''">
+                and s.student_name LIKE CONCAT('%',#{studentName},'%')
+            </if>
+            <if test="classRoomId!=null and classRoomId!='' and (studentName==null or studentName=='')">
+                and s.class_room_id = #{classRoomId}
+            </if>
+            <if test="classHeadmasterId != 'admin' and studentName!=null and studentName!=''">
+                and s.class_room_id in(
+                SELECT sd.id
+                FROM sys_role_data d
+                LEFT JOIN sys_dept sd
+                ON d.data_permission_id = sd.id
+                LEFT JOIN sys_user u
+                ON u.user_id = d.role_id
+                WHERE  u.user_id = #{classHeadmasterId}
+                AND sd.node_type = 2
+                GROUP BY sd.id
+                )
+            </if>
+        </where>
+        GROUP BY s.student_name,
+        s.student_nickname,
+        s.student_number,
+        s.student_grade,
+        s.student_status,
+        s.student_id,klcs.counts
+
+    </select>
+
+    <select id="batchSelectStudentsById" parameterType="string" resultMap="StudentsResult">
+        select
+            s.student_id,
+            s.student_name,
+            s.student_nickname,
+            concat(sdt.dept_name,sdo.dept_name) as class_room_id,
+            s.class_headmaster_id,
+            s.student_number,
+            s.student_grade,
+            s.student_code,
+            s.student_portrait,
+            s.student_status,
+            s.student_openId,
+            s.student_practice_status,
+            gl.goods_imge as goods_id,
+            s.coins_num,
+            s.progress_star,
+            s.diligent_star,
+            s.cumulative_login,
+            s.acoustics,
+            s.background_music ,
+            s.remark
+        from students s
+        left join goods_list gl
+        on s.goods_id = gl.goods_id
+        left join sys_dept sdo
+        on s.class_room_id = sdo.id
+        left join sys_dept sdt
+        on sdo.parent_id = sdt.id
+        where student_id in
+        <foreach collection="studentIds" item="item" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+
+    </select>
+</mapper>

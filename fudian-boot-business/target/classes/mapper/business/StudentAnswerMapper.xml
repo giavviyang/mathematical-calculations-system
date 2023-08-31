@@ -1,0 +1,718 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.fudian.business.mapper.StudentAnswerMapper">
+
+
+    <!--查勤奋榜-->
+    <select id="diligenceRanking" resultType="java.util.Map">
+        SELECT (@i:=@i+1) number,a.* FROM
+            (SELECT s.student_id id,SUM(sa.total_num) totalNum,SUM(sa.correc_num) correcNum
+            FROM student_answer sa
+            left join students s
+            on s.student_id = sa.student_id
+            WHERE sa.create_time >= #{currentTime}
+            AND s.class_room_id in
+            <foreach item='item' index='index' collection='ids' open='(' separator=',' close=')'>
+                #{item}
+            </foreach>
+            GROUP BY s.student_id
+            ORDER BY SUM(total_num) desc,(SUM(correc_rate)/COUNT(*)) desc) a,
+        (select @i:=0) t
+    </select>
+    <!--查进步榜-->
+    <select id="progressRanking" resultType="java.util.Map">
+        SELECT (@i:=@i+1) number,pr.*
+        FROM (
+            SELECT r.id id,(r.correcRate-IFNULL(l.correcRate,0)) progressRate,r.totalNum totalNum,r.correcRate
+            correcRate
+            FROM (
+                    SELECT s.student_id id,(SUM(sa.correc_rate)/COUNT(*)) correcRate,SUM(sa.total_num) totalNum
+                    FROM student_answer sa
+                    left join students s
+                    on s.student_id = sa.student_id
+                    WHERE sa.create_time >= #{thisWeek}
+                    AND s.class_room_id in
+                    <foreach item='item' index='index' collection='ids' open='(' separator=',' close=')'>
+                        #{item}
+                    </foreach>
+                    GROUP BY s.student_id
+                ) r
+            LEFT JOIN (
+                    SELECT s.student_id id,(SUM(sa.correc_rate)/COUNT(*)) correcRate
+                    FROM student_answer sa
+                    left join students s
+                    on s.student_id = sa.student_id
+                    WHERE sa.create_time between #{lastWeek} AND #{thisWeek}
+                    AND s.class_room_id in
+                    <foreach item='item' index='index' collection='ids' open='(' separator=',' close=')'>
+                        #{item}
+                    </foreach>
+                    GROUP BY s.student_id
+                ) l
+            ON r.id = l.id
+            WHERE (r.correcRate-IFNULL(l.correcRate,0)) > 0
+            ORDER BY (r.correcRate-IFNULL(l.correcRate,0)) desc,r.totalNum desc
+        ) pr,
+        (select @i:=0) t
+    </select>
+    <!--查所有闯关榜-->
+    <select id="levelRanking" resultType="java.util.Map">
+
+        SELECT (@i:=@i+1) number, rl.*
+        FROM (
+            SELECT r.id id,r.count count
+            FROM (
+                SELECT s.student_id id, count(*) count
+                FROM student_knowledge_relation skr
+                left join students s
+                on s.student_id = skr.student_id
+                WHERE skr.relation_type = 1
+                AND s.class_room_id in
+                <foreach item='item' index='index' collection='ids' open='(' separator=',' close=')'>
+                    #{item}
+                </foreach>
+                GROUP BY s.student_id
+            ) r
+            LEFT JOIN (
+                SELECT s.student_id id, (SUM(sa.correc_rate)/COUNT(*)) correcRate,(SUM(sa.answer_time)/COUNT(*)) answerTime
+                FROM student_answer sa
+                left join students s
+                on s.student_id = sa.student_id
+                WHERE sa.create_time > #{thisWeek}
+                AND sa.type = 1
+                AND s.class_room_id in
+                <foreach item='item' index='index' collection='ids' open='(' separator=',' close=')'>
+                    #{item}
+                </foreach>
+                GROUP BY s.student_id
+            ) a
+            ON r.id = a.id
+            ORDER BY r.count desc, a.correcRate desc, a.answerTime desc
+        ) rl,
+        (select @i:=0) t
+    </select>
+
+    <select id="getMasterSituation" resultType="com.fudian.common.vo.MasterSituationVO">
+        SELECT sa.classification_id as classificationId, k.classification_msg as classificationMsg,sum(sa.total_num) as count,
+       ROUND(sum(sa.correc_num)/sum(sa.total_num)*100) as correctRate,
+       ROUND(sum(sa.answer_time)/sum(sa.total_num)) as averageTime
+        FROM `student_answer` sa
+        left join students s
+        on s.student_id = sa.student_id
+        left join `knowledge_list_classification` k on k.classification_id = sa.classification_id
+        where s.student_id=#{studentId} and sa.type=0
+        GROUP BY sa.classification_id
+        order by sa.classification_id;
+    </select>
+
+    <select id="getMasterSituationByClassId" resultType="com.fudian.common.vo.MasterSituationVO">
+        SELECT
+            s.classification_id as classificationId,
+            sum(s.total_num) as count,
+            CONCAT(GROUP_CONCAT(distinct sd.full_name order by  sd.dict_code SEPARATOR '-' ),'-',ifnull(cc.classification_msg,''),'-',c.classification_msg)  classificationName,
+            CONCAT(GROUP_CONCAT(distinct sd.full_name order by  sd.dict_code SEPARATOR '-' ),'-',ifnull(cc.classification_msg,''),'-',c.classification_msg)  classificationMsg,
+            count(distinct ss.student_id)as studentNum,
+            ROUND(sum(s.correc_num)/sum(s.total_num)*100) as correctRate,
+            ROUND(sum(s.answer_time)/sum(s.total_num)) as averageTime
+        FROM `student_answer` s
+
+        left join `students` ss
+        on ss.student_id = s.student_id
+        inner join `knowledge_list_classification` c
+        on c.classification_id = s.classification_id
+        left join knowledge_list_classification cc
+        on c.pid = cc.classification_id and cc.is_subclass = 1
+        inner join knowledge_list k
+        on c.knowledge_id = k.knowledge_id
+        left join (
+            SELECT * FROM `sys_dictionary`
+            where dict_type = 'classfiy'
+            ORDER BY dict_code
+        ) sd
+        on sd.dict_type = 'classfiy'
+        and sd.dict_code = k.knowledge_num_field
+        or sd.dict_code = CONCAT(k.knowledge_num_field,'-',k.knowledge_operation)
+        or sd.dict_code = CONCAT(k.knowledge_num_field,'-',k.knowledge_operation,'-',k.knowledge_type)
+        where ss.class_room_id=#{classId} and s.type=0
+        <if test="shuyu!=null and shuyu!=''">
+            and k.knowledge_num_field = #{shuyu}
+        </if>
+        <if test="faze!=null and faze!=''">
+            and k.knowledge_operation = #{faze}
+        </if>
+        GROUP BY s.classification_id
+        order by k.knowledge_num_field,k.knowledge_operation,k.knowledge_type,c.classification_msg
+    </select>
+
+
+    <!--系统查勤奋榜-->
+    <select id="sysDiligenceRanking" resultType="com.fudian.business.vo.SysRankingList">
+
+        SELECT t.* FROM(
+            SELECT (@i:=@i+1) number,rl.*
+            FROM (
+                SELECT
+                    d.dept_id deptId,
+                    d.dept_name deptName ,
+                    s.student_id studentId,
+                    s.student_name studentName,
+                    SUM(a.total_num) totalNum,
+                    SUM(a.correc_num) correcNum,
+                    (SUM(a.correc_rate)/COUNT(s.student_id))averageCorrecRate,
+                    (SUM(a.time_proportion)/COUNT(s.student_id))averageTime,
+                    s.progress_star progressStar,
+                    s.diligent_star diligentStar
+                FROM student_answer a
+                LEFT JOIN students s
+                ON a.student_id = s.student_id
+                LEFT JOIN (
+                    SELECT t.id dept_id, concat(p.dept_name,t.dept_name) dept_name
+                    FROM sys_dept t
+                    LEFT JOIN sys_dept p
+                    ON t.parent_id = p.id
+                    WHERE t.id = #{sysRankingList.deptId}
+                ) d
+                ON s.class_room_id = d.dept_id
+                WHERE a.create_time >= #{sysRankingList.beginTime}
+                AND s.class_room_id = #{sysRankingList.deptId}
+                GROUP BY s.student_id
+                ORDER BY SUM(a.total_num) desc,(SUM(a.correc_rate)/COUNT(s.student_id)) desc
+            ) rl,
+            (select @i:=0) t
+        ) t
+        LIMIT ${(sysRankingList.pageNum-1)*sysRankingList.pageSize}, #{sysRankingList.pageSize}
+    </select>
+    <!--系统查勤奋榜总数量-->
+    <select id="sysDiligenceRankingCount" resultType="java.lang.Integer">
+        select count(a.student_id)
+        from (
+            SELECT s.student_id
+            FROM student_answer sa
+            LEFT JOIN students s
+            ON sa.student_id = s.student_id
+            WHERE create_time >= #{sysRankingList.beginTime}
+            AND s.class_room_id = #{sysRankingList.deptId}
+            GROUP BY s.student_id
+        ) a
+    </select>
+    <!--系统进步榜查询-->
+    <select id="sysProgressRanking" resultType="com.fudian.business.vo.SysRankingList">
+        SELECT t.*
+        FROM(
+            SELECT (@i:=@i+1) number,rl.*
+            FROM(
+                SELECT
+                    r.class_id deptId,
+                    d.dept_name deptName,
+                    r.student_id studentId,
+                    r.student_name studentName,
+                    r.progress_star progressStar,
+                    r.diligent_star diligentStar,
+                    (r.correcRate-IFNULL(l.correcRate,0)) progressRate,
+                    r.totalNum totalNum,
+                    r.correcRate averageCorrecRate
+                FROM (
+                    SELECT s.student_id,s.student_name,s.progress_star, s.diligent_star,s.class_room_id class_id, (SUM(sa.correc_rate)/COUNT(*)) correcRate,SUM(sa.total_num) totalNum
+                    FROM student_answer sa
+                    left join students s
+                    on s.student_id = sa.student_id
+                    WHERE sa.create_time >= #{sysRankingList.endTime}
+                    AND s.class_room_id = #{sysRankingList.deptId}
+                    GROUP BY s.student_id
+                ) r
+                LEFT JOIN (
+                    SELECT s.student_id,(SUM(sa.correc_rate)/COUNT(*)) correcRate
+                    FROM student_answer sa
+                    left join students s
+                    on s.student_id = sa.student_id
+                    WHERE sa.create_time between #{sysRankingList.beginTime} AND #{sysRankingList.endTime}
+                    AND s.class_room_id = #{sysRankingList.deptId}
+                    GROUP BY s.student_id
+                ) l
+                ON r.student_id = l.student_id
+                LEFT JOIN (
+                    SELECT t.id dept_id, concat(p.dept_name,t.dept_name) dept_name
+                    FROM sys_dept t
+                    LEFT JOIN sys_dept p
+                    ON t.parent_id = p.id
+                    WHERE t.id = #{sysRankingList.deptId}
+                ) d
+                ON r.class_id = d.dept_id
+                WHERE (r.correcRate-IFNULL(l.correcRate,0)) > 0
+                ORDER BY (r.correcRate-IFNULL(l.correcRate,0)) desc,r.totalNum desc
+            ) rl,
+            (select @i:=0) t
+        ) t
+        LIMIT ${(sysRankingList.pageNum-1)*sysRankingList.pageSize}, #{sysRankingList.pageSize}
+    </select>
+    <!--系统查进步榜总数量-->
+    <select id="sysProgressRankingCount" resultType="java.lang.Integer">
+        select count(a.student_id) from (
+            SELECT
+                    r.id student_id
+            FROM (
+                SELECT
+                    s.student_id id,
+                    (SUM(sa.correc_rate)/COUNT(*))
+                    correcRate,SUM(sa.total_num) totalNum
+                FROM student_answer sa
+                left join students s
+                on s.student_id = sa.student_id
+                WHERE sa.create_time >= #{sysRankingList.endTime}
+                AND s.class_room_id = #{sysRankingList.deptId}
+                GROUP BY s.student_id
+            ) r
+            LEFT JOIN (
+                SELECT s.student_id id,(SUM(sa.correc_rate)/COUNT(*)) correcRate
+                FROM student_answer sa
+                left join students s
+                on s.student_id = sa.student_id
+                WHERE sa.create_time between #{sysRankingList.beginTime} AND #{sysRankingList.endTime}
+                AND s.class_room_id = #{sysRankingList.deptId}
+                GROUP BY s.student_id
+            ) l
+            ON r.id = l.id
+            WHERE (r.correcRate-IFNULL(l.correcRate,0)) > 0
+        ) a
+    </select>
+
+    <select id="getBreakthroughStatisticsByStudentId" resultType="com.fudian.business.pojo.BreakthroughStatistics">
+        <!-- 1-年级、2-批次id、3-关卡名称、4-总正确率、5-平均答题时间并保留一位小数、6-总题数、7-关卡id -->
+        SELECT
+            sd.dept_name as grade,
+            s2.batch_id as batchId,
+            l.level_name as levelName,
+            round(s2.correc_rate*100) as correctRate,
+            FORMAT(s2.answer_time/s2.total_num,1) as averageTime,
+            s2.total_num as totalNum,
+            s2.classification_id as levelId
+        FROM (
+            SELECT substring_index( group_concat( s1.id ORDER BY s1.create_time DESC ), ',', 1 ) AS rid
+            FROM student_answer s1
+            where s1.type=1 and s1.student_id=#{studentId}
+            GROUP BY s1.classification_id
+        )s1
+        left join `student_answer` s2
+        on s1.rid = s2.id
+        left join `level_table` l
+        on s2.classification_id = l.level_id
+        left join `sys_dept` sd
+        on sd.id = l.grade_num
+        order by sd.order_num,l.level_name,s2.create_time desc
+    </select>
+    <!-- 获取当前关卡，当前学生，最近11次闯关信息 -->
+    <select id="getBatchIdByLevelId" resultType="java.lang.String">
+        SELECT
+            s1.batch_id
+        FROM
+            student_answer s1
+        WHERE
+            s1.type = 1
+          AND s1.student_id = #{studentId}
+          AND s1.classification_id = #{levelId}
+        ORDER BY
+            s1.create_time DESC
+        LIMIT 0,11
+    </select>
+
+    <select id="getRelatedKnowledgePoints" resultType="com.fudian.business.pojo.RelatedKnowledgePoints">
+        SELECT
+            s2.id as answerId,
+            s2.classification_id as classificationId,
+            k.classification_msg as classificationMsg,
+            round(s2.correc_rate*100) as correctRate
+        FROM `student_answer` s2
+        left join `knowledge_list_classification` k
+        on k.classification_id = s2.classification_id
+        where s2.id in (
+            SELECT
+            substring_index( group_concat( s1.id ORDER BY s1.create_time DESC ), ',', 1 ) AS rid
+            FROM
+            student_answer s1
+            where s1.type=0 and s1.student_id=#{studentId}
+            and s1.classification_id in
+            <foreach close=")" collection="classificationIds" item="item" index="index" open="(" separator=", ">
+                #{item}
+            </foreach>
+            GROUP BY s1.classification_id
+        )
+        order by s2.create_time desc
+    </select>
+    <!--查询正确率/用时排名-->
+    <select id="correctRateOnTimeRanking" resultType="java.lang.Double"
+            parameterType="com.fudian.business.pojo.StudentAnswer">
+        SELECT 1-(1/(SELECT count(*) FROM students WHERE class_room_id=#{studentAnswer.classId})*COUNT(a.student_id))
+        FROM (
+            SELECT student_id,MAX(correc_rate) correcRate,MIN(answer_time) answerTime
+            FROM student_answer
+            WHERE class_id= #{studentAnswer.classId}
+            AND classification_id = #{studentAnswer.classificationId}
+            AND type=#{studentAnswer.type}
+            GROUP BY student_id
+        ) a
+        WHERE
+        <if test="studentAnswer.correcRate!=null and studentAnswer.correcRate!=''">
+            correcRate >= #{studentAnswer.correcRate}
+        </if>
+        <if test="studentAnswer.answerTime!=null and studentAnswer.answerTime!=''">
+            and answerTime >= #{studentAnswer.answerTime}
+        </if>
+    </select>
+    <!--查询正确率/用时排名-->
+    <select id="correctRateRanking" resultType="java.lang.Double"
+            parameterType="com.fudian.business.pojo.StudentAnswer">
+        SELECT 1-((1/ifnull(c.count,0))*COUNT(a.student_id))
+        FROM (
+            SELECT s.student_id,MAX(sa.correc_rate) correcRate,MIN(sa.answer_time) answerTime
+            FROM student_answer sa
+            left join students s
+            on s.student_id = sa.student_id
+            WHERE s.class_room_id= #{studentAnswer.classId}
+                AND sa.classification_id = #{studentAnswer.classificationId}
+                AND sa.type = #{studentAnswer.type}
+            GROUP BY s.student_id
+        ) a
+        right join  (
+            SELECT count(*) count FROM students WHERE class_room_id=#{studentAnswer.classId}
+        ) c
+		on 1=1
+        WHERE a.correcRate >= #{studentAnswer.correcRate}
+		GROUP BY c.count
+    </select>
+    <!--查询正确率/用时排名-->
+    <select id="correctTimeRanking" resultType="java.lang.Double"
+            parameterType="com.fudian.business.pojo.StudentAnswer">
+        SELECT 1-((1/ifnull(c.count,0))*COUNT(a.student_id))
+        FROM (
+            SELECT s.student_id,MAX(sa.correc_rate) correcRate,MIN(sa.answer_time) answerTime
+            FROM student_answer sa
+            left join students s
+            on s.student_id = sa.student_id
+            WHERE s.class_room_id = #{studentAnswer.classId}
+                AND sa.classification_id = #{studentAnswer.classificationId}
+                AND sa.type=#{studentAnswer.type}
+            GROUP BY s.student_id
+        ) a
+        right join (
+            SELECT count(*) count FROM students WHERE class_room_id=#{studentAnswer.classId}
+        ) c
+		on 1=1
+        WHERE a.answerTime >= #{studentAnswer.answerTime}
+		GROUP BY c.count
+    </select>
+
+    <!--查询随学随练 总页数-->
+    <select id="getLearnPracticeTotal" resultType="java.lang.Integer"
+            parameterType="com.fudian.business.vo.LearnPracticeVo">
+        SELECT COUNT(s.classificationId) num FROM (
+            SELECT
+                sa.classification_id classificationId
+            FROM student_answer sa
+            left join students s
+            on s.student_id = sa.student_id
+            WHERE
+            <if test="learnPractice.classId !=null and learnPractice.classId!=''">
+                s.class_room_id = #{learnPractice.classId}
+            </if>
+            <if test="learnPractice.classificationId !=null and learnPractice.classificationId!=''">
+                AND sa.classification_id = #{learnPractice.classificationId}
+            </if>
+            AND sa.create_time >= #{learnPractice.beginTime}
+            AND #{learnPractice.endTime} >= sa.create_time
+            AND type = 0
+            GROUP BY s.student_id, sa.classification_id
+        ) s
+    </select>
+    <!--查询随学随练-->
+    <select id="getLearnPractice" resultType="com.fudian.business.vo.LearnPracticeVo"
+            parameterType="com.fudian.business.vo.LearnPracticeVo">
+        SELECT
+            s.student_id studentId,
+            s.student_name studentName,
+            a.classification_id classificationId,
+            CONCAT(GROUP_CONCAT(distinct sd.full_name order by  sd.dict_code SEPARATOR '-' ),'-',ifnull(cc.classification_msg,''),'-',c.classification_msg)  classificationName,
+            s.class_room_id classId,
+            sdept.dept_name className,
+            SUM( a.correc_num ) correcNum,
+            SUM( a.error_num ) errorNum,
+            SUM( a.total_num ) totalNum,
+            AVG( a.correc_rate ) correcRate,
+            AVG( a.time_proportion ) timeProportion,
+            kls.diagnosis_msg diagnosisMsg,
+            group_concat(ets.exercises_num,'=',ets.error_answers) wrongQuestion
+        FROM `student_answer` a
+        LEFT JOIN (select * from exercises_train_set where is_error = 1) ets
+        ON ets.batch_id = a.batch_id
+        LEFT JOIN students s
+        ON a.student_id = s.student_id
+        left join (SELECT d.id, CONCAT(p.dept_name,'-',d.dept_name) dept_name
+            FROM sys_dept d
+            LEFT JOIN sys_dept p
+            ON d.parent_id = p.id
+            WHERE d.node_type = '2'
+            GROUP BY d.id
+        ) sdept
+        on s.class_room_id = sdept.id
+        left join knowledge_list_classification c
+        on c.classification_id = a.classification_id
+        left join knowledge_list_classification cc
+        on c.pid = cc.classification_id and cc.is_subclass = 1
+        left join knowledge_list k
+        on c.knowledge_id = k.knowledge_id
+        left join (
+            SELECT * FROM `sys_dictionary`
+            where dict_type = 'classfiy'
+            ORDER BY dict_code
+        ) sd
+        on sd.dict_type = 'classfiy'
+        and sd.dict_code = k.knowledge_num_field
+        or sd.dict_code = CONCAT(k.knowledge_num_field,'-',k.knowledge_operation)
+        or sd.dict_code = CONCAT(k.knowledge_num_field,'-',k.knowledge_operation,'-',k.knowledge_type)
+        LEFT JOIN knowledge_list_schedule kls
+        ON kls.classification_id = a.classification_id
+        WHERE
+        a.type = 0
+        <if test="learnPractice.classId !=null and learnPractice.classId!=''">
+            AND s.class_room_id = #{learnPractice.classId}
+        </if>
+        <if test="learnPractice.classificationId !=null and learnPractice.classificationId!=''">
+            AND a.classification_id = #{learnPractice.classificationId}
+        </if>
+        AND a.create_time >= #{learnPractice.beginTime}
+        AND #{learnPractice.endTime} >= a.create_time
+        GROUP BY a.student_id, a.classification_id,kls.diagnosis_msg
+        ORDER BY AVG( a.correc_rate ) ,SUM( a.total_num ),AVG( a.time_proportion )
+        LIMIT ${(learnPractice.pageNum-1)*learnPractice.pageSize}, #{learnPractice.pageSize};
+    </select>
+
+    <!--查询随学随练 以知识点分类-->
+    <select id="getLearnPracticeByClassify" resultType="java.util.Map"
+            parameterType="com.fudian.business.vo.LearnPracticeVo">
+        select
+            a.classification_id classificationId,
+            CONCAT(GROUP_CONCAT(distinct sd.full_name order by  sd.dict_code SEPARATOR '-' ),'-',ifnull(cc.classification_msg,''),'-',c.classification_msg) classificationName,
+            kls.diagnosis_msg diagnosisMsg,
+            a.correc_rate*100 correcRate,
+            a.time_proportion timeProportion,
+            group_concat(distinct ets.exercises_num,'=',ets.error_answers) errorTopic
+        from (
+            select
+                a.classification_id,
+                sum(a.correc_rate)/count(a.classification_id) correc_rate,
+                sum(a.time_proportion)/count(a.classification_id) time_proportion
+            FROM student_answer a
+            left join students s
+            on s.student_id = a.student_id
+            where
+            a.type = 0
+            and a.is_random = 0
+            <if test="learnPractice.classId !=null and learnPractice.classId!=''">
+                AND s.class_room_id = #{learnPractice.classId}
+            </if>
+            <if test="learnPractice.classificationId !=null and learnPractice.classificationId!=''">
+                AND a.classification_id = #{learnPractice.classificationId}
+            </if>
+            AND a.create_time >= #{learnPractice.beginTime}
+            AND #{learnPractice.endTime} >= a.create_time
+            GROUP BY a.classification_id
+            order by sum(a.correc_rate)/count(a.classification_id)*100,sum(a.time_proportion)/count(a.classification_id) desc
+            LIMIT ${(learnPractice.pageNum-1)*learnPractice.pageSize}, #{learnPractice.pageSize}
+
+        ) a
+        left join knowledge_list_classification c
+        on c.classification_id = a.classification_id
+        left join knowledge_list_classification cc
+        on c.pid = cc.classification_id and cc.is_subclass = 1
+        left join knowledge_list k
+        on c.knowledge_id = k.knowledge_id
+        left join (
+            SELECT * FROM `sys_dictionary`
+            where dict_type = 'classfiy'
+            ORDER BY dict_code
+        ) sd
+        on sd.dict_type = 'classfiy'
+        and sd.dict_code = k.knowledge_num_field
+        or sd.dict_code = CONCAT(k.knowledge_num_field,'-',k.knowledge_operation)
+        or sd.dict_code = CONCAT(k.knowledge_num_field,'-',k.knowledge_operation,'-',k.knowledge_type)
+        left join knowledge_list_schedule kls
+        on a.classification_id = kls.classification_id
+        left join student_answer sa
+        on sa.classification_id = a.classification_id
+        left join students s
+        on s.student_id = sa.student_id
+        left join exercises_train_set ets
+        on ets.batch_id = sa.batch_id and ets.is_error = 1
+
+        where
+        sa.type = 0
+        and sa.is_random = 0
+        <if test="learnPractice.classId !=null and learnPractice.classId!=''">
+            AND s.class_room_id = #{learnPractice.classId}
+        </if>
+        <if test="learnPractice.classificationId !=null and learnPractice.classificationId!=''">
+            AND sa.classification_id = #{learnPractice.classificationId}
+        </if>
+        AND sa.create_time >= #{learnPractice.beginTime}
+        AND #{learnPractice.endTime} >= sa.create_time
+        GROUP BY a.classification_id,kls.diagnosis_msg
+        order by a.correc_rate*100, a.time_proportion desc
+    </select>
+    <resultMap id="get_learn_practice_by_classify_unified" type="com.fudian.business.vo.LearnPracticeVo">
+        <result property="classificationId" column="classificationId" javaType="java.lang.String"/>
+        <result property="classificationName" column="classificationName" javaType="java.lang.String"/>
+        <result property="diagnosisMsg" column="diagnosisMsg" javaType="java.lang.String"/>
+        <result property="correcRate" column="correcRate" javaType="java.lang.Double"/>
+        <result property="timeProportion" column="timeProportion" javaType="java.lang.Double"/>
+
+        <!-- 指定关系属性   -->
+        <collection property="wrongQuestionList" ofType="java.lang.String">
+            <!-- 封装关系属性对象  -->
+            <result column="errorDetails" javaType="java.lang.String"/>
+        </collection>
+    </resultMap>
+    <select id="getLearnPracticeByClassifyUnified" resultMap="get_learn_practice_by_classify_unified"
+            parameterType="com.fudian.business.vo.LearnPracticeVo">
+        select
+            a.classification_id classificationId,
+            CONCAT(GROUP_CONCAT(distinct sd.full_name order by  sd.dict_code SEPARATOR '-' ),'-',ifnull(cc.classification_msg,''),'-',c.classification_msg) classificationName,
+            kls.diagnosis_msg diagnosisMsg,
+            a.correc_rate correcRate,
+            a.time_proportion timeProportion,
+
+            concat(ets.exercises_num,'|',group_concat(distinct ss.student_name),'|',count(distinct ss.student_name)) errorDetails
+        from (
+            select
+                a.classification_id,
+                sum(a.correc_rate)/count(a.classification_id) correc_rate,
+                sum(a.time_proportion)/count(a.classification_id) time_proportion
+            from student_answer a
+            left join students s
+            on s.student_id = a.student_id
+            where a.type = 0
+            and a.is_random = 1
+            <if test="learnPractice.classId !=null and learnPractice.classId!=''">
+                AND s.class_room_id = #{learnPractice.classId}
+            </if>
+            <if test="learnPractice.classificationId !=null and learnPractice.classificationId!=''">
+                AND a.classification_id = #{learnPractice.classificationId}
+            </if>
+            AND a.create_time >= #{learnPractice.beginTime}
+            AND #{learnPractice.endTime} >= a.create_time
+            GROUP BY a.classification_id
+            order by sum(a.correc_rate)/count(a.classification_id)*100,sum(a.time_proportion)/count(a.classification_id) desc
+            LIMIT ${(learnPractice.pageNum-1)*learnPractice.pageSize}, #{learnPractice.pageSize}
+
+        ) a
+        left join knowledge_list_classification c
+        on c.classification_id = a.classification_id
+        left join knowledge_list_classification cc
+        on c.pid = cc.classification_id and cc.is_subclass = 1
+        left join knowledge_list k
+        on c.knowledge_id = k.knowledge_id
+        left join (
+            SELECT * FROM `sys_dictionary`
+            where dict_type = 'classfiy'
+            ORDER BY dict_code
+        ) sd
+        on sd.dict_type = 'classfiy'
+        and sd.dict_code = k.knowledge_num_field
+        or sd.dict_code = CONCAT(k.knowledge_num_field,'-',k.knowledge_operation)
+        or sd.dict_code = CONCAT(k.knowledge_num_field,'-',k.knowledge_operation,'-',k.knowledge_type)
+        left join knowledge_list_schedule kls
+        on a.classification_id = kls.classification_id
+        left join student_answer sa
+        on sa.classification_id = a.classification_id
+        left join exercises_train_set ets
+        on ets.batch_id = sa.batch_id and ets.is_error = 1
+        left join students ss
+        on ets.student_id = ss.student_id
+        where
+        sa.type = 0
+        and sa.is_random = 1
+        and not isnull(ets.exercises_num)
+        <if test="learnPractice.classId !=null and learnPractice.classId!=''">
+            AND ss.class_room_id = #{learnPractice.classId}
+        </if>
+        <if test="learnPractice.classificationId !=null and learnPractice.classificationId!=''">
+            AND sa.classification_id = #{learnPractice.classificationId}
+        </if>
+        AND sa.create_time >= #{learnPractice.beginTime}
+        AND #{learnPractice.endTime} >= sa.create_time
+        GROUP BY a.classification_id,kls.diagnosis_msg,ets.exercises_num
+        order by a.correc_rate*100, a.time_proportion desc
+    </select>
+    <!--查询随学随练 以知识点分类 总数量-->
+    <select id="getLearnPracticeByClassifyTotal" resultType="java.lang.Integer"
+            parameterType="com.fudian.business.vo.LearnPracticeVo">
+        select
+            count(a.classification_id)
+        from (
+            select a.classification_id
+            FROM student_answer a
+            left join students s
+            on s.student_id = a.student_id
+            where
+            a.type = 0
+            and a.is_random = #{learnPractice.isRandom}
+            <if test="learnPractice.classId !=null and learnPractice.classId!=''">
+                AND s.class_room_id = #{learnPractice.classId}
+            </if>
+            <if test="learnPractice.classificationId !=null and learnPractice.classificationId!=''">
+                AND a.classification_id = #{learnPractice.classificationId}
+            </if>
+            AND a.create_time >= #{learnPractice.beginTime}
+            AND #{learnPractice.endTime} >= a.create_time
+            GROUP BY a.classification_id
+        ) a
+    </select>
+
+
+    <!-- 获取知识点练习批次IDs -->
+    <select id="getKnowledgePointExerciseBatchIDs" resultType="com.fudian.common.vo.MasterSituationVO">
+        <!-- classificationId：知识点ID、classificationMsg：知识点名称、batchIds：批次IDs -->
+        SELECT s.classification_id as classificationId,
+               (case ifnull(c.classification_nickname,1) when 1
+                then concat(s1.full_name,s2.full_name,s3.full_name,c.classification_msg)
+                else concat(s1.full_name,s2.full_name,c.classification_nickname)
+                 end) as classificationMsg,
+               substring_index( group_concat( batch_id ORDER BY create_time DESC ), ',', 10 ) as batchIds
+        FROM `student_answer` s
+                 left join `knowledge_list_classification` c on c.classification_id = s.classification_id
+                 left join `knowledge_list` k on c.knowledge_id = k.knowledge_id
+                 left join `sys_dictionary` s1 on s1.dict_type = 'classfiy' and s1.dict_code=k.knowledge_num_field
+                 left join `sys_dictionary` s2 on s2.dict_type = 'classfiy' and s2.dict_code = concat(k.knowledge_num_field,'-',k.knowledge_operation)
+                 left join `sys_dictionary` s3 on s3.dict_type = 'classfiy' and s3.dict_code like concat(k.knowledge_num_field,'-',k.knowledge_operation,'-',k.knowledge_type)
+        where s.student_id=#{studentId}
+          and s.classification_id in
+              (SELECT r.relation_id FROM `student_knowledge_relation` r
+               where r.student_id=#{studentId}
+                 and r.relation_type=0 and r.is_master=#{isMaster})
+        GROUP BY s.classification_id,s2.full_name,s3.full_name
+        ORDER BY k.knowledge_num_field,k.knowledge_operation,k.knowledge_type
+    </select>
+
+    <!-- 知识点练习正确率统计 -->
+    <select id="accuracyStatistics" resultType="com.fudian.business.dto.MasterSituationStatisticsDTO">
+        <!-- count：题数、correctRate：正确率、averageTime：答题平均用时 -->
+        SELECT sum(total_num) as count,
+	        sum(total_num*100*correc_rate)/sum(total_num) as correctRate,
+	        FORMAT(sum(answer_time)/sum(total_num),2) as averageTime
+         FROM `student_answer` s
+        where batch_id in
+        <foreach item='item' index='index' collection='list' open='(' separator=',' close=')'>
+            #{item}
+        </foreach>
+    </select>
+
+
+    <!--曲线图-->
+    <select id="diagram" resultType="java.util.Map">
+
+        SELECT (SUM(correc_rate)/COUNT(*)) correcRate,SUM(total_num) totalNum
+        FROM student_answer
+        WHERE create_time between #{lastWeek} AND #{thisWeek}
+        AND student_id = #{studentId}
+
+    </select>
+</mapper>

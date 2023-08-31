@@ -1,0 +1,248 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.fudian.project.system.mapper.SysPermissionMapper">
+  <resultMap id="BaseResultMap" type="com.fudian.project.system.pojo.SysPermission">
+    <!--@mbg.generated-->
+    <!--@Table sys_permission-->
+    <id column="permission_id" property="permissionId" />
+    <result column="permission_name" property="permissionName" />
+    <result column="org_id" property="orgId" />
+    <result column="permission_status" property="permissionStatus" />
+    <result column="permission_data_summary" property="permissionDataSummary" />
+    <result column="permission_menu_summary" property="permissionMenuSummary" />
+    <result column="remark" property="remark" />
+    <result column="create_by" property="createBy" />
+    <result column="create_time" property="createTime" />
+    <result column="update_by" property="updateBy" />
+    <result column="update_time" property="updateTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    <!--@mbg.generated-->
+    permission_id, permission_name, org_id, permission_status, permission_data_summary, 
+    permission_menu_summary, remark, create_by, create_time, update_by, update_time
+  </sql>
+  <update id="updateBatch" parameterType="java.util.List">
+    <!--@mbg.generated-->
+    update sys_permission
+    <trim prefix="set" suffixOverrides=",">
+      <trim prefix="permission_name = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when permission_id = #{item.permissionId} then #{item.permissionName}
+        </foreach>
+      </trim>
+      <trim prefix="org_id = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when permission_id = #{item.permissionId} then #{item.orgId}
+        </foreach>
+      </trim>
+      <trim prefix="permission_status = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when permission_id = #{item.permissionId} then #{item.permissionStatus}
+        </foreach>
+      </trim>
+      <trim prefix="permission_data_summary = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when permission_id = #{item.permissionId} then #{item.permissionDataSummary}
+        </foreach>
+      </trim>
+      <trim prefix="permission_menu_summary = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when permission_id = #{item.permissionId} then #{item.permissionMenuSummary}
+        </foreach>
+      </trim>
+      <trim prefix="remark = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when permission_id = #{item.permissionId} then #{item.remark}
+        </foreach>
+      </trim>
+      <trim prefix="create_by = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when permission_id = #{item.permissionId} then #{item.createBy}
+        </foreach>
+      </trim>
+      <trim prefix="create_time = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when permission_id = #{item.permissionId} then #{item.createTime}
+        </foreach>
+      </trim>
+      <trim prefix="update_by = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when permission_id = #{item.permissionId} then #{item.updateBy}
+        </foreach>
+      </trim>
+      <trim prefix="update_time = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when permission_id = #{item.permissionId} then #{item.updateTime}
+        </foreach>
+      </trim>
+    </trim>
+    where permission_id in
+    <foreach close=")" collection="list" item="item" open="(" separator=", ">
+      #{item.permissionId}
+    </foreach>
+  </update>
+  <insert id="batchInsert" parameterType="map">
+    <!--@mbg.generated-->
+    insert into sys_permission
+    (permission_id, permission_name, org_id, permission_status, permission_data_summary, 
+      permission_menu_summary, remark, create_by, create_time, update_by, update_time
+      )
+    values
+    <foreach collection="list" item="item" separator=",">
+      (#{item.permissionId}, #{item.permissionName}, #{item.orgId}, #{item.permissionStatus}, 
+        #{item.permissionDataSummary}, #{item.permissionMenuSummary}, #{item.remark}, #{item.createBy}, 
+        #{item.createTime}, #{item.updateBy}, #{item.updateTime})
+    </foreach>
+  </insert>
+  <insert id="insertOrUpdate" parameterType="com.fudian.project.system.pojo.SysPermission">
+    <!--@mbg.generated-->
+    insert into sys_permission
+    (permission_id, permission_name, org_id, permission_status, permission_data_summary, 
+      permission_menu_summary, remark, create_by, create_time, update_by, update_time
+      )
+    values
+    (#{permissionId}, #{permissionName}, #{orgId}, #{permissionStatus}, #{permissionDataSummary}, 
+      #{permissionMenuSummary}, #{remark}, #{createBy}, #{createTime}, #{updateBy}, #{updateTime}
+      )
+    on duplicate key update 
+    permission_id = #{permissionId}, 
+    permission_name = #{permissionName}, 
+    org_id = #{orgId}, 
+    permission_status = #{permissionStatus}, 
+    permission_data_summary = #{permissionDataSummary}, 
+    permission_menu_summary = #{permissionMenuSummary}, 
+    remark = #{remark}, 
+    create_by = #{createBy}, 
+    create_time = #{createTime}, 
+    update_by = #{updateBy}, 
+    update_time = #{updateTime}
+  </insert>
+  <insert id="insertOrUpdateSelective" parameterType="com.fudian.project.system.pojo.SysPermission">
+    <!--@mbg.generated-->
+    insert into sys_permission
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="permissionId != null">
+        permission_id,
+      </if>
+      <if test="permissionName != null">
+        permission_name,
+      </if>
+      <if test="orgId != null">
+        org_id,
+      </if>
+      <if test="permissionStatus != null">
+        permission_status,
+      </if>
+      <if test="permissionDataSummary != null">
+        permission_data_summary,
+      </if>
+      <if test="permissionMenuSummary != null">
+        permission_menu_summary,
+      </if>
+      <if test="remark != null">
+        remark,
+      </if>
+      <if test="createBy != null">
+        create_by,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="updateBy != null">
+        update_by,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+    </trim>
+    values
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="permissionId != null">
+        #{permissionId},
+      </if>
+      <if test="permissionName != null">
+        #{permissionName},
+      </if>
+      <if test="orgId != null">
+        #{orgId},
+      </if>
+      <if test="permissionStatus != null">
+        #{permissionStatus},
+      </if>
+      <if test="permissionDataSummary != null">
+        #{permissionDataSummary},
+      </if>
+      <if test="permissionMenuSummary != null">
+        #{permissionMenuSummary},
+      </if>
+      <if test="remark != null">
+        #{remark},
+      </if>
+      <if test="createBy != null">
+        #{createBy},
+      </if>
+      <if test="createTime != null">
+        #{createTime},
+      </if>
+      <if test="updateBy != null">
+        #{updateBy},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime},
+      </if>
+    </trim>
+    on duplicate key update 
+    <trim suffixOverrides=",">
+      <if test="permissionId != null">
+        permission_id = #{permissionId},
+      </if>
+      <if test="permissionName != null">
+        permission_name = #{permissionName},
+      </if>
+      <if test="orgId != null">
+        org_id = #{orgId},
+      </if>
+      <if test="permissionStatus != null">
+        permission_status = #{permissionStatus},
+      </if>
+      <if test="permissionDataSummary != null">
+        permission_data_summary = #{permissionDataSummary},
+      </if>
+      <if test="permissionMenuSummary != null">
+        permission_menu_summary = #{permissionMenuSummary},
+      </if>
+      <if test="remark != null">
+        remark = #{remark},
+      </if>
+      <if test="createBy != null">
+        create_by = #{createBy},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime},
+      </if>
+      <if test="updateBy != null">
+        update_by = #{updateBy},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime},
+      </if>
+    </trim>
+  </insert>
+
+  <select id="queryUserListByParamters" parameterType="java.util.HashMap"  resultType="com.fudian.project.system.pojo.SysPermission">
+    SELECT
+       *
+      FROM
+      sys_permission  s
+      LEFT JOIN
+      sys_role_permission r
+      ON
+      s.permission_id = r.permission_id
+      WHERE
+      r.role_id=#{roleId}
+      <if test="permissionName != null and permissionName != '' ">
+        AND s.permission_name = #{permissionName}
+      </if>
+  </select>
+
+</mapper>

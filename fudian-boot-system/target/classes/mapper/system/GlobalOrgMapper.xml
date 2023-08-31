@@ -1,0 +1,515 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.fudian.project.system.mapper.GlobalOrgMapper">
+  <resultMap id="BaseResultMap" type="com.fudian.api.system.pojo.GlobalOrg">
+    <!--@mbg.generated-->
+    <!--@Table global_org-->
+    <id column="global_org_id" jdbcType="VARCHAR" property="globalOrgId" />
+    <result column="global_org_name" jdbcType="VARCHAR" property="globalOrgName" />
+    <result column="global_org_code" jdbcType="VARCHAR" property="globalOrgCode" />
+    <result column="global_org_createtime" jdbcType="DATE" property="globalOrgCreatetime" />
+    <result column="global_org_authorizationcode" jdbcType="VARCHAR" property="globalOrgAuthorizationcode" />
+    <result column="global_org_databasekey" jdbcType="VARCHAR" property="globalOrgDatabasekey" />
+    <result column="global_org_databasename" jdbcType="VARCHAR" property="globalOrgDatabasename" />
+    <result column="global_org_databaseURL" jdbcType="VARCHAR" property="globalOrgDatabaseurl" />
+    <result column="global_org_databaseusername" jdbcType="VARCHAR" property="globalOrgDatabaseusername" />
+    <result column="global_org_databasepwd" jdbcType="VARCHAR" property="globalOrgDatabasepwd" />
+    <result column="global_org_databaseport" jdbcType="INTEGER" property="globalOrgDatabaseport" />
+    <result column="global_org_databasetype" jdbcType="INTEGER" property="globalOrgDatabasetype" />
+    <result column="global_org_filebasename" jdbcType="VARCHAR" property="globalOrgFilebasename" />
+    <result column="global_org_filebaseURL" jdbcType="VARCHAR" property="globalOrgFilebaseurl" />
+    <result column="global_org_filebaseusername" jdbcType="VARCHAR" property="globalOrgFilebaseusername" />
+    <result column="global_org_filebasepwd" jdbcType="VARCHAR" property="globalOrgFilebasepwd" />
+    <result column="global_org_filebaseport" jdbcType="INTEGER" property="globalOrgFilebaseport" />
+    <result column="global_org_filebasetype" jdbcType="INTEGER" property="globalOrgFilebasetype" />
+    <result column="global_org_status" jdbcType="INTEGER" property="globalOrgStatus" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    <!--@mbg.generated-->
+    global_org_id, global_org_name, global_org_code, global_org_createtime, global_org_authorizationcode,
+    global_org_databasekey, global_org_databasename, global_org_databaseURL, global_org_databaseusername,
+    global_org_databasepwd, global_org_databaseport, global_org_databasetype, global_org_filebasename,
+    global_org_filebaseURL, global_org_filebaseusername, global_org_filebasepwd, global_org_filebaseport,
+    global_org_filebasetype, global_org_status
+  </sql>
+  <update id="updateBatch" parameterType="java.util.List">
+    <!--@mbg.generated-->
+    update global_org
+    <trim prefix="set" suffixOverrides=",">
+      <trim prefix="global_org_name = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when global_org_id = #{item.globalOrgId,jdbcType=VARCHAR} then #{item.globalOrgName,jdbcType=VARCHAR}
+        </foreach>
+      </trim>
+      <trim prefix="global_org_code = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when global_org_id = #{item.globalOrgId,jdbcType=VARCHAR} then #{item.globalOrgCode,jdbcType=VARCHAR}
+        </foreach>
+      </trim>
+      <trim prefix="global_org_createtime = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when global_org_id = #{item.globalOrgId,jdbcType=VARCHAR} then #{item.globalOrgCreatetime,jdbcType=DATE}
+        </foreach>
+      </trim>
+      <trim prefix="global_org_authorizationcode = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when global_org_id = #{item.globalOrgId,jdbcType=VARCHAR} then #{item.globalOrgAuthorizationcode,jdbcType=VARCHAR}
+        </foreach>
+      </trim>
+      <trim prefix="global_org_databasekey = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when global_org_id = #{item.globalOrgId,jdbcType=VARCHAR} then #{item.globalOrgDatabasekey,jdbcType=VARCHAR}
+        </foreach>
+      </trim>
+      <trim prefix="global_org_databasename = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when global_org_id = #{item.globalOrgId,jdbcType=VARCHAR} then #{item.globalOrgDatabasename,jdbcType=VARCHAR}
+        </foreach>
+      </trim>
+      <trim prefix="global_org_databaseURL = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when global_org_id = #{item.globalOrgId,jdbcType=VARCHAR} then #{item.globalOrgDatabaseurl,jdbcType=VARCHAR}
+        </foreach>
+      </trim>
+      <trim prefix="global_org_databaseusername = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when global_org_id = #{item.globalOrgId,jdbcType=VARCHAR} then #{item.globalOrgDatabaseusername,jdbcType=VARCHAR}
+        </foreach>
+      </trim>
+      <trim prefix="global_org_databasepwd = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when global_org_id = #{item.globalOrgId,jdbcType=VARCHAR} then #{item.globalOrgDatabasepwd,jdbcType=VARCHAR}
+        </foreach>
+      </trim>
+      <trim prefix="global_org_databaseport = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when global_org_id = #{item.globalOrgId,jdbcType=VARCHAR} then #{item.globalOrgDatabaseport,jdbcType=INTEGER}
+        </foreach>
+      </trim>
+      <trim prefix="global_org_databasetype = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when global_org_id = #{item.globalOrgId,jdbcType=VARCHAR} then #{item.globalOrgDatabasetype,jdbcType=INTEGER}
+        </foreach>
+      </trim>
+      <trim prefix="global_org_filebasename = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when global_org_id = #{item.globalOrgId,jdbcType=VARCHAR} then #{item.globalOrgFilebasename,jdbcType=VARCHAR}
+        </foreach>
+      </trim>
+      <trim prefix="global_org_filebaseURL = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when global_org_id = #{item.globalOrgId,jdbcType=VARCHAR} then #{item.globalOrgFilebaseurl,jdbcType=VARCHAR}
+        </foreach>
+      </trim>
+      <trim prefix="global_org_filebaseusername = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when global_org_id = #{item.globalOrgId,jdbcType=VARCHAR} then #{item.globalOrgFilebaseusername,jdbcType=VARCHAR}
+        </foreach>
+      </trim>
+      <trim prefix="global_org_filebasepwd = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when global_org_id = #{item.globalOrgId,jdbcType=VARCHAR} then #{item.globalOrgFilebasepwd,jdbcType=VARCHAR}
+        </foreach>
+      </trim>
+      <trim prefix="global_org_filebaseport = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when global_org_id = #{item.globalOrgId,jdbcType=VARCHAR} then #{item.globalOrgFilebaseport,jdbcType=INTEGER}
+        </foreach>
+      </trim>
+      <trim prefix="global_org_filebasetype = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when global_org_id = #{item.globalOrgId,jdbcType=VARCHAR} then #{item.globalOrgFilebasetype,jdbcType=INTEGER}
+        </foreach>
+      </trim>
+      <trim prefix="global_org_status = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when global_org_id = #{item.globalOrgId,jdbcType=VARCHAR} then #{item.globalOrgStatus,jdbcType=INTEGER}
+        </foreach>
+      </trim>
+    </trim>
+    where global_org_id in
+    <foreach close=")" collection="list" item="item" open="(" separator=", ">
+      #{item.globalOrgId,jdbcType=VARCHAR}
+    </foreach>
+  </update>
+  <update id="updateBatchSelective" parameterType="java.util.List">
+    <!--@mbg.generated-->
+    update global_org
+    <trim prefix="set" suffixOverrides=",">
+      <trim prefix="global_org_name = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          <if test="item.globalOrgName != null">
+            when global_org_id = #{item.globalOrgId,jdbcType=VARCHAR} then #{item.globalOrgName,jdbcType=VARCHAR}
+          </if>
+        </foreach>
+      </trim>
+      <trim prefix="global_org_code = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          <if test="item.globalOrgCode != null">
+            when global_org_id = #{item.globalOrgId,jdbcType=VARCHAR} then #{item.globalOrgCode,jdbcType=VARCHAR}
+          </if>
+        </foreach>
+      </trim>
+      <trim prefix="global_org_createtime = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          <if test="item.globalOrgCreatetime != null">
+            when global_org_id = #{item.globalOrgId,jdbcType=VARCHAR} then #{item.globalOrgCreatetime,jdbcType=DATE}
+          </if>
+        </foreach>
+      </trim>
+      <trim prefix="global_org_authorizationcode = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          <if test="item.globalOrgAuthorizationcode != null">
+            when global_org_id = #{item.globalOrgId,jdbcType=VARCHAR} then #{item.globalOrgAuthorizationcode,jdbcType=VARCHAR}
+          </if>
+        </foreach>
+      </trim>
+      <trim prefix="global_org_databasekey = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          <if test="item.globalOrgDatabasekey != null">
+            when global_org_id = #{item.globalOrgId,jdbcType=VARCHAR} then #{item.globalOrgDatabasekey,jdbcType=VARCHAR}
+          </if>
+        </foreach>
+      </trim>
+      <trim prefix="global_org_databasename = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          <if test="item.globalOrgDatabasename != null">
+            when global_org_id = #{item.globalOrgId,jdbcType=VARCHAR} then #{item.globalOrgDatabasename,jdbcType=VARCHAR}
+          </if>
+        </foreach>
+      </trim>
+      <trim prefix="global_org_databaseURL = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          <if test="item.globalOrgDatabaseurl != null">
+            when global_org_id = #{item.globalOrgId,jdbcType=VARCHAR} then #{item.globalOrgDatabaseurl,jdbcType=VARCHAR}
+          </if>
+        </foreach>
+      </trim>
+      <trim prefix="global_org_databaseusername = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          <if test="item.globalOrgDatabaseusername != null">
+            when global_org_id = #{item.globalOrgId,jdbcType=VARCHAR} then #{item.globalOrgDatabaseusername,jdbcType=VARCHAR}
+          </if>
+        </foreach>
+      </trim>
+      <trim prefix="global_org_databasepwd = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          <if test="item.globalOrgDatabasepwd != null">
+            when global_org_id = #{item.globalOrgId,jdbcType=VARCHAR} then #{item.globalOrgDatabasepwd,jdbcType=VARCHAR}
+          </if>
+        </foreach>
+      </trim>
+      <trim prefix="global_org_databaseport = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          <if test="item.globalOrgDatabaseport != null">
+            when global_org_id = #{item.globalOrgId,jdbcType=VARCHAR} then #{item.globalOrgDatabaseport,jdbcType=INTEGER}
+          </if>
+        </foreach>
+      </trim>
+      <trim prefix="global_org_databasetype = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          <if test="item.globalOrgDatabasetype != null">
+            when global_org_id = #{item.globalOrgId,jdbcType=VARCHAR} then #{item.globalOrgDatabasetype,jdbcType=INTEGER}
+          </if>
+        </foreach>
+      </trim>
+      <trim prefix="global_org_filebasename = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          <if test="item.globalOrgFilebasename != null">
+            when global_org_id = #{item.globalOrgId,jdbcType=VARCHAR} then #{item.globalOrgFilebasename,jdbcType=VARCHAR}
+          </if>
+        </foreach>
+      </trim>
+      <trim prefix="global_org_filebaseURL = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          <if test="item.globalOrgFilebaseurl != null">
+            when global_org_id = #{item.globalOrgId,jdbcType=VARCHAR} then #{item.globalOrgFilebaseurl,jdbcType=VARCHAR}
+          </if>
+        </foreach>
+      </trim>
+      <trim prefix="global_org_filebaseusername = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          <if test="item.globalOrgFilebaseusername != null">
+            when global_org_id = #{item.globalOrgId,jdbcType=VARCHAR} then #{item.globalOrgFilebaseusername,jdbcType=VARCHAR}
+          </if>
+        </foreach>
+      </trim>
+      <trim prefix="global_org_filebasepwd = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          <if test="item.globalOrgFilebasepwd != null">
+            when global_org_id = #{item.globalOrgId,jdbcType=VARCHAR} then #{item.globalOrgFilebasepwd,jdbcType=VARCHAR}
+          </if>
+        </foreach>
+      </trim>
+      <trim prefix="global_org_filebaseport = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          <if test="item.globalOrgFilebaseport != null">
+            when global_org_id = #{item.globalOrgId,jdbcType=VARCHAR} then #{item.globalOrgFilebaseport,jdbcType=INTEGER}
+          </if>
+        </foreach>
+      </trim>
+      <trim prefix="global_org_filebasetype = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          <if test="item.globalOrgFilebasetype != null">
+            when global_org_id = #{item.globalOrgId,jdbcType=VARCHAR} then #{item.globalOrgFilebasetype,jdbcType=INTEGER}
+          </if>
+        </foreach>
+      </trim>
+      <trim prefix="global_org_status = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          <if test="item.globalOrgStatus != null">
+            when global_org_id = #{item.globalOrgId,jdbcType=VARCHAR} then #{item.globalOrgStatus,jdbcType=INTEGER}
+          </if>
+        </foreach>
+      </trim>
+    </trim>
+    where global_org_id in
+    <foreach close=")" collection="list" item="item" open="(" separator=", ">
+      #{item.globalOrgId,jdbcType=VARCHAR}
+    </foreach>
+  </update>
+  <insert id="batchInsert" parameterType="map">
+    <!--@mbg.generated-->
+    insert into global_org
+    (global_org_id, global_org_name, global_org_code, global_org_createtime, global_org_authorizationcode,
+      global_org_databasekey, global_org_databasename, global_org_databaseURL, global_org_databaseusername,
+      global_org_databasepwd, global_org_databaseport, global_org_databasetype, global_org_filebasename,
+      global_org_filebaseURL, global_org_filebaseusername, global_org_filebasepwd, global_org_filebaseport,
+      global_org_filebasetype, global_org_status)
+    values
+    <foreach collection="list" item="item" separator=",">
+      (#{item.globalOrgId,jdbcType=VARCHAR}, #{item.globalOrgName,jdbcType=VARCHAR}, #{item.globalOrgCode,jdbcType=VARCHAR},
+        #{item.globalOrgCreatetime,jdbcType=DATE}, #{item.globalOrgAuthorizationcode,jdbcType=VARCHAR},
+        #{item.globalOrgDatabasekey,jdbcType=VARCHAR}, #{item.globalOrgDatabasename,jdbcType=VARCHAR},
+        #{item.globalOrgDatabaseurl,jdbcType=VARCHAR}, #{item.globalOrgDatabaseusername,jdbcType=VARCHAR},
+        #{item.globalOrgDatabasepwd,jdbcType=VARCHAR}, #{item.globalOrgDatabaseport,jdbcType=INTEGER},
+        #{item.globalOrgDatabasetype,jdbcType=INTEGER}, #{item.globalOrgFilebasename,jdbcType=VARCHAR},
+        #{item.globalOrgFilebaseurl,jdbcType=VARCHAR}, #{item.globalOrgFilebaseusername,jdbcType=VARCHAR},
+        #{item.globalOrgFilebasepwd,jdbcType=VARCHAR}, #{item.globalOrgFilebaseport,jdbcType=INTEGER},
+        #{item.globalOrgFilebasetype,jdbcType=INTEGER}, #{item.globalOrgStatus,jdbcType=INTEGER}
+        )
+    </foreach>
+  </insert>
+  <insert id="insertOrUpdate" parameterType="com.fudian.api.system.pojo.GlobalOrg">
+    <!--@mbg.generated-->
+    insert into global_org
+    (global_org_id, global_org_name, global_org_code, global_org_createtime, global_org_authorizationcode,
+      global_org_databasekey, global_org_databasename, global_org_databaseURL, global_org_databaseusername,
+      global_org_databasepwd, global_org_databaseport, global_org_databasetype, global_org_filebasename,
+      global_org_filebaseURL, global_org_filebaseusername, global_org_filebasepwd, global_org_filebaseport,
+      global_org_filebasetype, global_org_status)
+    values
+    (#{globalOrgId,jdbcType=VARCHAR}, #{globalOrgName,jdbcType=VARCHAR}, #{globalOrgCode,jdbcType=VARCHAR},
+      #{globalOrgCreatetime,jdbcType=DATE}, #{globalOrgAuthorizationcode,jdbcType=VARCHAR},
+      #{globalOrgDatabasekey,jdbcType=VARCHAR}, #{globalOrgDatabasename,jdbcType=VARCHAR},
+      #{globalOrgDatabaseurl,jdbcType=VARCHAR}, #{globalOrgDatabaseusername,jdbcType=VARCHAR},
+      #{globalOrgDatabasepwd,jdbcType=VARCHAR}, #{globalOrgDatabaseport,jdbcType=INTEGER},
+      #{globalOrgDatabasetype,jdbcType=INTEGER}, #{globalOrgFilebasename,jdbcType=VARCHAR},
+      #{globalOrgFilebaseurl,jdbcType=VARCHAR}, #{globalOrgFilebaseusername,jdbcType=VARCHAR},
+      #{globalOrgFilebasepwd,jdbcType=VARCHAR}, #{globalOrgFilebaseport,jdbcType=INTEGER},
+      #{globalOrgFilebasetype,jdbcType=INTEGER}, #{globalOrgStatus,jdbcType=INTEGER})
+    on duplicate key update
+    global_org_id = #{globalOrgId,jdbcType=VARCHAR},
+    global_org_name = #{globalOrgName,jdbcType=VARCHAR},
+    global_org_code = #{globalOrgCode,jdbcType=VARCHAR},
+    global_org_createtime = #{globalOrgCreatetime,jdbcType=DATE},
+    global_org_authorizationcode = #{globalOrgAuthorizationcode,jdbcType=VARCHAR},
+    global_org_databasekey = #{globalOrgDatabasekey,jdbcType=VARCHAR},
+    global_org_databasename = #{globalOrgDatabasename,jdbcType=VARCHAR},
+    global_org_databaseURL = #{globalOrgDatabaseurl,jdbcType=VARCHAR},
+    global_org_databaseusername = #{globalOrgDatabaseusername,jdbcType=VARCHAR},
+    global_org_databasepwd = #{globalOrgDatabasepwd,jdbcType=VARCHAR},
+    global_org_databaseport = #{globalOrgDatabaseport,jdbcType=INTEGER},
+    global_org_databasetype = #{globalOrgDatabasetype,jdbcType=INTEGER},
+    global_org_filebasename = #{globalOrgFilebasename,jdbcType=VARCHAR},
+    global_org_filebaseURL = #{globalOrgFilebaseurl,jdbcType=VARCHAR},
+    global_org_filebaseusername = #{globalOrgFilebaseusername,jdbcType=VARCHAR},
+    global_org_filebasepwd = #{globalOrgFilebasepwd,jdbcType=VARCHAR},
+    global_org_filebaseport = #{globalOrgFilebaseport,jdbcType=INTEGER},
+    global_org_filebasetype = #{globalOrgFilebasetype,jdbcType=INTEGER},
+    global_org_status = #{globalOrgStatus,jdbcType=INTEGER}
+  </insert>
+  <insert id="insertOrUpdateSelective" parameterType="com.fudian.api.system.pojo.GlobalOrg">
+    <!--@mbg.generated-->
+    insert into global_org
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="globalOrgId != null">
+        global_org_id,
+      </if>
+      <if test="globalOrgName != null">
+        global_org_name,
+      </if>
+      <if test="globalOrgCode != null">
+        global_org_code,
+      </if>
+      <if test="globalOrgCreatetime != null">
+        global_org_createtime,
+      </if>
+      <if test="globalOrgAuthorizationcode != null">
+        global_org_authorizationcode,
+      </if>
+      <if test="globalOrgDatabasekey != null">
+        global_org_databasekey,
+      </if>
+      <if test="globalOrgDatabasename != null">
+        global_org_databasename,
+      </if>
+      <if test="globalOrgDatabaseurl != null">
+        global_org_databaseURL,
+      </if>
+      <if test="globalOrgDatabaseusername != null">
+        global_org_databaseusername,
+      </if>
+      <if test="globalOrgDatabasepwd != null">
+        global_org_databasepwd,
+      </if>
+      <if test="globalOrgDatabaseport != null">
+        global_org_databaseport,
+      </if>
+      <if test="globalOrgDatabasetype != null">
+        global_org_databasetype,
+      </if>
+      <if test="globalOrgFilebasename != null">
+        global_org_filebasename,
+      </if>
+      <if test="globalOrgFilebaseurl != null">
+        global_org_filebaseURL,
+      </if>
+      <if test="globalOrgFilebaseusername != null">
+        global_org_filebaseusername,
+      </if>
+      <if test="globalOrgFilebasepwd != null">
+        global_org_filebasepwd,
+      </if>
+      <if test="globalOrgFilebaseport != null">
+        global_org_filebaseport,
+      </if>
+      <if test="globalOrgFilebasetype != null">
+        global_org_filebasetype,
+      </if>
+      <if test="globalOrgStatus != null">
+        global_org_status,
+      </if>
+    </trim>
+    values
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="globalOrgId != null">
+        #{globalOrgId,jdbcType=VARCHAR},
+      </if>
+      <if test="globalOrgName != null">
+        #{globalOrgName,jdbcType=VARCHAR},
+      </if>
+      <if test="globalOrgCode != null">
+        #{globalOrgCode,jdbcType=VARCHAR},
+      </if>
+      <if test="globalOrgCreatetime != null">
+        #{globalOrgCreatetime,jdbcType=DATE},
+      </if>
+      <if test="globalOrgAuthorizationcode != null">
+        #{globalOrgAuthorizationcode,jdbcType=VARCHAR},
+      </if>
+      <if test="globalOrgDatabasekey != null">
+        #{globalOrgDatabasekey,jdbcType=VARCHAR},
+      </if>
+      <if test="globalOrgDatabasename != null">
+        #{globalOrgDatabasename,jdbcType=VARCHAR},
+      </if>
+      <if test="globalOrgDatabaseurl != null">
+        #{globalOrgDatabaseurl,jdbcType=VARCHAR},
+      </if>
+      <if test="globalOrgDatabaseusername != null">
+        #{globalOrgDatabaseusername,jdbcType=VARCHAR},
+      </if>
+      <if test="globalOrgDatabasepwd != null">
+        #{globalOrgDatabasepwd,jdbcType=VARCHAR},
+      </if>
+      <if test="globalOrgDatabaseport != null">
+        #{globalOrgDatabaseport,jdbcType=INTEGER},
+      </if>
+      <if test="globalOrgDatabasetype != null">
+        #{globalOrgDatabasetype,jdbcType=INTEGER},
+      </if>
+      <if test="globalOrgFilebasename != null">
+        #{globalOrgFilebasename,jdbcType=VARCHAR},
+      </if>
+      <if test="globalOrgFilebaseurl != null">
+        #{globalOrgFilebaseurl,jdbcType=VARCHAR},
+      </if>
+      <if test="globalOrgFilebaseusername != null">
+        #{globalOrgFilebaseusername,jdbcType=VARCHAR},
+      </if>
+      <if test="globalOrgFilebasepwd != null">
+        #{globalOrgFilebasepwd,jdbcType=VARCHAR},
+      </if>
+      <if test="globalOrgFilebaseport != null">
+        #{globalOrgFilebaseport,jdbcType=INTEGER},
+      </if>
+      <if test="globalOrgFilebasetype != null">
+        #{globalOrgFilebasetype,jdbcType=INTEGER},
+      </if>
+      <if test="globalOrgStatus != null">
+        #{globalOrgStatus,jdbcType=INTEGER},
+      </if>
+    </trim>
+    on duplicate key update
+    <trim suffixOverrides=",">
+      <if test="globalOrgId != null">
+        global_org_id = #{globalOrgId,jdbcType=VARCHAR},
+      </if>
+      <if test="globalOrgName != null">
+        global_org_name = #{globalOrgName,jdbcType=VARCHAR},
+      </if>
+      <if test="globalOrgCode != null">
+        global_org_code = #{globalOrgCode,jdbcType=VARCHAR},
+      </if>
+      <if test="globalOrgCreatetime != null">
+        global_org_createtime = #{globalOrgCreatetime,jdbcType=DATE},
+      </if>
+      <if test="globalOrgAuthorizationcode != null">
+        global_org_authorizationcode = #{globalOrgAuthorizationcode,jdbcType=VARCHAR},
+      </if>
+      <if test="globalOrgDatabasekey != null">
+        global_org_databasekey = #{globalOrgDatabasekey,jdbcType=VARCHAR},
+      </if>
+      <if test="globalOrgDatabasename != null">
+        global_org_databasename = #{globalOrgDatabasename,jdbcType=VARCHAR},
+      </if>
+      <if test="globalOrgDatabaseurl != null">
+        global_org_databaseURL = #{globalOrgDatabaseurl,jdbcType=VARCHAR},
+      </if>
+      <if test="globalOrgDatabaseusername != null">
+        global_org_databaseusername = #{globalOrgDatabaseusername,jdbcType=VARCHAR},
+      </if>
+      <if test="globalOrgDatabasepwd != null">
+        global_org_databasepwd = #{globalOrgDatabasepwd,jdbcType=VARCHAR},
+      </if>
+      <if test="globalOrgDatabaseport != null">
+        global_org_databaseport = #{globalOrgDatabaseport,jdbcType=INTEGER},
+      </if>
+      <if test="globalOrgDatabasetype != null">
+        global_org_databasetype = #{globalOrgDatabasetype,jdbcType=INTEGER},
+      </if>
+      <if test="globalOrgFilebasename != null">
+        global_org_filebasename = #{globalOrgFilebasename,jdbcType=VARCHAR},
+      </if>
+      <if test="globalOrgFilebaseurl != null">
+        global_org_filebaseURL = #{globalOrgFilebaseurl,jdbcType=VARCHAR},
+      </if>
+      <if test="globalOrgFilebaseusername != null">
+        global_org_filebaseusername = #{globalOrgFilebaseusername,jdbcType=VARCHAR},
+      </if>
+      <if test="globalOrgFilebasepwd != null">
+        global_org_filebasepwd = #{globalOrgFilebasepwd,jdbcType=VARCHAR},
+      </if>
+      <if test="globalOrgFilebaseport != null">
+        global_org_filebaseport = #{globalOrgFilebaseport,jdbcType=INTEGER},
+      </if>
+      <if test="globalOrgFilebasetype != null">
+        global_org_filebasetype = #{globalOrgFilebasetype,jdbcType=INTEGER},
+      </if>
+      <if test="globalOrgStatus != null">
+        global_org_status = #{globalOrgStatus,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+</mapper>

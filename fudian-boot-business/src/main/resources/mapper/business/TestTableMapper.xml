@@ -1,0 +1,631 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.fudian.business.mapper.TestTableMapper">
+    <sql id="result_param">
+        t.id id,
+        t.test_name testName,
+        t.is_release isRelease,
+        t.topic_mode topicMode,
+        t.test_topic_num testTopicNum,
+        t.count_time countTime,
+        t.creator creator,
+        t.creator_id creatorId,
+        t.create_time createTime,
+        t.modifier modifier,
+        t.modify_time modifyTime,
+
+        k.classification_id classificationId,
+        k.classification_msg classificationMsg,
+        k.percentage percentage
+
+--         a.relation_id classRoomId
+    </sql>
+    <resultMap type="com.fudian.business.pojo.TestTable" id="paging_query">
+        <!-- 指定主属性  -->
+        <id column="id" property="id"/>
+        <!-- 指定业务属性  -->
+        <result column="testName" property="testName"/>
+        <result column="isRelease" property="isRelease"/>
+        <result column="topicMode" property="topicMode"/>
+        <result column="testTopicNum" property="testTopicNum"/>
+        <result column="countTime" property="countTime"/>
+        <result column="creator" property="creator"/>
+        <result column="creatorId" property="creatorId"/>
+        <result column="createTime" property="createTime"/>
+        <result column="modifier" property="modifier"/>
+        <result column="modifyTime" property="modifyTime"/>
+
+        <!-- 指定关系属性   -->
+        <collection property="classification" ofType="com.fudian.business.pojo.TestKnowledgeRelation">
+            <!-- 封装关系属性对象  -->
+            <result column="testId" property="testId"/>
+            <result column="classificationId" property="classificationId"/>
+            <result column="classificationMsg" property="classificationMsg"/>
+            <result column="percentage" property="percentage"/>
+        </collection>
+        <collection property="classRoomId" ofType="java.lang.String">
+            <!-- 封装关系属性对象  -->
+            <result column="classRoomId" javaType="java.lang.String"/>
+        </collection>
+        <collection property="classRoomName" ofType="java.lang.String">
+            <!-- 封装关系属性对象  -->
+            <result column="classRoomName" javaType="java.lang.String"/>
+        </collection>
+
+    </resultMap>
+    <!--分页查询-->
+    <select id="pagingQueryTestTable" parameterType="com.fudian.business.pojo.TestTable" resultMap="paging_query">
+        select t.id id,
+            t.test_name testName,
+            t.is_release isRelease,
+            t.topic_mode topicMode,
+            t.test_topic_num testTopicNum,
+            t.count_time countTime,
+            t.creator creator,
+            t.creator_id creatorId,
+            t.create_time createTime,
+            t.modifier modifier,
+            t.modify_time modifyTime,
+
+            k.test_id testId,
+            k.classification_id classificationId,
+            k.classification_msg classificationMsg,
+            k.percentage percentage
+            ,a.relation_id classRoomId
+            ,a.dept_name classRoomName
+        from (
+            select t.*
+            from (
+                SELECT sd.id,u.user_id
+                FROM sys_dept sd
+                LEFT JOIN  sys_role_data d
+                ON d.data_permission_id = sd.id
+                LEFT JOIN sys_user u
+                ON u.user_id = d.role_id
+                where sd.node_type = 2
+                and sd.id = #{testTable.classId}
+            )sd
+            left join audience a
+            on a.relation_id = sd.id
+            left join test_table t
+            on t.id = a.test_id
+            <where>
+                not isnull(t.id)
+                <if test="testTable.creatorId != 'admin'">
+                    and sd.user_id = #{testTable.creatorId}
+                </if>
+                <if test="testTable.testName != null and testTable.testName != ''">
+                    and t.test_name like concat('%',#{testTable.testName},'%')
+                </if>
+                <if test="testTable.isRelease != null">
+                    and t.is_release = #{testTable.isRelease}
+                </if>
+                <if test="testTable.topicMode != null">
+                    and t.topic_mode = #{testTable.topicMode}
+                </if>
+            </where>
+            GROUP BY t.id
+            order by t.create_time desc
+            limit ${(testTable.pageNum-1) * testTable.pageSize},#{testTable.pageSize}
+        ) t
+        left join (
+            select
+                t.test_id,
+                t.classification_id,
+                t.percentage,GROUP_CONCAT(sd.full_name SEPARATOR '-'),
+                CONCAT(GROUP_CONCAT(sd.full_name order by  sd.dict_code SEPARATOR '-' ),'-',ifnull(cc.classification_msg,''),'-',c.classification_msg) classification_msg
+            from test_knowledge_relation t
+            left join knowledge_list_classification c
+            on c.classification_id = t.classification_id
+            left join knowledge_list_classification cc
+            on c.pid = cc.classification_id and cc.is_subclass = 1
+            left join knowledge_list k
+            on c.knowledge_id = k.knowledge_id
+            left join sys_dictionary sd
+            on sd.dict_type = 'classfiy'
+            and (sd.dict_code = k.knowledge_num_field
+                 or sd.dict_code = CONCAT(k.knowledge_num_field,'-',k.knowledge_operation)
+                 or sd.dict_code = CONCAT(k.knowledge_num_field,'-',k.knowledge_operation,'-',k.knowledge_type)
+                )
+            GROUP BY t.test_id, t.classification_id, t.percentage
+        ) k
+        on t.id = k.test_id
+        left join (
+            select
+                a.relation_id,
+                a.test_id,
+                CONCAT(d1.dept_name, '-',d2.dept_name) dept_name
+            from audience a
+            left join sys_dept d2
+            on a.relation_id = d2.id
+            left join sys_dept d1
+            on d2.parent_id = d1.id
+            where d2.node_type = '2'
+            and d1.node_type = '1'
+            order by d1.order_num,d2.order_num
+        ) a
+        on t.id = a.test_id
+    </select>
+    <!--查询数量-->
+    <select id="pagingQueryTestTableCount" parameterType="com.fudian.business.pojo.TestTable"
+            resultType="java.lang.Integer">
+
+        SELECT COUNT(t.id) FROM (
+            select t.*
+            from (
+                SELECT sd.id,u.user_id
+                FROM sys_dept sd
+                LEFT JOIN  sys_role_data d
+                ON d.data_permission_id = sd.id
+                LEFT JOIN sys_user u
+                ON u.user_id = d.role_id
+                where sd.node_type = 2
+                and sd.id = #{testTable.classId}
+            )sd
+            left join audience a
+            on a.relation_id = sd.id
+            left join test_table t
+            on t.id = a.test_id
+            <where>
+                not isnull(t.id)
+                <if test="testTable.creatorId != 'admin'">
+                    and sd.user_id = #{testTable.creatorId}
+                </if>
+                <if test="testTable.testName != null and testTable.testName != ''">
+                    and t.test_name like concat('%',#{testTable.testName},'%')
+                </if>
+                <if test="testTable.isRelease != null">
+                    and t.is_release = #{testTable.isRelease}
+                </if>
+                <if test="testTable.topicMode != null">
+                    and t.topic_mode = #{testTable.topicMode}
+                </if>
+            </where>
+            GROUP BY t.id
+            order by t.create_time desc
+        ) t
+    </select>
+
+    <!--批量删除根据testId-->
+    <delete id="deleteByTestIds" parameterType="java.lang.String">
+        delete from test_table where id in
+        <foreach collection="testIds" item="testId" open="(" close=")" separator=",">
+            #{testId}
+        </foreach>
+    </delete>
+    <!--删除根据testId-->
+    <delete id="deleteByTestId" parameterType="java.lang.String">
+        delete from test_table where id = #{testId}
+    </delete>
+
+    <!--查询学生可练习的课堂习题-->
+    <select id="selectTestList" resultType="java.util.Map" parameterType="java.lang.String">
+       SELECT
+            t.id,
+            t.test_name testName,
+            s.student_name studentName,
+            r.highest_score score ,
+            t.create_time createTime
+        FROM test_table t
+		LEFT JOIN audience a
+        ON a.test_id = t.id
+        LEFT JOIN students s
+        ON a.relation_id = s.class_room_id
+        LEFT JOIN student_test_relation r
+        ON s.student_id = r.student_id AND t.id = r.test_id
+        where  t.is_release = 2
+				AND s.student_id = #{studentId}
+        ORDER BY t.create_time DESC
+    </select>
+
+    <resultMap type="com.fudian.business.vo.TestClassificationAnalysisVo" id="select_error_integrated_topic">
+        <!-- 指定属性  -->
+        <result property="testId" column="testId" javaType="java.lang.String"/>
+        <result property="classificationId" column="classificationId" javaType="java.lang.String"/>
+        <result property="percentage" column="percentage" javaType="java.lang.Integer"/>
+        <result property="classificationMsg" column="classificationMsg" javaType="java.lang.String"/>
+        <result property="avgTime" column="avgTime" javaType="java.lang.Double"/>
+        <result property="sumCorrectRate" column="sumCorrectRate" javaType="java.lang.Double"/>
+        <result property="sumErrorNum" column="sumErrorNum" javaType="java.lang.Integer"/>
+        <result property="diagnosisMsg" column="diagnosisMsg" javaType="java.lang.String"/>
+
+        <!-- 指定关系属性   -->
+        <collection property="errorDetails" ofType="java.util.Map">
+            <!-- 封装关系属性对象  -->
+            <result property="exercisesNum" column="exercisesNum" javaType="java.lang.String"/>
+            <result property="studentNum" column="studentNum" javaType="java.lang.Integer"/>
+            <result property="studentName" column="studentName" javaType="java.lang.String"/>
+        </collection>
+    </resultMap>
+    <!--分页查询课堂统一错题-->
+    <select id="selectErrorIntegratedTopic" resultMap="select_error_integrated_topic"
+            parameterType="com.fudian.business.vo.TestClassificationAnalysisVo">
+        select
+            t.test_id testId,
+            t.classification_id classificationId,
+            t.percentage,
+            CONCAT(GROUP_CONCAT(sd.full_name order by sd.dict_code SEPARATOR '-' ),'-',ifnull(cc.classification_msg,''),'-',c.classification_msg)classificationMsg,
+            ta.avg_time avgTime,
+            ta.sum_correct_rate sumCorrectRate,
+            ta.sum_error_num sumErrorNum,
+            eta.exercises_num exercisesNum,
+            eta.student_num studentNum,
+            eta.student_name studentName,
+			kls.diagnosis_msg diagnosisMsg
+        from (
+            select * from test_knowledge_relation t
+            where t.test_id = #{testClassifVo.testId}
+            limit ${(testClassifVo.pageNum-1) * testClassifVo.pageSize},#{testClassifVo.pageSize}
+        ) t
+        left join knowledge_list_classification c
+        on c.classification_id = t.classification_id
+        left join knowledge_list_classification cc
+        on c.pid = cc.classification_id and cc.is_subclass = 1
+        left join knowledge_list k
+        on c.knowledge_id = k.knowledge_id
+        left join (
+            SELECT * FROM `sys_dictionary`
+            where dict_type = 'classfiy'
+            ORDER BY dict_code
+		) sd
+        on sd.dict_type = 'classfiy'
+        and sd.dict_code = k.knowledge_num_field
+        or sd.dict_code = CONCAT(k.knowledge_num_field,'-',k.knowledge_operation)
+        or sd.dict_code = CONCAT(k.knowledge_num_field,'-',k.knowledge_operation,'-',k.knowledge_type)
+        left join knowledge_list_schedule kls
+        on c.classification_id = kls.classification_id
+        left join (
+            select
+                t.test_id,
+                t.classification_id,
+                sum(t.avg_answer_time)/count(t.count) avg_time,
+                100/sum(t.count)*sum(t.correc_num) sum_correct_rate,
+                sum(t.error_num) sum_error_num
+            from (
+                select
+                    a.test_id,
+                    a.classification_id,
+                    a.avg_answer_time,
+                    count(not isnull(a.student_answers) or null) count,
+                    count((a.is_error = 0 and not isnull(a.student_answers)) or null) correc_num,
+                    count((a.is_error = 1 and not isnull(a.student_answers)) or null) error_num
+                from (
+                    select sa.test_id,sa.student_id,max(sa.create_time) create_time
+                    from (select * from test_answer where not isnull(student_answers) and test_id = #{testClassifVo.testId}) sa
+                    where sa.test_id = #{testClassifVo.testId}
+                    group by sa.test_id,sa.student_id
+                ) taw
+                left join test_answer a
+                on taw.student_id = a.student_id and taw.test_id = a.test_id and taw.create_time = a.create_time
+                left join students s
+                on a.student_id = s.student_id
+                where s.class_room_id = #{testClassifVo.classId}
+                    GROUP BY a.test_id,a.classification_id,a.batch_id,a.avg_answer_time
+                ) t
+                GROUP BY t.test_id,t.classification_id
+        ) ta
+        on t.test_id = ta.test_id and t.classification_id = ta.classification_id
+        left join (
+            select
+                a.test_id,
+                 a.classification_id,
+                 a.exercises_num ,
+                 group_concat(distinct a.student_answers) answers,
+                 group_concat(distinct s.student_name) student_name,
+                 count(distinct s.student_id) student_num
+            from (
+                select sa.test_id,sa.student_id,max(sa.create_time) create_time
+                from (select * from test_answer where not isnull(student_answers) and test_id = #{testClassifVo.testId}) sa
+                where sa.test_id = #{testClassifVo.testId}
+                group by sa.test_id,sa.student_id
+            ) taw
+            left join test_answer a
+            on taw.student_id = a.student_id and taw.test_id = a.test_id and taw.create_time = a.create_time
+            left join students s
+            on a.student_id = s.student_id and a.is_error = 1
+			where s.class_room_id = #{testClassifVo.classId}
+            group by a.test_id, a.classification_id,a.exercises_num
+        ) eta
+        on t.test_id = eta.test_id and t.classification_id = eta.classification_id and eta.student_num!=0
+        where not ISNULL(ta.test_id)
+		group by t.test_id,t.classification_id,t.percentage,ta.avg_time,ta.sum_correct_rate,
+                 ta.sum_error_num,eta.exercises_num,eta.student_num,eta.student_name,kls.diagnosis_msg
+    </select>
+    <resultMap type="com.fudian.business.vo.TestClassificationAnalysisVo" id="select_error_random_topic">
+        <!-- 指定属性  -->
+        <result property="testId" column="testId" javaType="java.lang.String"/>
+        <result property="classificationId" column="classificationId" javaType="java.lang.String"/>
+        <result property="percentage" column="percentage" javaType="java.lang.Integer"/>
+        <result property="classificationMsg" column="classificationMsg" javaType="java.lang.String"/>
+        <result property="avgTime" column="avgTime" javaType="java.lang.Double"/>
+        <result property="sumCorrectRate" column="sumCorrectRate" javaType="java.lang.Double"/>
+        <result property="sumErrorNum" column="sumErrorNum" javaType="java.lang.Integer"/>
+        <result property="diagnosisMsg" column="diagnosisMsg" javaType="java.lang.String"/>
+
+        <!-- 指定关系属性   -->
+        <collection property="errorList" ofType="java.lang.String">
+            <!-- 封装关系属性对象  -->
+            <result column="exercisesNum" javaType="java.lang.String"/>
+        </collection>
+    </resultMap>
+    <!--分页查询课堂随机错题-->
+    <select id="selectErrorRandomTopic" resultMap="select_error_random_topic"
+            parameterType="com.fudian.business.vo.TestClassificationAnalysisVo">
+        select
+            t.test_id testId,
+            t.classification_id classificationId,
+            t.percentage,
+            CONCAT(GROUP_CONCAT(sd.full_name order by  sd.dict_code SEPARATOR '-' ),'-',ifnull(cc.classification_msg,''),'-',c.classification_msg)classificationMsg,
+            ta.avg_time avgTime,
+            ta.sum_correct_rate sumCorrectRate,
+            ta.sum_error_num sumErrorNum,
+            eta.exercises_num exercisesNum,
+
+	        kls.diagnosis_msg diagnosisMsg
+        from (
+            select * from test_knowledge_relation t
+            where t.test_id = #{testClassifVo.testId}
+            limit ${(testClassifVo.pageNum-1) * testClassifVo.pageSize},#{testClassifVo.pageSize}
+        ) t
+        left join knowledge_list_classification c
+        on c.classification_id = t.classification_id
+        left join knowledge_list_classification cc
+        on c.pid = cc.classification_id and cc.is_subclass = 1
+        left join knowledge_list k
+        on c.knowledge_id = k.knowledge_id
+        left join (
+                SELECT * FROM `sys_dictionary`
+                where dict_type = 'classfiy'
+                ORDER BY dict_code
+				) sd
+        on sd.dict_type = 'classfiy'
+        and sd.dict_code = k.knowledge_num_field
+             or sd.dict_code = CONCAT(k.knowledge_num_field,'-',k.knowledge_operation)
+             or sd.dict_code = CONCAT(k.knowledge_num_field,'-',k.knowledge_operation,'-',k.knowledge_type)
+        left join knowledge_list_schedule kls
+        on c.classification_id = kls.classification_id
+        left join (
+            select
+                t.test_id,
+                t.classification_id,
+                sum(t.avg_answer_time)/count(t.count) avg_time,
+                100/sum(t.count)*sum(t.correc_num) sum_correct_rate,
+                sum(t.error_num) sum_error_num
+				,count(t.count)
+            from (
+                select
+                    a.test_id,
+                    a.classification_id,
+                    a.avg_answer_time ,
+                    count(*)count,
+                    count((a.is_error = 0 and not isnull(a.student_answers)) or null) correc_num,
+                    count((a.is_error = 1 and not isnull(a.student_answers)) or null) error_num
+                from (
+                    select sa.test_id,sa.student_id,max(sa.create_time) create_time
+                    from (select * from test_answer where not isnull(student_answers) and test_id = #{testClassifVo.testId}) sa
+                    where sa.test_id = #{testClassifVo.testId}
+                    group by sa.test_id,sa.student_id
+                ) taw
+                left join test_answer a
+                on taw.student_id = a.student_id and taw.test_id = a.test_id and taw.create_time = a.create_time
+                left join students s
+                on a.student_id = s.student_id
+                where s.class_room_id = #{testClassifVo.classId}
+                GROUP BY a.test_id,a.classification_id,a.batch_id,a.avg_answer_time
+            ) t
+            GROUP BY t.test_id,t.classification_id
+        ) ta
+        on t.test_id = ta.test_id and t.classification_id = ta.classification_id
+        left join (
+            select
+                a.test_id,
+                a.classification_id,
+                concat(a.exercises_num,'=',a.student_answers) exercises_num
+            from (
+                select sa.test_id,sa.student_id,max(sa.create_time) create_time
+                from (select * from test_answer where not isnull(student_answers) and test_id = #{testClassifVo.testId}) sa
+                where sa.test_id = #{testClassifVo.testId}
+                group by sa.test_id,sa.student_id
+            ) taw
+            left join test_answer a
+            on taw.student_id = a.student_id and taw.test_id = a.test_id and taw.create_time = a.create_time
+            left join students s
+            on a.student_id = s.student_id
+            where is_error = 1
+            and s.class_room_id = #{testClassifVo.classId}
+            group by a.test_id, a.classification_id,a.exercises_num,a.student_answers
+        ) eta
+        on t.test_id = eta.test_id and t.classification_id = eta.classification_id
+        where not ISNULL(ta.test_id)
+        group by
+            t.test_id ,
+            t.classification_id ,
+            t.percentage,
+            ta.avg_time ,
+            ta.sum_correct_rate ,
+            ta.sum_error_num ,
+            eta.exercises_num ,
+            kls.diagnosis_msg
+    </select>
+
+    <!--分页查询课堂错题对应知识点总数量-->
+    <select id="selectErrorIntegratedTopicCount" resultType="java.lang.Integer"
+            parameterType="com.fudian.business.vo.TestClassificationAnalysisVo">
+        select count(ta.testId) from (
+            select
+                t.test_id testId
+            from (
+                select * from test_knowledge_relation t
+                where t.test_id = #{testClassifVo.testId}
+            ) t
+            left join (
+                select
+                    t.test_id,
+                    t.classification_id,
+                    sum(t.avg_answer_time)/count(t.count) avg_time,
+                    100/sum(t.count)*sum(t.correc_num) sum_correct_rate,
+                    sum(t.error_num) sum_error_num
+                from (
+                    select
+                        a.test_id,
+                        a.classification_id,
+                        a.avg_answer_time ,
+                        count(*)count,
+                        count(a.is_error = 0 or null) correc_num,
+                        count(a.is_error = 1 or null) error_num
+                    from test_answer a
+                    GROUP BY a.test_id,a.classification_id,a.batch_id,a.avg_answer_time
+                    ) t
+                GROUP BY t.test_id,t.classification_id
+            ) ta
+            on t.test_id = ta.test_id and t.classification_id = ta.classification_id
+            where not ISNULL(ta.test_id)
+        ) ta
+    </select>
+
+
+    <!--查询组图分析错题已学生分类-->
+    <resultMap type="com.fudian.business.vo.TestStudentAnalysisVo" id="select_student_error_topic">
+        <!-- 指定属性  -->
+        <result property="testId" column="testId" javaType="java.lang.String"/>
+        <result property="studentId" column="studentId" javaType="java.lang.String"/>
+        <result property="studentName" column="studentName" javaType="java.lang.String"/>
+        <result property="avgAnswerTime" column="avgAnswerTime" javaType="java.lang.Double"/>
+        <result property="sumCorrectRate" column="sumCorrectRate" javaType="java.lang.Double"/>
+        <result property="createTime" column="createTime" javaType="java.util.Date"/>
+
+        <!-- 指定关系属性   -->
+        <collection property="classifyDetails" ofType="java.util.Map">
+            <!-- 封装关系属性对象  -->
+            <result property="classificationId" column="classificationId" javaType="java.lang.String"/>
+            <result property="classificationMsg" column="classificationMsg" javaType="java.lang.String"/>
+            <result property="correctRate" column="correctRate" javaType="java.lang.Integer"/>
+            <result property="errorTopics" column="errorTopics" javaType="java.lang.String"/>
+            <result property="diagnosisMsg" column="diagnosisMsg" javaType="java.lang.String"/>
+        </collection>
+    </resultMap>
+
+    <select id="selectStudentErrorTopic" resultMap="select_student_error_topic"
+            parameterType="com.fudian.business.vo.TestStudentAnalysisVo">
+        select
+            tas.test_id testId,
+            tas.student_id studentId,
+            tas.student_name studentName,
+            tas.avg_answer_time avgAnswerTime,
+            tas.sum_correct_rate sumCorrectRate,
+            ta.classification_id classificationId,
+            CONCAT(GROUP_CONCAT(sd.full_name order by  sd.dict_code SEPARATOR '-' ),'-',ifnull(cc.classification_msg,''),'-',c.classification_msg) classificationMsg,
+            ta.correct_rate correctRate,
+            ta.error_topics errorTopics,
+            if((isnull(ta.error_topics) and not isnull(ta.classification_id)),'无错题',kls.diagnosis_msg)diagnosisMsg,
+            tas.create_time createTime
+        from  (
+            select
+                ta.test_id,
+                s.student_id,
+                s.student_name,
+                ta.avg_answer_time,
+                100/count(0)*count(ta.is_error = 0 or null) sum_correct_rate,
+				ta.create_time
+            from students s
+            left join (
+                select sa.test_id,sa.student_id,max(sa.create_time)create_time
+                from (
+                    select * from test_answer where not isnull(student_answers) and test_id =  #{testStudentfVo.testId}
+                ) sa
+				where sa.test_id = #{testStudentfVo.testId}
+                group by sa.test_id,sa.student_id
+            ) taw
+            on taw.student_id = s.student_id
+            left join test_answer ta
+            on taw.student_id = ta.student_id and taw.test_id = ta.test_id and taw.create_time = ta.create_time
+            left join sys_dept sd
+            on sd.id = s.class_room_id
+            where sd.node_type = 2 and sd.id = #{testStudentfVo.classId}
+            group by ta.test_id,s.student_id,s.student_name,ta.avg_answer_time,ta.create_time
+            order by ta.create_time desc
+            limit ${(testStudentfVo.pageNum-1) * testStudentfVo.pageSize},#{testStudentfVo.pageSize}
+        ) tas
+        left join (
+            select
+                ta.test_id,
+                ta.student_id,
+                ta.classification_id,
+                100/count(0)*count(ta.is_error = 0 or null) correct_rate,
+                GROUP_CONCAT(if(ta.is_error=1,concat(ta.exercises_num,'=',ta.student_answers),null)) error_topics
+            from (
+                select sa.test_id,sa.student_id,max(sa.create_time)create_time
+                from (
+                    select * from test_answer
+                    where test_id =  #{testStudentfVo.testId} and not isnull(student_answers)
+                ) sa
+                group by sa.test_id,sa.student_id
+
+            ) taw
+            left join test_answer ta
+            on taw.student_id = ta.student_id and taw.test_id = ta.test_id and taw.create_time = ta.create_time
+            group by ta.test_id,ta.student_id,ta.classification_id
+        ) ta
+        on ta.student_id = tas.student_id and ta.test_id = tas.test_id
+        left join knowledge_list_classification c
+        on c.classification_id = ta.classification_id
+        left join knowledge_list_classification cc
+        on c.pid = cc.classification_id and cc.is_subclass = 1
+        left join knowledge_list k
+        on c.knowledge_id = k.knowledge_id
+        left join (
+                SELECT * FROM `sys_dictionary`
+                where dict_type = 'classfiy'
+                ORDER BY dict_code
+				) sd
+        on sd.dict_type = 'classfiy'
+        and sd.dict_code = k.knowledge_num_field
+             or sd.dict_code = CONCAT(k.knowledge_num_field,'-',k.knowledge_operation)
+             or sd.dict_code = CONCAT(k.knowledge_num_field,'-',k.knowledge_operation,'-',k.knowledge_type)
+        left join knowledge_list_schedule kls
+        on c.classification_id = kls.classification_id
+        GROUP BY tas.test_id,
+            tas.student_id,
+            tas.student_name,
+            tas.avg_answer_time,
+            tas.sum_correct_rate,
+            ta.classification_id,
+            ta.correct_rate,
+            ta.error_topics,
+            kls.diagnosis_msg
+            ,tas.create_time
+        order by tas.create_time desc
+    </select>
+    <select id="selectStudentErrorTopicCount" resultType="java.lang.Integer"
+            parameterType="com.fudian.business.vo.TestStudentAnalysisVo">
+        select
+            count(tas.student_id)
+        from (
+            select
+                ta.test_id,
+                s.student_id,
+                s.student_name,
+                ta.avg_answer_time,
+                100/count(0)*count(ta.is_error = 0 or null) sum_correct_rate,
+				ta.create_time
+            from students s
+            left join (
+                select sa.test_id,sa.student_id,max(sa.create_time)create_time
+                from (select * from test_answer where not isnull(student_answers) and test_id =  #{testStudentfVo.testId}) sa
+				where sa.test_id = #{testStudentfVo.testId}
+                group by sa.test_id,sa.student_id
+            ) taw
+            on taw.student_id = s.student_id
+            left join test_answer ta
+            on taw.student_id = ta.student_id and taw.test_id = ta.test_id and taw.create_time = ta.create_time
+            left join sys_dept sd
+            on sd.id = s.class_room_id
+            where sd.node_type = 2 and sd.id = #{testStudentfVo.classId}
+            group by ta.test_id,s.student_id,s.student_name,ta.avg_answer_time,ta.create_time
+            order by ta.create_time desc
+        ) tas
+
+    </select>
+</mapper>

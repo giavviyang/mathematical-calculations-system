@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.fudian.business.mapper.LevelTableMapper">
+    <resultMap type="com.fudian.business.pojo.LevelTable" id="LevelKnowledgeResult">
+        <result property="levelId"    column="level_id"    />
+        <result property="levelName"    column="level_name"    />
+        <result property="levelTime"    column="level_time"    />
+        <result property="levelNumTopic"    column="level_num_topic"    />
+        <result property="gradeNum"    column="grade_num"    />
+    </resultMap>
+
+    <sql id="selectLevelKnowledgeVo">
+        select level_id, level_name, level_time , level_num_topic ,grade_num from level_table
+    </sql>
+    <select id="queryList" parameterType="java.util.Map" resultType="java.util.Map">
+        select
+        lt.level_id as levelId,
+        lt.level_name as levelName,
+        lt.level_time as levelTime,
+        lt.level_num_topic as levelNumTopic,
+        grade_num as gradeNum
+        from level_table lt
+        <where>
+            <if test="gradeId !=null and gradeId != ''">
+                and lt.grade_num = #{gradeId}
+            </if>
+            <if test="levelName !=null and levelName != ''">
+                and CONCAT('第',lt.level_name,'关') LIKE CONCAT('%',#{levelName},'%')
+            </if>
+        </where>
+        order by lt.level_name
+    </select>
+
+    <select id="getMaxLevelNum" resultType="java.lang.Integer" parameterType="java.lang.String">
+        select max(level_name) from level_table where grade_num = #{gradeId}
+    </select>
+
+    <!--获取学生-关卡信息-->
+    <select id="getStudentLevelList" resultType="com.fudian.business.vo.LevelVo" parameterType="string">
+        select
+            lt.level_id levelId,
+            lt.level_name levelName,
+            lt.grade_num gradeNum,
+            skr.highest_score highestScore,
+            sd.order_num orderNum,
+            sd.dept_name deptName
+        from level_table lt
+        inner join (
+            select sd.*
+            from sys_dept sd
+            inner join (
+                select sdd.parent_id id
+                from sys_dept sd
+                inner join sys_dept sdd
+                on sd.parent_id = sdd.id
+                inner join students s
+                on s.class_room_id = sd.id
+                where s.student_id = #{studentId}
+            ) sdd
+            on sd.ancestors like concat('%',sdd.id,'%')
+            where sd.node_type = 1 and status = 0
+        ) sd
+        on lt.grade_num = sd.id
+        left join (
+            select
+                relation_id,
+                is_lock,
+                highest_score
+            from student_knowledge_relation
+            where relation_type = 1
+            and student_id = #{studentId}
+            ) skr
+        on skr.relation_id = lt.level_id
+        order by sd.order_num,lt.level_name
+    </select>
+
+    <select id="getKnowledgeType" resultType="com.alibaba.fastjson.JSONObject" parameterType="string">
+        select
+            klc.classification_id as 'key',kl.knowledge_type as 'value'
+        from level_table lt
+        inner join level_knowledge lk
+        on lk.level_id = lt.level_id
+        inner join knowledge_list_classification klc
+        on klc.classification_id = lk.classification_id
+        inner join knowledge_list kl
+        on klc.knowledge_id = kl.knowledge_id
+        where lt.level_id = #{levelId}
+    </select>
+</mapper>

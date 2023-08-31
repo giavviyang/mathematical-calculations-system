@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.fudian.business.mapper.LevelKnowledgeMapper">
+
+    <resultMap type="com.fudian.business.pojo.LevelKnowledge" id="LevelKnowledgeResult">
+        <result property="levelId"    column="level_id"    />
+        <result property="classificationId"    column="classification_id"    />
+        <result property="percentage"    column="percentage"    />
+    </resultMap>
+
+    <sql id="selectLevelKnowledgeVo">
+        select level_id, classification_id, percentage from level_knowledge
+    </sql>
+
+    <select id="selectLevelKnowledgeList" parameterType="com.fudian.business.pojo.LevelKnowledge" resultMap="LevelKnowledgeResult">
+        <include refid="selectLevelKnowledgeVo"/>
+        <where>
+            <if test="levelId != null  and levelId != ''"> and level_id = #{levelId}</if>
+            <if test="classificationId != null  and classificationId != ''"> and classification_id = #{classificationId}</if>
+            <if test="percentage != null  and percentage != ''"> and percentage = #{percentage}</if>
+        </where>
+    </select>
+
+    <select id="selectLevelKnowledgeByLevelId" parameterType="String" resultMap="LevelKnowledgeResult">
+        <include refid="selectLevelKnowledgeVo"/>
+        where level_id = #{levelId}
+    </select>
+
+    <insert id="insertLevelKnowledge" parameterType="com.fudian.business.pojo.LevelKnowledge">
+        insert into level_knowledge
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="levelId != null and levelId != ''">level_id,</if>
+            <if test="classificationId != null and classificationId != ''">classification_id,</if>
+            <if test="percentage != null">percentage,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="levelId != null and levelId != ''">#{levelId},</if>
+            <if test="classificationId != null and classificationId != ''">#{classificationId},</if>
+            <if test="percentage != null">#{percentage},</if>
+         </trim>
+    </insert>
+
+    <update id="updateLevelKnowledge" parameterType="com.fudian.business.pojo.LevelKnowledge">
+        update level_knowledge
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="classificationId != null and classificationId != ''">classification_id = #{classificationId},</if>
+            <if test="percentage != null">percentage = #{percentage},</if>
+        </trim>
+        where level_id = #{levelId}
+    </update>
+
+    <delete id="deleteLevelKnowledgeByLevelId" parameterType="String">
+        delete from level_knowledge where level_id = #{levelId}
+    </delete>
+
+    <delete id="deleteLevelKnowledgeByLevelIds" parameterType="String">
+        delete from level_knowledge where level_id in
+        <foreach item="levelId" collection="array" open="(" separator="," close=")">
+            #{levelId}
+        </foreach>
+    </delete>
+</mapper>
